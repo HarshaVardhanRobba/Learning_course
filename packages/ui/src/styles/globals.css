@@ -51,6 +51,18 @@
     --font-sans: var(--font-sans);
 }
 
+@theme {
+    --color-espresso: #1a1512;
+    --color-cocoa: #2a221d;
+    --color-cream: #f6f1ea;
+    --color-sand: #e7ddd0;
+    --color-ink: #231d19;
+    --color-taupe: #7a6d62;
+    --color-gold: #c4955a;
+    --color-gold-soft: #e3c28f;
+    --font-display: var(--font-serif-display), Georgia, serif;
+}
+
 :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);

@@ -1,6 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
-import { Geist, Geist_Mono } from "next/font/google"
+import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -9,6 +9,12 @@ import { SiteHeader } from "@/components/site-header"
 import { cn } from "@workspace/ui/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
+
+const fontDisplay = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-serif-display",
+})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -24,9 +30,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
+      className={cn("antialiased", fontMono.variable, fontDisplay.variable, "font-sans", geist.variable)}
     >
-      <body>
+      <body className="bg-cream text-ink dark:bg-[#100c0a] dark:text-cream">
         <ClerkProvider appearance={{ theme: shadcn }}>
           <ThemeProvider>
             <SmoothScrollProvider>
