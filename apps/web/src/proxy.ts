@@ -1,9 +1,10 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isLearnerRoute = createRouteMatcher(["/learner(.*)"]);
+const isProtectedRoute = createRouteMatcher(["/learner(.*)", "/admin(.*)"]);
 
+// Sign-in gate only; the admin role is enforced server-side in the admin layout and every admin action.
 export default clerkMiddleware(async (auth, req) => {
-  if (isLearnerRoute(req)) await auth.protect();
+  if (isProtectedRoute(req)) await auth.protect();
 });
 
 export const config = {
