@@ -8,13 +8,23 @@ import { darkPill } from '@/lib/styles'
 
 export const metadata = { title: 'Application status' }
 
-export default async function ApplicationStatusPage() {
-  // Identity comes only from the Clerk session; this page reads no ids or status from the request.
+export default async function ApplicationStatusPage({ searchParams }: PageProps<'/learner/application-status'>) {
+  // Identity comes only from the Clerk session; `submitted` only toggles a banner and never selects data.
   const user = await requireAppUser()
   const application = await findApplicationByUserId(user.id)
+  const justSubmitted = (await searchParams).submitted === '1' && application?.status === 'pending'
 
   return (
     <StatusShell>
+      {justSubmitted && (
+        <p
+          role="status"
+          className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-200"
+        >
+          <Icon icon="solar:check-circle-bold" width={20} className="shrink-0 text-emerald-600" />
+          Thanks! Your application was submitted successfully.
+        </p>
+      )}
       {application ? (
         <ApplicationStatusView application={application} />
       ) : (

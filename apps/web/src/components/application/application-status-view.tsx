@@ -1,10 +1,13 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-import type { Application, ApplicationStatus } from '@workspace/db'
+import type { Application, ApplicationReview, ApplicationStatus } from '@workspace/db'
 import { LEARNER_ROUTES } from '@/lib/routes'
 import { darkPill } from '@/lib/styles'
 
-export type StatusViewApplication = Pick<Application, 'status' | 'submittedAt' | 'reviewedAt' | 'rejectionReason'>
+export type StatusViewApplication = Pick<
+  Application,
+  'status' | 'submittedAt' | 'firstName' | 'lastName' | 'email' | 'phone'
+> & { review: Pick<ApplicationReview, 'createdAt' | 'rejectionReason'> | null }
 
 const card = 'rounded-[1.75rem] border border-sand bg-white/70 dark:border-cocoa dark:bg-cocoa/40'
 
@@ -89,13 +92,13 @@ export function ApplicationStatusView({ application }: { application: StatusView
 
         {status === 'rejected' && (
           <div className="mx-auto mt-6 max-w-md space-y-3 text-left">
-            {application.rejectionReason && (
+            {application.review?.rejectionReason && (
               <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 dark:border-rose-500/20 dark:bg-rose-500/10">
                 <p className="text-xs font-semibold uppercase tracking-wide text-rose-800 dark:text-rose-300">
                   Reason from the reviewer
                 </p>
                 <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-ink dark:text-cream">
-                  {application.rejectionReason}
+                  {application.review.rejectionReason}
                 </p>
               </div>
             )}
@@ -126,10 +129,10 @@ export function ApplicationStatusView({ application }: { application: StatusView
             Submitted{' '}
             <time dateTime={application.submittedAt.toISOString()}>{dateFormat.format(application.submittedAt)}</time>
           </p>
-          {application.reviewedAt && status !== 'pending' && (
+          {application.review && (
             <p className="mt-0.5 text-sm text-taupe dark:text-sand/60">
               Decided{' '}
-              <time dateTime={application.reviewedAt.toISOString()}>{dateFormat.format(application.reviewedAt)}</time>
+              <time dateTime={application.review.createdAt.toISOString()}>{dateFormat.format(application.review.createdAt)}</time>
             </p>
           )}
         </div>
@@ -137,7 +140,27 @@ export function ApplicationStatusView({ application }: { application: StatusView
           {status}
         </span>
       </section>
+
+      <section aria-labelledby="details-heading" className={`${card} p-6 sm:p-8`}>
+        <h2 id="details-heading" className="font-display text-2xl font-semibold text-ink dark:text-cream">
+          Your details
+        </h2>
+        <dl className="mt-5 grid gap-5 text-sm sm:grid-cols-2">
+          <Detail label="Full name" value={`${application.firstName} ${application.lastName}`} />
+          <Detail label="Mobile number" value={application.phone} />
+          <Detail label="Email" value={application.email} className="sm:col-span-2" />
+        </dl>
+      </section>
     </>
+  )
+}
+
+function Detail({ label, value, className = '' }: { label: string; value: string; className?: string }) {
+  return (
+    <div className={className}>
+      <dt className="text-taupe dark:text-sand/60">{label}</dt>
+      <dd className="mt-1 break-words font-medium text-ink dark:text-cream">{value}</dd>
+    </div>
   )
 }
 
