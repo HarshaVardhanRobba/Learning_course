@@ -3,7 +3,7 @@ import path from 'node:path'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-import { SignUpButton } from '@clerk/nextjs'
+import { GetStartedButton } from '@/components/auth/get-started-button'
 import { RevealWords } from '@/components/marketing/reveal-text'
 import { RevealSection } from '@/components/marketing/reveal-section'
 import { HeroVisual } from '@/components/marketing/hero-visual'
@@ -181,12 +181,7 @@ export default function Page() {
             <p className="max-w-md text-sand/70">
               Join a cohort, get a mentor, ship something real — start today, cancel anytime.
             </p>
-            <SignUpButton mode="modal">
-              <button className="inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3.5 text-sm font-medium text-espresso transition-[background-color,transform] duration-150 ease-out hover:bg-white active:scale-[0.97]">
-                Get started
-                <Icon icon="solar:arrow-right-linear" width={16} />
-              </button>
-            </SignUpButton>
+            <GetStartedButton className="inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3.5 text-sm font-medium text-espresso transition-[background-color,transform] duration-150 ease-out hover:bg-white active:scale-[0.97]" />
           </div>
         </RevealSection>
       </section>

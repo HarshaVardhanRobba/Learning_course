@@ -4,8 +4,10 @@ import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Icon } from '@iconify/react'
-import { Show, SignInButton, SignOutButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Show, SignInButton, SignOutButton, UserButton, useUser } from '@clerk/nextjs'
 import { cn } from '@workspace/ui/lib/utils'
+import { GetStartedButton } from '@/components/auth/get-started-button'
+import { ADMIN_ROUTES, LEARNER_ROUTES } from '@/lib/routes'
 import { darkPill } from '@/lib/styles'
 
 const NAV_LINKS = [
@@ -18,6 +20,16 @@ const NAV_LINKS = [
 
 const textLink =
   'text-sm text-taupe transition-colors duration-150 hover:text-ink dark:text-sand/70 dark:hover:text-cream'
+
+function AdminLink({ className }: { className: string }) {
+  const { user } = useUser()
+  if (user?.publicMetadata?.role !== 'admin') return null
+  return (
+    <Link href={ADMIN_ROUTES.dashboard} className={className}>
+      Admin
+    </Link>
+  )
+}
 
 export function PublicHeader() {
   const pathname = usePathname()
@@ -58,20 +70,18 @@ export function PublicHeader() {
 
         <div className="flex items-center gap-3 sm:gap-5">
           <Show when="signed-out">
-            <SignInButton mode="modal">
+            <SignInButton mode="modal" forceRedirectUrl={LEARNER_ROUTES.status}>
               <button className={cn(textLink, 'hidden sm:inline-flex')}>Sign in</button>
             </SignInButton>
-            <SignUpButton mode="modal">
-              <button className={darkPill}>
-                Get started
-                <Icon icon="solar:arrow-right-linear" width={16} />
-              </button>
-            </SignUpButton>
           </Show>
+          <AdminLink className={cn(textLink, 'hidden sm:inline-flex')} />
           <Show when="signed-in">
             <SignOutButton>
               <button className={cn(textLink, 'hidden sm:inline-flex')}>Sign out</button>
             </SignOutButton>
+          </Show>
+          <GetStartedButton className={darkPill} />
+          <Show when="signed-in">
             <UserButton />
           </Show>
 
