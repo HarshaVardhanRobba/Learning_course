@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
+import { SiteHeader } from "@/components/site-header"
 import { cn } from "@workspace/ui/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
@@ -26,7 +28,12 @@ export default function RootLayout({
     >
       <body>
         <ClerkProvider appearance={{ theme: shadcn }}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <SmoothScrollProvider>
+              <SiteHeader />
+              {children}
+            </SmoothScrollProvider>
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>
