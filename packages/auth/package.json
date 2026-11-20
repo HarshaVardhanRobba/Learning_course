@@ -1,0 +1,26 @@
+{
+  "name": "@workspace/auth",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@workspace/core": "*",
+    "@workspace/db": "*",
+    "server-only": "^0.0.1"
+  },
+  "peerDependencies": {
+    "@clerk/nextjs": "^7.10.6"
+  },
+  "devDependencies": {
+    "@clerk/nextjs": "^7.10.6",
+    "@types/node": "^20",
+    "@workspace/typescript-config": "*",
+    "typescript": "^5"
+  }
+}
