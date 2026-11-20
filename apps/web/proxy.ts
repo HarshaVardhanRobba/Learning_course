@@ -1,6 +1,10 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+const isLearnerRoute = createRouteMatcher(["/learner(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isLearnerRoute(req)) await auth.protect();
+});
 
 export const config = {
   matcher: [
