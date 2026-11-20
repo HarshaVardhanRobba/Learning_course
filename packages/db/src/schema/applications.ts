@@ -12,6 +12,7 @@ export const applications = pgTable('applications', {
   status: applicationStatus('status').notNull().default('pending'),
   submittedAt: timestamp('submitted_at', { withTimezone: true }).notNull().defaultNow(),
   reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
+  rejectionReason: text('rejection_reason'),
   updatedAt: timestamp('updated_at', { withTimezone: true })
     .notNull()
     .defaultNow()

@@ -8,6 +8,13 @@
       "when": 1795199946901,
       "tag": "0000_classy_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795200926933,
+      "tag": "0001_windy_wolverine",
+      "breakpoints": true
     }
   ]
 }
