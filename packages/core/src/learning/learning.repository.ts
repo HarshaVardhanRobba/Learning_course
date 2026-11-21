@@ -7,6 +7,7 @@ import {
   enrollments,
   getDb,
   phases,
+  streams,
   topicCompletions,
   topics,
   userBadges,
@@ -21,6 +22,8 @@ export type PublishedCourse = {
   slug: string
   kind: CourseKind
   sortOrder: number
+  /** Null for the foundation. */
+  stream: { id: string; slug: string; title: string; summary: string } | null
   versionId: string
   version: number
   title: string
@@ -29,12 +32,16 @@ export type PublishedCourse = {
 
 /** The highest published version of every course. Draft and archived versions are never returned. */
 export async function findPublishedCourses(executor: Executor = getDb()): Promise<PublishedCourse[]> {
-  return executor
+  const rows = await executor
     .selectDistinctOn([courses.sortOrder, courses.id], {
       courseId: courses.id,
       slug: courses.slug,
       kind: courses.kind,
       sortOrder: courses.sortOrder,
+      streamId: streams.id,
+      streamSlug: streams.slug,
+      streamTitle: streams.title,
+      streamSummary: streams.summary,
       versionId: courseVersions.id,
       version: courseVersions.version,
       title: courseVersions.title,
@@ -42,13 +49,18 @@ export async function findPublishedCourses(executor: Executor = getDb()): Promis
     })
     .from(courses)
     .innerJoin(courseVersions, eq(courseVersions.courseId, courses.id))
+    .leftJoin(streams, eq(streams.id, courses.streamId))
     .where(eq(courseVersions.status, 'published'))
     .orderBy(asc(courses.sortOrder), asc(courses.id), desc(courseVersions.version))
+  return rows.map(({ streamId, streamSlug, streamTitle, streamSummary, ...course }) => ({
+    ...course,
+    stream: streamId ? { id: streamId, slug: streamSlug!, title: streamTitle!, summary: streamSummary! } : null,
+  }))
 }
 
 export async function findPublishedCourseById(courseId: string, executor: Executor = getDb()) {
   const [row] = await executor
-    .select({ courseId: courses.id, kind: courses.kind, versionId: courseVersions.id })
+    .select({ courseId: courses.id, kind: courses.kind, streamId: courses.streamId, versionId: courseVersions.id })
     .from(courses)
     .innerJoin(courseVersions, eq(courseVersions.courseId, courses.id))
     .where(and(eq(courses.id, courseId), eq(courseVersions.status, 'published')))

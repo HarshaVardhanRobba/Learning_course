@@ -11,6 +11,7 @@ import {
   findRecentBadgesByUserId,
   findTopicOutlines,
   type EarnedBadge,
+  type PublishedCourse,
 } from './learning.repository'
 import { computeAttemptProgress, groupCompletions, type AttemptProgress } from './progress'
 
@@ -44,10 +45,19 @@ export type HistoryEvent = {
   attemptNumber: number
 }
 
+export type DashboardStream = {
+  id: string
+  slug: string
+  title: string
+  summary: string
+  tracks: DashboardCourse[]
+}
+
 export type LearnerDashboard = {
   foundation: DashboardCourse | null
   foundationComplete: boolean
-  careerPaths: DashboardCourse[]
+  /** Every stream with at least one published track, in display order. */
+  streams: DashboardStream[]
   recentBadges: EarnedBadge[]
   history: HistoryEvent[]
 }
@@ -62,9 +72,33 @@ async function loadAttempts(userId: string, executor: Executor) {
   return enrollmentRows.map((e) => computeAttemptProgress(e, outlines, completions.get(e.id) ?? new Set()))
 }
 
+/**
+ * True when any of the learner's foundation attempts has every topic completed. This is the gate for
+ * every track: starting one, viewing its map, and recording progress in it.
+ */
+export async function hasCompletedFoundation(userId: string, executor: Executor = getDb()): Promise<boolean> {
+  const published = await findPublishedCourses(executor)
+  const foundation = published.find((c) => c.kind === 'foundation')
+  if (!foundation) return false
+  const attempts = await loadAttempts(userId, executor)
+  return attempts.some((a) => a.courseId === foundation.courseId && a.isComplete)
+}
+
 function statusOf(attempts: AttemptProgress[]): LearningStatus {
   if (attempts.some((a) => a.isComplete)) return 'completed'
   return attempts.some((a) => a.status === 'in_progress') ? 'in_progress' : 'not_started'
+}
+
+/** Tracks without a stream are not shown. Courses arrive sorted, so stream order follows the first track. */
+function groupByStream(tracks: PublishedCourse[], toCard: (course: PublishedCourse) => DashboardCourse): DashboardStream[] {
+  const byId = new Map<string, DashboardStream>()
+  for (const track of tracks) {
+    if (!track.stream) continue
+    const stream = byId.get(track.stream.id) ?? { ...track.stream, tracks: [] }
+    stream.tracks.push(toCard(track))
+    byId.set(track.stream.id, stream)
+  }
+  return [...byId.values()]
 }
 
 /** Everything the dashboard shows, scoped to one learner. Pass the session-resolved user id only. */
@@ -88,10 +122,10 @@ export async function getLearnerDashboard(userId: string): Promise<LearnerDashbo
     ? (attemptsByCourse.get(foundationCourse.courseId) ?? []).some((a) => a.isComplete)
     : false
 
-  const toCard = (course: (typeof published)[number]): DashboardCourse => {
+  const toCard = (course: PublishedCourse): DashboardCourse => {
     const courseAttempts = attemptsByCourse.get(course.courseId) ?? []
     const live = courseAttempts.find((a) => a.status === 'in_progress') ?? null
-    const locked = course.kind === 'career_path' && !foundationComplete
+    const locked = course.kind === 'track' && !foundationComplete
     return {
       courseId: course.courseId,
       slug: course.slug,
@@ -123,7 +157,7 @@ export async function getLearnerDashboard(userId: string): Promise<LearnerDashbo
   return {
     foundation: foundationCourse ? toCard(foundationCourse) : null,
     foundationComplete,
-    careerPaths: published.filter((c) => c.kind === 'career_path').map(toCard),
+    streams: groupByStream(published.filter((c) => c.kind === 'track'), toCard),
     recentBadges,
     history,
   }
@@ -149,14 +183,11 @@ export async function startAttempt(params: {
       if (application?.status !== 'approved') return { ok: false, reason: 'not_approved' } as const
 
       const course = await findPublishedCourseById(courseId, tx)
-      if (!course) return { ok: false, reason: 'not_found' } as const
+      // Tracks outside a stream are hidden from the dashboard, so they cannot be started either.
+      if (!course || (course.kind === 'track' && !course.streamId)) return { ok: false, reason: 'not_found' } as const
 
-      if (course.kind === 'career_path') {
-        const published = await findPublishedCourses(tx)
-        const foundation = published.find((c) => c.kind === 'foundation')
-        const attempts = foundation ? await loadAttempts(userId, tx) : []
-        const done = attempts.some((a) => a.courseId === foundation?.courseId && a.isComplete)
-        if (!done) return { ok: false, reason: 'locked' } as const
+      if (course.kind === 'track' && !(await hasCompletedFoundation(userId, tx))) {
+        return { ok: false, reason: 'locked' } as const
       }
 
       const live = and(

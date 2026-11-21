@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { check, integer, pgEnum, pgTable, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
-import { courses, courseVersions, topics } from './courses'
+import { courses, courseVersions, lessons, topics } from './courses'
 import { users } from './users'
 
 /** `abandoned` attempts are kept, never deleted, so a learner's earlier work stays in their history. */
@@ -41,7 +41,10 @@ export const enrollments = pgTable(
   ],
 )
 
-/** Completions belong to an attempt, so separate attempts never share progress. */
+/**
+ * A completed topic for one attempt. A topic counts as completed when its topic quiz is passed;
+ * phase assessments and track unlocking are measured from these rows.
+ */
 export const topicCompletions = pgTable(
   'topic_completions',
   {
@@ -57,6 +60,23 @@ export const topicCompletions = pgTable(
   (table) => [uniqueIndex('topic_completions_enrollment_topic_unique').on(table.enrollmentId, table.topicId)],
 )
 
+/** Lessons the learner has covered in an attempt; any covered lesson puts its topic in progress. */
+export const lessonCompletions = pgTable(
+  'lesson_completions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    enrollmentId: uuid('enrollment_id')
+      .notNull()
+      .references(() => enrollments.id, { onDelete: 'cascade' }),
+    lessonId: uuid('lesson_id')
+      .notNull()
+      .references(() => lessons.id, { onDelete: 'cascade' }),
+    completedAt: timestamp('completed_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('lesson_completions_enrollment_lesson_unique').on(table.enrollmentId, table.lessonId)],
+)
+
 export type Enrollment = typeof enrollments.$inferSelect
 export type EnrollmentStatus = (typeof enrollmentStatus.enumValues)[number]
 export type TopicCompletion = typeof topicCompletions.$inferSelect
+export type LessonCompletion = typeof lessonCompletions.$inferSelect
