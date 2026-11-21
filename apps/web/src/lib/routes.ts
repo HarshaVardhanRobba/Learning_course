@@ -9,6 +9,9 @@ export const LEARNER_ROUTES = {
   track: (slug: string, attempt?: number) => withAttempt(`/learner/tracks/${slug}`, attempt),
   trackTopic: (slug: string, topicId: string, attempt?: number) =>
     withAttempt(`/learner/tracks/${slug}/topics/${topicId}`, attempt),
+  lesson: (lessonId: string, attempt?: number) => withAttempt(`/learner/lessons/${lessonId}`, attempt),
+  /** Protected resource endpoint: checks access, then redirects to a short-lived URL. */
+  resource: (resourceId: string) => `/learner/resources/${resourceId}`,
   achievements: '/learner/achievements',
   history: '/learner/history',
 } as const

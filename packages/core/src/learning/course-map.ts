@@ -12,7 +12,16 @@
 
 export type NodeState = 'locked' | 'available' | 'in_progress' | 'completed'
 
-export type ContentLesson = { id: string; topicId: string; position: number; title: string; content: string }
+export type ContentLesson = {
+  id: string
+  topicId: string
+  position: number
+  title: string
+  content: string
+  contentFormat: 'markdown' | 'rich_text'
+  videoUid: string | null
+  durationSeconds: number | null
+}
 export type ContentTopic = { id: string; phaseId: string; position: number; title: string; description: string }
 export type ContentPhase = { id: string; position: number; title: string }
 
@@ -125,6 +134,11 @@ function pickCurrentTopic(topics: MapTopic[], doneLessons: Map<string, Date>): M
     }
   }
   return latest?.topic ?? topics.find((t) => t.state === 'available')
+}
+
+/** Every lesson in map order, with its topic's lock state, for previous/next navigation. */
+export function flattenLessons(map: CourseMap): { lesson: MapLesson; topic: MapTopic; phase: MapPhase }[] {
+  return map.phases.flatMap((phase) => phase.topics.flatMap((topic) => topic.lessons.map((lesson) => ({ lesson, topic, phase }))))
 }
 
 export function findTopic(map: CourseMap, topicId: string): { phase: MapPhase; topic: MapTopic } | null {

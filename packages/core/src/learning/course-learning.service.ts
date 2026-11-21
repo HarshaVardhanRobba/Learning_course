@@ -61,14 +61,14 @@ export type CourseMapView =
       map: CourseMap
     }
 
-const FOUNDATION_LOCK_REASON = 'Complete the Common Foundation to unlock every track.'
+export const FOUNDATION_LOCK_REASON = 'Complete the Common Foundation to unlock every track.'
 
-function toAttemptInfo(a: AttemptWithCourse): AttemptInfo {
+export function toAttemptInfo(a: AttemptWithCourse): AttemptInfo {
   const { id, attemptNumber, status, version, versionTitle, startedAt, endedAt } = a
   return { id, attemptNumber, status, version, versionTitle, startedAt, endedAt }
 }
 
-async function loadMap(attempt: AttemptWithCourse, executor: Executor): Promise<CourseMap> {
+export async function loadMap(attempt: AttemptWithCourse, executor: Executor): Promise<CourseMap> {
   const [content, activity] = await Promise.all([
     findVersionContent(attempt.courseVersionId, executor),
     findAttemptActivity(attempt.id, executor),
@@ -77,7 +77,7 @@ async function loadMap(attempt: AttemptWithCourse, executor: Executor): Promise<
 }
 
 /** Tracks need a stream and a completed foundation; the foundation is always open to approved learners. */
-async function accessBlock(userId: string, course: CourseRef, executor: Executor): Promise<'not_found' | 'locked' | null> {
+export async function accessBlock(userId: string, course: CourseRef, executor: Executor): Promise<'not_found' | 'locked' | null> {
   if (course.kind === 'foundation') return null
   if (!course.streamId) return 'not_found'
   return (await hasCompletedFoundation(userId, executor)) ? null : 'locked'

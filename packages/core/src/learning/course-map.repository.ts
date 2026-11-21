@@ -6,6 +6,7 @@ import {
   enrollments,
   getDb,
   lessonCompletions,
+  lessonResources,
   lessons,
   phases,
   topicCompletions,
@@ -125,6 +126,9 @@ export async function findVersionContent(courseVersionId: string, executor: Exec
         position: lessons.position,
         title: lessons.title,
         content: lessons.content,
+        contentFormat: lessons.contentFormat,
+        videoUid: lessons.videoUid,
+        durationSeconds: lessons.durationSeconds,
       })
       .from(lessons)
       .innerJoin(topics, eq(topics.id, lessons.topicId))
@@ -147,4 +151,42 @@ export async function findAttemptActivity(enrollmentId: string, executor: Execut
       .where(eq(topicCompletions.enrollmentId, enrollmentId)),
   ])
   return { lessonCompletions: lessonRows, topicCompletions: topicRows }
+}
+
+export type LessonLocation = { lessonId: string; topicId: string; courseVersionId: string; courseId: string }
+
+/** Where a lesson lives: its topic, the course version that topic belongs to, and the course. */
+export async function findLessonLocation(lessonId: string, executor: Executor = getDb()): Promise<LessonLocation | null> {
+  const [row] = await executor
+    .select({ lessonId: lessons.id, topicId: topics.id, courseVersionId: phases.courseVersionId, courseId: courseVersions.courseId })
+    .from(lessons)
+    .innerJoin(topics, eq(topics.id, lessons.topicId))
+    .innerJoin(phases, eq(phases.id, topics.phaseId))
+    .innerJoin(courseVersions, eq(courseVersions.id, phases.courseVersionId))
+    .where(eq(lessons.id, lessonId))
+    .limit(1)
+  return row ?? null
+}
+
+export async function findLessonResources(lessonId: string, executor: Executor = getDb()) {
+  return executor
+    .select({
+      id: lessonResources.id,
+      title: lessonResources.title,
+      kind: lessonResources.kind,
+      url: lessonResources.url,
+      r2Key: lessonResources.r2Key,
+    })
+    .from(lessonResources)
+    .where(eq(lessonResources.lessonId, lessonId))
+    .orderBy(asc(lessonResources.position))
+}
+
+export async function findResourceById(resourceId: string, executor: Executor = getDb()) {
+  const [row] = await executor
+    .select({ id: lessonResources.id, lessonId: lessonResources.lessonId, kind: lessonResources.kind, url: lessonResources.url, r2Key: lessonResources.r2Key })
+    .from(lessonResources)
+    .where(eq(lessonResources.id, resourceId))
+    .limit(1)
+  return row ?? null
 }

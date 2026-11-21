@@ -50,6 +50,13 @@
       "when": 1795275253649,
       "tag": "0006_gray_anthem",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795280653542,
+      "tag": "0007_modern_wallflower",
+      "breakpoints": true
     }
   ]
 }

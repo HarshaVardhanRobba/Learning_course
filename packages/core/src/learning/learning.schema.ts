@@ -1,13 +1,5 @@
 import { z } from 'zod'
 
-export const startAttemptSchema = z.object({
-  courseId: z.uuid(),
-  /** Form value "1" means the learner confirmed replacing their live attempt. */
-  replaceInProgress: z.enum(['0', '1']).default('0').transform((v) => v === '1'),
-})
-
-export type StartAttemptInput = z.infer<typeof startAttemptSchema>
-
 export const completeLessonSchema = z.object({ courseId: z.uuid(), topicId: z.uuid(), lessonId: z.uuid() })
 export const completeTopicSchema = z.object({ courseId: z.uuid(), topicId: z.uuid() })
 
@@ -16,3 +8,5 @@ export const trackSlugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).ma
 
 /** Optional `?attempt=N` selecting one of the learner's own attempts. */
 export const attemptNumberSchema = z.coerce.number().int().min(1).max(10_000)
+
+export const lessonIdSchema = z.uuid()

@@ -84,7 +84,10 @@ export const topics = pgTable(
   (table) => [uniqueIndex('topics_phase_position_unique').on(table.phaseId, table.position)],
 )
 
-/** The lessons a learner covers inside a topic, in order. `content` is filled in later. */
+/** How `lessons.content` is authored: Markdown text or rich-text HTML from the editor. */
+export const lessonContentFormat = pgEnum('lesson_content_format', ['markdown', 'rich_text'])
+
+/** The lessons a learner covers inside a topic, in order. */
 export const lessons = pgTable(
   'lessons',
   {
@@ -95,8 +98,40 @@ export const lessons = pgTable(
     position: integer('position').notNull(),
     title: text('title').notNull(),
     content: text('content').notNull().default(''),
+    contentFormat: lessonContentFormat('content_format').notNull().default('markdown'),
+    /** Cloudflare Stream video uid. Playback always goes through a short-lived signed token. */
+    videoUid: text('video_uid'),
+    durationSeconds: integer('duration_seconds'),
   },
   (table) => [uniqueIndex('lessons_topic_position_unique').on(table.topicId, table.position)],
+)
+
+export const lessonResourceKind = pgEnum('lesson_resource_kind', ['link', 'file'])
+
+/**
+ * External reading for a lesson. A `link` points at a public URL; a `file` is an object in the private
+ * R2 bucket, only ever served through a short-lived signed URL after an access check.
+ */
+export const lessonResources = pgTable(
+  'lesson_resources',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    lessonId: uuid('lesson_id')
+      .notNull()
+      .references(() => lessons.id, { onDelete: 'cascade' }),
+    position: integer('position').notNull(),
+    title: text('title').notNull(),
+    kind: lessonResourceKind('kind').notNull(),
+    url: text('url'),
+    r2Key: text('r2_key'),
+  },
+  (table) => [
+    uniqueIndex('lesson_resources_lesson_position_unique').on(table.lessonId, table.position),
+    check(
+      'lesson_resources_target_check',
+      sql`(${table.kind} = 'link' and ${table.url} is not null and ${table.r2Key} is null) or (${table.kind} = 'file' and ${table.r2Key} is not null and ${table.url} is null)`,
+    ),
+  ],
 )
 
 export type Stream = typeof streams.$inferSelect
@@ -107,3 +142,5 @@ export type CourseVersionStatus = (typeof courseVersionStatus.enumValues)[number
 export type Phase = typeof phases.$inferSelect
 export type Topic = typeof topics.$inferSelect
 export type Lesson = typeof lessons.$inferSelect
+export type LessonContentFormat = (typeof lessonContentFormat.enumValues)[number]
+export type LessonResource = typeof lessonResources.$inferSelect

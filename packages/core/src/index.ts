@@ -32,9 +32,8 @@ export {
   attemptNumberSchema,
   completeLessonSchema,
   completeTopicSchema,
-  startAttemptSchema,
+  lessonIdSchema,
   trackSlugSchema,
-  type StartAttemptInput,
 } from './learning/learning.schema'
 export {
   completeLesson,
@@ -50,3 +49,12 @@ export {
   type TopicView,
 } from './learning/course-learning.service'
 export type { CourseMap, MapLesson, MapPhase, MapTopic, NodeState } from './learning/course-map'
+export {
+  completeLessonById,
+  getLessonView,
+  getResourceUrl,
+  type LessonNavTarget,
+  type LessonResourceView,
+  type LessonView,
+} from './learning/lesson.service'
+export type { VideoPlayback } from './media/media.service'
