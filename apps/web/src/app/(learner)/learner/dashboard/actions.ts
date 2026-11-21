@@ -1,21 +1,19 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { startAttempt, startAttemptSchema } from '@workspace/core'
-import { requireApprovedLearner } from '@/lib/learner'
+import { TRPCError } from '@trpc/server'
+import { caller } from '@/trpc/server'
 
 export async function startAttemptAction(formData: FormData): Promise<void> {
-  // Server actions are reachable by direct POST, so the approval gate runs here too.
-  const { user } = await requireApprovedLearner()
-
-  const parsed = startAttemptSchema.safeParse({
-    courseId: formData.get('courseId'),
-    replaceInProgress: formData.get('replaceInProgress') ?? undefined,
-  })
-  if (!parsed.success) return
-
-  // The user id comes from the session; the form only names the course.
-  await startAttempt({ userId: user.id, ...parsed.data })
+  // The procedure validates the input and enforces session, approval and foundation rules.
+  try {
+    await caller.learner.startAttempt({
+      courseId: formData.get('courseId') as string,
+      replaceInProgress: formData.get('replaceInProgress') === '1',
+    })
+  } catch (error) {
+    if (!(error instanceof TRPCError)) throw error
+  }
   // Every learner page reads attempts, so refresh them all.
   revalidatePath('/learner', 'layout')
 }

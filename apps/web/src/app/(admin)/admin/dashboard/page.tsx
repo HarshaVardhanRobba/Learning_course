@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-import { requireAdmin } from '@workspace/auth'
-import { countApplicationsByStatus, listApplications, type ApplicationWithReview } from '@workspace/core'
+import type { ApplicationWithReview } from '@workspace/core'
+import { caller } from '@/trpc/server'
 import type { ApplicationStatus } from '@workspace/db'
 import { decideApplicationAction } from '../actions'
 import { ADMIN_ROUTES } from '@/lib/routes'
@@ -29,10 +29,13 @@ function isStatus(value: unknown): value is ApplicationStatus {
 }
 
 export default async function AdminDashboardPage({ searchParams }: PageProps<'/admin/dashboard'>) {
-  await requireAdmin()
+  // The admin layout 404s non-admins; the admin procedures enforce the role again.
   const raw = (await searchParams).status
   const filter = isStatus(raw) ? raw : undefined
-  const [applications, counts] = await Promise.all([listApplications(filter), countApplicationsByStatus()])
+  const [applications, counts] = await Promise.all([
+    caller.admin.applications({ status: filter }),
+    caller.admin.applicationCounts(),
+  ])
   const total = counts.pending + counts.approved + counts.rejected
 
   return (

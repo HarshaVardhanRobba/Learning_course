@@ -1,10 +1,11 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { auth } from '@clerk/nextjs/server'
-import { getClerkProfile } from '@workspace/auth'
-import { applicationInputSchema, submitApplication, type ApplicationField } from '@workspace/core'
+import { TRPCError } from '@trpc/server'
+import { applicationInputSchema, type ApplicationField } from '@workspace/core'
+import { requireSessionUser } from '@/lib/learner'
 import { LEARNER_ROUTES } from '@/lib/routes'
+import { caller } from '@/trpc/server'
 
 export type ApplyFormState = {
   message?: string
@@ -13,20 +14,14 @@ export type ApplyFormState = {
 }
 
 export async function submitApplicationAction(_prev: ApplyFormState, formData: FormData): Promise<ApplyFormState> {
-  const { userId, redirectToSignIn } = await auth()
-  if (!userId) return redirectToSignIn()
-
-  // Identity and email come from Clerk, never from the submitted form.
-  const profile = await getClerkProfile()
-  if (!profile?.email) {
-    return { message: 'Your account has no email address. Add one in your account settings, then try again.' }
-  }
+  await requireSessionUser()
 
   const values = {
     firstName: String(formData.get('firstName') ?? ''),
     lastName: String(formData.get('lastName') ?? ''),
     phone: String(formData.get('phone') ?? ''),
   }
+  // Parsed here only to show field-level messages; the procedure validates again.
   const parsed = applicationInputSchema.safeParse(values)
   if (!parsed.success) {
     const fieldErrors: ApplyFormState['fieldErrors'] = {}
@@ -37,6 +32,15 @@ export async function submitApplicationAction(_prev: ApplyFormState, formData: F
     return { fieldErrors, values }
   }
 
-  const result = await submitApplication({ clerkId: userId, email: profile.email, input: parsed.data })
-  redirect(result.ok ? `${LEARNER_ROUTES.status}?submitted=1` : LEARNER_ROUTES.status)
+  // Identity and email come from the Clerk session inside the procedure, never from the form.
+  let submitted = false
+  try {
+    submitted = (await caller.application.submit(values)).ok
+  } catch (error) {
+    if (error instanceof TRPCError && error.code === 'PRECONDITION_FAILED') {
+      return { message: 'Your account has no email address. Add one in your account settings, then try again.', values }
+    }
+    throw error
+  }
+  redirect(submitted ? `${LEARNER_ROUTES.status}?submitted=1` : LEARNER_ROUTES.status)
 }

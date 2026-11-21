@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-import { requireAppUser } from '@workspace/auth'
-import { findApplicationByUserId } from '@workspace/core'
+import { requireSessionUser } from '@/lib/learner'
+import { caller } from '@/trpc/server'
 import { LEARNER_ROUTES } from '@/lib/routes'
 import { ApplicationStatusView, StatusShell } from '@/components/application/application-status-view'
 import { darkPill } from '@/lib/styles'
@@ -10,8 +10,8 @@ export const metadata = { title: 'Application status' }
 
 export default async function ApplicationStatusPage({ searchParams }: PageProps<'/learner/application-status'>) {
   // Identity comes only from the Clerk session; `submitted` only toggles a banner and never selects data.
-  const user = await requireAppUser()
-  const application = await findApplicationByUserId(user.id)
+  await requireSessionUser()
+  const application = await caller.application.mine()
   const justSubmitted = (await searchParams).submitted === '1' && application?.status === 'pending'
 
   return (

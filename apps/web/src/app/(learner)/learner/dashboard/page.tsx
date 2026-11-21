@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
 import {
-  getLearnerDashboard,
   type DashboardCourse,
   type DashboardStream,
   type EarnedBadge,
   type HistoryEvent,
 } from '@workspace/core'
+import { caller } from '@/trpc/server'
 import { ProfileButton } from '@/components/learner/profile-button'
 import {
   AttemptSummary,
@@ -28,8 +28,8 @@ const sectionLink =
 
 export default async function LearnerDashboardPage() {
   // Clerk session -> app user -> approved application in Neon; pending/rejected applicants are redirected.
-  const { user, application } = await requireApprovedLearner()
-  const dashboard = await getLearnerDashboard(user.id)
+  const { application } = await requireApprovedLearner()
+  const dashboard = await caller.learner.dashboard()
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8">

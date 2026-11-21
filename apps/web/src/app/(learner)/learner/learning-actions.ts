@@ -2,63 +2,67 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import {
-  completeLesson,
-  completeLessonSchema,
-  completeTopic,
-  completeTopicSchema,
-  startAttempt,
-  startAttemptSchema,
-  trackSlugSchema,
-} from '@workspace/core'
-import { requireApprovedLearner } from '@/lib/learner'
+import { TRPCError } from '@trpc/server'
+import { trackSlugSchema } from '@workspace/core'
 import { LEARNER_ROUTES } from '@/lib/routes'
+import { caller } from '@/trpc/server'
 
-// Server actions are reachable by direct POST. Each one re-runs the approval gate, and the services
-// re-check foundation completion, the learner's live attempt, version ownership and unlock rules.
-// Forms only name ids; the learner and attempt always come from the session.
+// Server actions are reachable by direct POST. They call the learner tRPC procedures, which validate the
+// input with zod and enforce the session, approval, attempt ownership, version and unlock rules. Forms
+// only name ids; the learner always comes from the session.
+
+/** Runs a procedure from a form post. Invalid input or a denied call is a no-op, as before. */
+async function run<T>(call: () => Promise<T>): Promise<T | null> {
+  try {
+    return await call()
+  } catch (error) {
+    if (error instanceof TRPCError) return null
+    throw error
+  }
+}
+
+const field = (formData: FormData, name: string) => formData.get(name) as string
 
 function refreshLearnerPages() {
   revalidatePath('/learner', 'layout')
 }
 
-function mapPath(course: { kind: 'foundation' | 'track'; slug: string }) {
-  return course.kind === 'foundation' ? LEARNER_ROUTES.foundation : LEARNER_ROUTES.track(course.slug)
+export async function completeLessonAction(formData: FormData): Promise<void> {
+  await run(() =>
+    caller.learner.completeLesson({
+      courseId: field(formData, 'courseId'),
+      topicId: field(formData, 'topicId'),
+      lessonId: field(formData, 'lessonId'),
+    }),
+  )
+  refreshLearnerPages()
 }
 
-export async function completeLessonAction(formData: FormData): Promise<void> {
-  const { user } = await requireApprovedLearner()
-  const parsed = completeLessonSchema.safeParse({
-    courseId: formData.get('courseId'),
-    topicId: formData.get('topicId'),
-    lessonId: formData.get('lessonId'),
-  })
-  if (!parsed.success) return
-
-  await completeLesson({ userId: user.id, ...parsed.data })
+/** Lesson viewer "Mark as completed": only the lesson id is sent. */
+export async function completeLessonByIdAction(formData: FormData): Promise<void> {
+  await run(() => caller.learner.completeLessonById({ lessonId: field(formData, 'lessonId') }))
   refreshLearnerPages()
 }
 
 export async function completeTopicAction(formData: FormData): Promise<void> {
-  const { user } = await requireApprovedLearner()
-  const parsed = completeTopicSchema.safeParse({ courseId: formData.get('courseId'), topicId: formData.get('topicId') })
-  if (!parsed.success) return
-
-  const result = await completeTopic({ userId: user.id, ...parsed.data })
+  const result = await run(() =>
+    caller.learner.completeTopic({ courseId: field(formData, 'courseId'), topicId: field(formData, 'topicId') }),
+  )
   refreshLearnerPages()
-  if (result.ok) redirect(`${mapPath(result.course)}?completed=1`)
+  if (result?.ok) {
+    const map = result.course.kind === 'foundation' ? LEARNER_ROUTES.foundation : LEARNER_ROUTES.track(result.course.slug)
+    redirect(`${map}?completed=1`)
+  }
 }
 
 /** Starts (or, with confirmation, replaces) an attempt from a learning map, then returns to that map. */
 export async function startCourseAttemptAction(formData: FormData): Promise<void> {
-  const { user } = await requireApprovedLearner()
-  const parsed = startAttemptSchema.safeParse({
-    courseId: formData.get('courseId'),
-    replaceInProgress: formData.get('replaceInProgress') ?? undefined,
-  })
-  if (!parsed.success) return
-
-  await startAttempt({ userId: user.id, ...parsed.data })
+  await run(() =>
+    caller.learner.startAttempt({
+      courseId: field(formData, 'courseId'),
+      replaceInProgress: formData.get('replaceInProgress') === '1',
+    }),
+  )
   refreshLearnerPages()
 
   // The redirect target is rebuilt from a validated slug, never taken as a raw URL.

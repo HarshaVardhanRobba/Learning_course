@@ -1,22 +1,23 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { requireAdmin } from '@workspace/auth'
-import { applicationDecisionSchema, decideApplication } from '@workspace/core'
+import { TRPCError } from '@trpc/server'
+import type { RouterInputs } from '@/trpc/types'
 import { ADMIN_ROUTES, LEARNER_ROUTES } from '@/lib/routes'
+import { caller } from '@/trpc/server'
 
 export async function decideApplicationAction(formData: FormData): Promise<void> {
-  // Server actions are reachable by direct POST, so the admin check runs here, not just in the layout.
-  const admin = await requireAdmin()
-
-  const parsed = applicationDecisionSchema.safeParse({
-    applicationId: formData.get('applicationId'),
-    decision: formData.get('decision'),
-    reason: formData.get('reason') ?? '',
-  })
-  if (!parsed.success) return
-
-  await decideApplication({ reviewerUserId: admin.id, decision: parsed.data })
+  // Server actions are reachable by direct POST: the admin procedure checks the role and validates input.
+  try {
+    await caller.admin.decideApplication({
+      applicationId: formData.get('applicationId'),
+      decision: formData.get('decision'),
+      reason: formData.get('reason') ?? '',
+    } as RouterInputs['admin']['decideApplication'])
+  } catch (error) {
+    if (!(error instanceof TRPCError)) throw error
+    return
+  }
   revalidatePath(ADMIN_ROUTES.dashboard)
   revalidatePath(LEARNER_ROUTES.status)
 }

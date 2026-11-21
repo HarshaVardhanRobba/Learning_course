@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
-import { getClerkProfile, requireAppUser } from '@workspace/auth'
-import { findApplicationByUserId } from '@workspace/core'
+import { requireSessionUser } from '@/lib/learner'
+import { caller } from '@/trpc/server'
 import { ApplicationForm } from '@/components/application/application-form'
 import { LEARNER_ROUTES } from '@/lib/routes'
 
@@ -9,10 +9,10 @@ export const metadata = { title: 'Apply to Join' }
 const STEPS = ['Submit this short form', 'An administrator reviews it', 'You get access once approved']
 
 export default async function ApplyPage() {
-  const user = await requireAppUser()
-  if (await findApplicationByUserId(user.id)) redirect(LEARNER_ROUTES.status)
+  await requireSessionUser()
+  if (await caller.application.mine()) redirect(LEARNER_ROUTES.status)
 
-  const profile = await getClerkProfile()
+  const defaults = await caller.application.profileDefaults()
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 pb-20 pt-8">
@@ -34,7 +34,7 @@ export default async function ApplyPage() {
 
       <section className="mt-8 rounded-[1.75rem] border border-sand bg-white/70 p-6 sm:p-10 dark:border-cocoa dark:bg-cocoa/40">
         <ApplicationForm
-          defaults={{ firstName: profile?.firstName ?? '', lastName: profile?.lastName ?? '', email: profile?.email ?? '' }}
+          defaults={defaults}
         />
       </section>
     </main>

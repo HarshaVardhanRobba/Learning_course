@@ -1,1 +1,1 @@
-export { getClerkProfile, requireAdmin, requireAppUser, type ClerkProfile } from './current-user'
+export { getClerkProfile, requireAdmin, type ClerkProfile } from './current-user'
