@@ -1,0 +1,2343 @@
+{
+  "source": "TMT_Self_Learning_Tracks.xlsx",
+  "foundation": {
+    "slug": "common-foundation",
+    "title": "Common Foundation",
+    "topics": [
+      {
+        "title": "Version control",
+        "description": "Git basics (clone, branch, commit, merge, pull request), GitHub or Azure Repos",
+        "lessons": [
+          "Git basics (clone, branch, commit, merge, pull request)",
+          "GitHub or Azure Repos"
+        ]
+      },
+      {
+        "title": "Operating system",
+        "description": "Linux command line (files, permissions, processes, ssh), basic Windows admin",
+        "lessons": [
+          "Linux command line (files, permissions, processes, ssh)",
+          "Basic Windows admin"
+        ]
+      },
+      {
+        "title": "Databases",
+        "description": "SQL fundamentals: SELECT, JOINs, GROUP BY, indexes, basic data modeling",
+        "lessons": [
+          "SQL fundamentals: SELECT",
+          "JOINs",
+          "GROUP BY",
+          "Indexes",
+          "Basic data modeling"
+        ]
+      },
+      {
+        "title": "Networking basics",
+        "description": "IP addressing, DNS, HTTP/HTTPS, ports, how a web request travels",
+        "lessons": [
+          "IP addressing",
+          "DNS",
+          "HTTP/HTTPS",
+          "Ports",
+          "How a web request travels"
+        ]
+      },
+      {
+        "title": "Cloud basics",
+        "description": "What cloud is, the three big providers (AWS, Azure, GCP), core services: compute, storage, networking, identity",
+        "lessons": [
+          "What cloud is",
+          "The three big providers (AWS, Azure, GCP)",
+          "Core services: compute",
+          "Storage",
+          "Networking",
+          "Identity"
+        ]
+      },
+      {
+        "title": "Scripting",
+        "description": "Python basics or PowerShell/Bash, enough to automate small tasks",
+        "lessons": [
+          "Python basics or PowerShell/Bash",
+          "Enough to automate small tasks"
+        ]
+      },
+      {
+        "title": "AI-assisted work",
+        "description": "Using GitHub Copilot, ChatGPT/Claude for coding, debugging and documentation; prompt writing basics",
+        "lessons": [
+          "Using GitHub Copilot, ChatGPT/Claude for coding, debugging and documentation; prompt writing basics"
+        ]
+      },
+      {
+        "title": "How teams work",
+        "description": "Agile: running projects in short cycles instead of one big plan. Scrum: the most common Agile method, with fixed 2-week cycles called sprints and a daily 15-minute check-in called a stand-up. Jira: the tool most clients use to track that work",
+        "lessons": [
+          "Agile: running projects in short cycles instead of one big plan",
+          "Scrum: the most common Agile method, with fixed 2-week cycles called sprints and a daily 15-minute check-in called a stand-up",
+          "Jira: the tool most clients use to track that work"
+        ]
+      },
+      {
+        "title": "Professional skills",
+        "description": "Client communication, writing status updates, interview readiness, explaining your project end to end",
+        "lessons": [
+          "Client communication",
+          "Writing status updates",
+          "Interview readiness",
+          "Explaining your project end to end"
+        ]
+      }
+    ]
+  },
+  "streams": [
+    {
+      "slug": "full-stack",
+      "title": "Full Stack",
+      "tracks": [
+        {
+          "slug": "java-full-stack-developer",
+          "title": "Java Full Stack Developer",
+          "topics": [
+            {
+              "title": "Language",
+              "description": "Core Java 17/21: OOP, collections, generics, exceptions, Streams and Lambdas, multithreading and concurrency, records",
+              "lessons": [
+                "Core Java 17/21: OOP",
+                "Collections",
+                "Generics",
+                "Exceptions",
+                "Streams and Lambdas",
+                "Multithreading and concurrency",
+                "Records"
+              ]
+            },
+            {
+              "title": "Back-end framework",
+              "description": "Spring Core (dependency injection), Spring Boot 3, Spring MVC, Spring Data JPA, Hibernate",
+              "lessons": [
+                "Spring Core (dependency injection)",
+                "Spring Boot 3",
+                "Spring MVC",
+                "Spring Data JPA",
+                "Hibernate"
+              ]
+            },
+            {
+              "title": "APIs and security",
+              "description": "REST API design, OpenAPI/Swagger, Spring Security, JWT, OAuth2 / OpenID Connect",
+              "lessons": [
+                "REST API design",
+                "OpenAPI/Swagger",
+                "Spring Security",
+                "JWT",
+                "OAuth2 / OpenID Connect"
+              ]
+            },
+            {
+              "title": "Microservices",
+              "description": "Spring Cloud (API Gateway, Config Server, service discovery), Resilience4j, inter-service communication",
+              "lessons": [
+                "Spring Cloud (API Gateway, Config Server, service discovery)",
+                "Resilience4j",
+                "Inter-service communication"
+              ]
+            },
+            {
+              "title": "Messaging",
+              "description": "Apache Kafka (primary), RabbitMQ (optional)",
+              "lessons": [
+                "Apache Kafka (primary)",
+                "RabbitMQ (optional)"
+              ]
+            },
+            {
+              "title": "Front end",
+              "description": "HTML5, CSS3, JavaScript ES6+, TypeScript, Angular 17+ (primary for enterprise) or React 18+, RxJS, Bootstrap / Angular Material",
+              "lessons": [
+                "HTML5",
+                "CSS3",
+                "JavaScript ES6+",
+                "TypeScript",
+                "Angular 17+ (primary for enterprise) or React 18+",
+                "RxJS",
+                "Bootstrap / Angular Material"
+              ]
+            },
+            {
+              "title": "Databases",
+              "description": "Oracle or PostgreSQL / MySQL, PL/SQL basics, MongoDB (optional), Redis caching",
+              "lessons": [
+                "Oracle or PostgreSQL / MySQL",
+                "PL/SQL basics",
+                "MongoDB (optional)",
+                "Redis caching"
+              ]
+            },
+            {
+              "title": "Build and test",
+              "description": "Maven, Gradle, JUnit 5, Mockito, Jasmine/Karma or Jest, Postman",
+              "lessons": [
+                "Maven",
+                "Gradle",
+                "JUnit 5",
+                "Mockito",
+                "Jasmine/Karma or Jest",
+                "Postman"
+              ]
+            },
+            {
+              "title": "DevOps",
+              "description": "Git, Jenkins or GitHub Actions, Docker, Kubernetes basics, SonarQube",
+              "lessons": [
+                "Git",
+                "Jenkins or GitHub Actions",
+                "Docker",
+                "Kubernetes basics",
+                "SonarQube"
+              ]
+            },
+            {
+              "title": "Cloud",
+              "description": "AWS (EC2, S3, RDS, Lambda, API Gateway) or Azure equivalents",
+              "lessons": [
+                "AWS (EC2, S3, RDS, Lambda, API Gateway) or Azure equivalents"
+              ]
+            },
+            {
+              "title": "Tools",
+              "description": "IntelliJ IDEA, VS Code, Jira, Confluence",
+              "lessons": [
+                "IntelliJ IDEA",
+                "VS Code",
+                "Jira",
+                "Confluence"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "GitHub Copilot, Amazon Q Developer or Claude Code in IntelliJ for code generation, JUnit test generation and refactoring legacy Java. Spring AI and LangChain4j to add LLM features (chat, RAG, document Q&A) inside Spring Boot apps. AI-assisted Java upgrades (Java 8 to 17/21, Spring Boot 2 to 3) with Amazon Q Code Transformation or OpenRewrite",
+              "lessons": [
+                "GitHub Copilot, Amazon Q Developer or Claude Code in IntelliJ for code generation, JUnit test generation and refactoring legacy Java",
+                "Spring AI and LangChain4j to add LLM features (chat, RAG, document Q&A) inside Spring Boot apps",
+                "AI-assisted Java upgrades (Java 8 to 17/21, Spring Boot 2 to 3) with Amazon Q Code Transformation or OpenRewrite"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "E-commerce or banking app: Spring Boot microservices + Angular UI + PostgreSQL + Kafka, deployed in Docker to AWS",
+              "lessons": [
+                "E-commerce or banking app: Spring Boot microservices + Angular UI + PostgreSQL + Kafka, deployed in Docker to AWS"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "dotnet-full-stack-developer",
+          "title": ".NET Full Stack Developer",
+          "topics": [
+            {
+              "title": "Language",
+              "description": "C# 12: OOP, LINQ, async/await, generics, delegates and events",
+              "lessons": [
+                "C# 12: OOP",
+                "LINQ",
+                "Async/await",
+                "Generics",
+                "Delegates and events"
+              ]
+            },
+            {
+              "title": "Back-end framework",
+              "description": ".NET 8, ASP.NET Core Web API, ASP.NET Core MVC, Minimal APIs, Entity Framework Core",
+              "lessons": [
+                ".NET 8",
+                "ASP.NET Core Web API",
+                "ASP.NET Core MVC",
+                "Minimal APIs",
+                "Entity Framework Core"
+              ]
+            },
+            {
+              "title": "APIs and security",
+              "description": "REST design, Swagger, ASP.NET Identity, JWT, Microsoft Entra ID (formerly Azure AD)",
+              "lessons": [
+                "REST design",
+                "Swagger",
+                "ASP.NET Identity",
+                "JWT",
+                "Microsoft Entra ID (formerly Azure AD)"
+              ]
+            },
+            {
+              "title": "Architecture",
+              "description": "Dependency injection, Clean Architecture, Repository pattern, microservices basics",
+              "lessons": [
+                "Dependency injection",
+                "Clean Architecture",
+                "Repository pattern",
+                "Microservices basics"
+              ]
+            },
+            {
+              "title": "Messaging",
+              "description": "Azure Service Bus, RabbitMQ (optional)",
+              "lessons": [
+                "Azure Service Bus",
+                "RabbitMQ (optional)"
+              ]
+            },
+            {
+              "title": "Front end",
+              "description": "HTML5, CSS3, JavaScript, TypeScript, Angular (primary) or React, Blazor (optional)",
+              "lessons": [
+                "HTML5",
+                "CSS3",
+                "JavaScript",
+                "TypeScript",
+                "Angular (primary) or React",
+                "Blazor (optional)"
+              ]
+            },
+            {
+              "title": "Databases",
+              "description": "SQL Server, T-SQL, stored procedures, query tuning, Azure SQL, Cosmos DB (optional)",
+              "lessons": [
+                "SQL Server",
+                "T-SQL",
+                "Stored procedures",
+                "Query tuning",
+                "Azure SQL",
+                "Cosmos DB (optional)"
+              ]
+            },
+            {
+              "title": "Testing",
+              "description": "xUnit or NUnit, Moq, Postman",
+              "lessons": [
+                "XUnit or NUnit",
+                "Moq",
+                "Postman"
+              ]
+            },
+            {
+              "title": "DevOps",
+              "description": "Git, Azure DevOps (Boards, Repos, Pipelines), Docker, AKS basics",
+              "lessons": [
+                "Git",
+                "Azure DevOps (Boards, Repos, Pipelines)",
+                "Docker",
+                "AKS basics"
+              ]
+            },
+            {
+              "title": "Cloud",
+              "description": "Azure App Service, Azure Functions, Key Vault, Blob Storage, API Management",
+              "lessons": [
+                "Azure App Service",
+                "Azure Functions",
+                "Key Vault",
+                "Blob Storage",
+                "API Management"
+              ]
+            },
+            {
+              "title": "Tools",
+              "description": "Visual Studio, VS Code, SSMS",
+              "lessons": [
+                "Visual Studio",
+                "VS Code",
+                "SSMS"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "GitHub Copilot in Visual Studio for code, tests and refactoring. Semantic Kernel and Microsoft.Extensions.AI to add LLM features to .NET apps. Azure OpenAI / Azure AI Foundry integration. AI-assisted migration of .NET Framework apps to .NET 8 with GitHub Copilot app modernization",
+              "lessons": [
+                "GitHub Copilot in Visual Studio for code",
+                "Tests and refactoring",
+                "Semantic Kernel and Microsoft.Extensions.AI to add LLM features to .NET apps",
+                "Azure OpenAI / Azure AI Foundry integration",
+                "AI-assisted migration of .NET Framework apps to .NET 8 with GitHub Copilot app modernization"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "HR or claims-processing portal: ASP.NET Core API + Angular + SQL Server, CI/CD through Azure DevOps to Azure App Service",
+              "lessons": [
+                "HR or claims-processing portal: ASP.NET Core API + Angular + SQL Server, CI/CD through Azure DevOps to Azure App Service"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "mern-javascript-full-stack-developer",
+          "title": "MERN / JavaScript Full Stack Developer",
+          "topics": [
+            {
+              "title": "Language",
+              "description": "JavaScript ES6+, TypeScript (required)",
+              "lessons": [
+                "JavaScript ES6+",
+                "TypeScript (required)"
+              ]
+            },
+            {
+              "title": "Back end",
+              "description": "Node.js, Express.js, NestJS, REST and GraphQL",
+              "lessons": [
+                "Node.js",
+                "Express.js",
+                "NestJS",
+                "REST and GraphQL"
+              ]
+            },
+            {
+              "title": "Front end",
+              "description": "React 18+, Next.js, Redux Toolkit or Zustand, React Query, Tailwind CSS",
+              "lessons": [
+                "React 18+",
+                "Next.js",
+                "Redux Toolkit or Zustand",
+                "React Query",
+                "Tailwind CSS"
+              ]
+            },
+            {
+              "title": "Databases",
+              "description": "MongoDB + Mongoose, PostgreSQL + Prisma, Redis",
+              "lessons": [
+                "MongoDB + Mongoose",
+                "PostgreSQL + Prisma",
+                "Redis"
+              ]
+            },
+            {
+              "title": "Auth",
+              "description": "JWT, OAuth, Auth0 or NextAuth",
+              "lessons": [
+                "JWT",
+                "OAuth",
+                "Auth0 or NextAuth"
+              ]
+            },
+            {
+              "title": "Testing",
+              "description": "Jest, React Testing Library, Cypress or Playwright",
+              "lessons": [
+                "Jest",
+                "React Testing Library",
+                "Cypress or Playwright"
+              ]
+            },
+            {
+              "title": "DevOps and cloud",
+              "description": "Git, GitHub Actions, Docker, AWS (EC2, S3, Lambda) or Vercel",
+              "lessons": [
+                "Git",
+                "GitHub Actions",
+                "Docker",
+                "AWS (EC2, S3, Lambda) or Vercel"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Vercel AI SDK, OpenAI and Anthropic JavaScript SDKs, LangChain.js. Building streaming chat UIs and AI features in React / Next.js. Cursor, Claude Code or Copilot for daily coding; v0 or similar tools for fast UI prototyping",
+              "lessons": [
+                "Vercel AI SDK",
+                "OpenAI and Anthropic JavaScript SDKs",
+                "LangChain.js",
+                "Building streaming chat UIs and AI features in React / Next.js",
+                "Cursor, Claude Code or Copilot for daily coding; v0 or similar tools for fast UI prototyping"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "SaaS-style app (for example a job board) with Next.js, NestJS, PostgreSQL, deployed with CI/CD",
+              "lessons": [
+                "SaaS-style app (for example a job board) with Next.js",
+                "NestJS",
+                "PostgreSQL",
+                "Deployed with CI/CD"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "python-full-stack-developer",
+          "title": "Python Full Stack Developer",
+          "topics": [
+            {
+              "title": "Language",
+              "description": "Python 3.12: OOP, decorators, async, type hints",
+              "lessons": [
+                "Python 3.12: OOP",
+                "Decorators",
+                "Async",
+                "Type hints"
+              ]
+            },
+            {
+              "title": "Back end",
+              "description": "Django + Django REST Framework, FastAPI, SQLAlchemy, Celery + Redis for background jobs",
+              "lessons": [
+                "Django + Django REST Framework",
+                "FastAPI",
+                "SQLAlchemy",
+                "Celery + Redis for background jobs"
+              ]
+            },
+            {
+              "title": "Front end",
+              "description": "HTML, CSS, JavaScript, TypeScript, React",
+              "lessons": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "TypeScript",
+                "React"
+              ]
+            },
+            {
+              "title": "Databases",
+              "description": "PostgreSQL, MySQL, MongoDB (optional)",
+              "lessons": [
+                "PostgreSQL",
+                "MySQL",
+                "MongoDB (optional)"
+              ]
+            },
+            {
+              "title": "Testing",
+              "description": "pytest, Postman, Playwright (optional)",
+              "lessons": [
+                "Pytest",
+                "Postman",
+                "Playwright (optional)"
+              ]
+            },
+            {
+              "title": "DevOps and cloud",
+              "description": "Git, Docker, GitHub Actions, AWS (EC2, RDS, Lambda)",
+              "lessons": [
+                "Git",
+                "Docker",
+                "GitHub Actions",
+                "AWS (EC2, RDS, Lambda)"
+              ]
+            },
+            {
+              "title": "AI add-on",
+              "description": "Calling LLM APIs (OpenAI, Anthropic), building a simple AI feature into an app",
+              "lessons": [
+                "Calling LLM APIs (OpenAI, Anthropic)",
+                "Building a simple AI feature into an app"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Cursor, Claude Code or Copilot for coding and pytest generation. Structured LLM output with Pydantic, background AI jobs with Celery, LangChain / LlamaIndex basics",
+              "lessons": [
+                "Cursor, Claude Code or Copilot for coding and pytest generation",
+                "Structured LLM output with Pydantic",
+                "Background AI jobs with Celery",
+                "LangChain / LlamaIndex basics"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "FastAPI + React app with an AI feature (for example resume summarizer), PostgreSQL, deployed on AWS",
+              "lessons": [
+                "FastAPI + React app with an AI feature (for example resume summarizer)",
+                "PostgreSQL",
+                "Deployed on AWS"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "infrastructure",
+      "title": "Infrastructure",
+      "tracks": [
+        {
+          "slug": "aws-cloud-engineer",
+          "title": "AWS Cloud Engineer",
+          "topics": [
+            {
+              "title": "Core services",
+              "description": "EC2, VPC (subnets, route tables, NAT, security groups), S3, IAM, RDS, ELB, Auto Scaling, Route 53, CloudFront",
+              "lessons": [
+                "EC2",
+                "VPC (subnets, route tables, NAT, security groups)",
+                "S3",
+                "IAM",
+                "RDS",
+                "ELB",
+                "Auto Scaling",
+                "Route 53",
+                "CloudFront"
+              ]
+            },
+            {
+              "title": "Serverless and containers",
+              "description": "Lambda, API Gateway, ECS, EKS, Fargate, ECR",
+              "lessons": [
+                "Lambda",
+                "API Gateway",
+                "ECS",
+                "EKS",
+                "Fargate",
+                "ECR"
+              ]
+            },
+            {
+              "title": "Infrastructure as code",
+              "description": "Terraform (primary), CloudFormation",
+              "lessons": [
+                "Terraform (primary)",
+                "CloudFormation"
+              ]
+            },
+            {
+              "title": "Monitoring",
+              "description": "CloudWatch, CloudTrail, AWS Config",
+              "lessons": [
+                "CloudWatch",
+                "CloudTrail",
+                "AWS Config"
+              ]
+            },
+            {
+              "title": "Security",
+              "description": "IAM policies and roles, KMS, Secrets Manager, Well-Architected Framework",
+              "lessons": [
+                "IAM policies and roles",
+                "KMS",
+                "Secrets Manager",
+                "Well-Architected Framework"
+              ]
+            },
+            {
+              "title": "Scripting",
+              "description": "Bash, Python (boto3), AWS CLI",
+              "lessons": [
+                "Bash",
+                "Python (boto3)",
+                "AWS CLI"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Amazon Q Developer for CLI help, troubleshooting and generating Terraform / CloudFormation (always reviewed before apply). Provisioning and securing AI workloads: Amazon Bedrock, SageMaker endpoints, GPU instances (EC2 P and G families), service quotas and VPC endpoints for AI services",
+              "lessons": [
+                "Amazon Q Developer for CLI help, troubleshooting and generating Terraform / CloudFormation (always reviewed before apply)",
+                "Provisioning and securing AI workloads: Amazon Bedrock, SageMaker endpoints, GPU instances (EC2 P and G families), service quotas and VPC endpoints for AI services"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Three-tier web app in a custom VPC, built entirely with Terraform, with monitoring and alerts",
+              "lessons": [
+                "Three-tier web app in a custom VPC",
+                "Built entirely with Terraform",
+                "With monitoring and alerts"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "azure-cloud-engineer",
+          "title": "Azure Cloud Engineer",
+          "topics": [
+            {
+              "title": "Core services",
+              "description": "Virtual Machines, VNets, NSGs, Storage Accounts, Azure SQL, Load Balancer, Application Gateway, Azure DNS",
+              "lessons": [
+                "Virtual Machines",
+                "VNets",
+                "NSGs",
+                "Storage Accounts",
+                "Azure SQL",
+                "Load Balancer",
+                "Application Gateway",
+                "Azure DNS"
+              ]
+            },
+            {
+              "title": "Identity",
+              "description": "Microsoft Entra ID, RBAC, Managed Identities",
+              "lessons": [
+                "Microsoft Entra ID",
+                "RBAC",
+                "Managed Identities"
+              ]
+            },
+            {
+              "title": "Serverless and containers",
+              "description": "Azure Functions, App Service, AKS, Container Apps, ACR",
+              "lessons": [
+                "Azure Functions",
+                "App Service",
+                "AKS",
+                "Container Apps",
+                "ACR"
+              ]
+            },
+            {
+              "title": "Infrastructure as code",
+              "description": "Terraform, Bicep / ARM templates",
+              "lessons": [
+                "Terraform",
+                "Bicep / ARM templates"
+              ]
+            },
+            {
+              "title": "Monitoring",
+              "description": "Azure Monitor, Log Analytics, Application Insights",
+              "lessons": [
+                "Azure Monitor",
+                "Log Analytics",
+                "Application Insights"
+              ]
+            },
+            {
+              "title": "Scripting",
+              "description": "PowerShell, Azure CLI, Bash",
+              "lessons": [
+                "PowerShell",
+                "Azure CLI",
+                "Bash"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Copilot in Azure for troubleshooting and queries. GitHub Copilot for Bicep / Terraform. Provisioning and securing Azure OpenAI and Azure AI Foundry: quotas, private endpoints, managed identity access, content filtering settings",
+              "lessons": [
+                "Copilot in Azure for troubleshooting and queries",
+                "GitHub Copilot for Bicep / Terraform",
+                "Provisioning and securing Azure OpenAI and Azure AI Foundry: quotas, private endpoints, managed identity access, content filtering settings"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Hub-and-spoke network with an App Service + Azure SQL app, deployed with Bicep or Terraform",
+              "lessons": [
+                "Hub-and-spoke network with an App Service + Azure SQL app, deployed with Bicep or Terraform"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "devops-engineer",
+          "title": "DevOps Engineer",
+          "topics": [
+            {
+              "title": "Linux and scripting",
+              "description": "Linux admin, Bash, Python",
+              "lessons": [
+                "Linux admin",
+                "Bash",
+                "Python"
+              ]
+            },
+            {
+              "title": "Source control",
+              "description": "Git, branching strategies, GitHub / GitLab / Azure Repos",
+              "lessons": [
+                "Git",
+                "Branching strategies",
+                "GitHub / GitLab / Azure Repos"
+              ]
+            },
+            {
+              "title": "CI/CD",
+              "description": "Jenkins, GitHub Actions, GitLab CI, Azure DevOps Pipelines",
+              "lessons": [
+                "Jenkins",
+                "GitHub Actions",
+                "GitLab CI",
+                "Azure DevOps Pipelines"
+              ]
+            },
+            {
+              "title": "Containers",
+              "description": "Docker, Docker Compose, Kubernetes (deployments, services, ingress, Helm)",
+              "lessons": [
+                "Docker",
+                "Docker Compose",
+                "Kubernetes (deployments, services, ingress, Helm)"
+              ]
+            },
+            {
+              "title": "Infrastructure as code",
+              "description": "Terraform, Ansible (configuration management)",
+              "lessons": [
+                "Terraform",
+                "Ansible (configuration management)"
+              ]
+            },
+            {
+              "title": "GitOps",
+              "description": "Argo CD or Flux",
+              "lessons": [
+                "Argo CD or Flux"
+              ]
+            },
+            {
+              "title": "Code quality and security",
+              "description": "SonarQube, Trivy, Snyk",
+              "lessons": [
+                "SonarQube",
+                "Trivy",
+                "Snyk"
+              ]
+            },
+            {
+              "title": "Monitoring",
+              "description": "Prometheus, Grafana, ELK / EFK stack",
+              "lessons": [
+                "Prometheus",
+                "Grafana",
+                "ELK / EFK stack"
+              ]
+            },
+            {
+              "title": "Cloud",
+              "description": "One of AWS or Azure to working depth",
+              "lessons": [
+                "One of AWS or Azure to working depth"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AI in the delivery pipeline: Copilot for YAML, Dockerfiles and Helm charts; AI pull request review (Copilot code review, CodeRabbit); AI coding agents running in CI (Claude Code GitHub Actions, Copilot coding agent). Hosting LLMs on Kubernetes (vLLM, KServe) and GPU node pools",
+              "lessons": [
+                "AI in the delivery pipeline: Copilot for YAML, Dockerfiles and Helm charts; AI pull request review (Copilot code review, CodeRabbit); AI coding agents running in CI (Claude Code GitHub Actions, Copilot coding agent)",
+                "Hosting LLMs on Kubernetes (vLLM, KServe) and GPU node pools"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Full pipeline: code commit triggers build, test, security scan, Docker image, Helm deploy to Kubernetes, Grafana dashboard",
+              "lessons": [
+                "Full pipeline: code commit triggers build",
+                "Test",
+                "Security scan",
+                "Docker image",
+                "Helm deploy to Kubernetes",
+                "Grafana dashboard"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "site-reliability-engineer-sre",
+          "title": "Site Reliability Engineer (SRE)",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "Everything in DevOps Engineer, plus stronger Linux internals and networking",
+              "lessons": [
+                "Everything in DevOps Engineer",
+                "Plus stronger Linux internals and networking"
+              ]
+            },
+            {
+              "title": "Reliability concepts",
+              "description": "SLIs, SLOs, SLAs (how uptime targets are measured and promised), error budgets, toil reduction",
+              "lessons": [
+                "SLIs",
+                "SLOs",
+                "SLAs (how uptime targets are measured and promised)",
+                "Error budgets",
+                "Toil reduction"
+              ]
+            },
+            {
+              "title": "Observability",
+              "description": "Prometheus, Grafana, OpenTelemetry, Datadog, Splunk, New Relic or Dynatrace",
+              "lessons": [
+                "Prometheus",
+                "Grafana",
+                "OpenTelemetry",
+                "Datadog",
+                "Splunk",
+                "New Relic or Dynatrace"
+              ]
+            },
+            {
+              "title": "Incident management",
+              "description": "PagerDuty / Opsgenie, runbooks, blameless postmortems",
+              "lessons": [
+                "PagerDuty / Opsgenie",
+                "Runbooks",
+                "Blameless postmortems"
+              ]
+            },
+            {
+              "title": "Programming",
+              "description": "Python or Go for automation",
+              "lessons": [
+                "Python or Go for automation"
+              ]
+            },
+            {
+              "title": "Performance",
+              "description": "Load testing (JMeter, k6), capacity planning, chaos engineering basics",
+              "lessons": [
+                "Load testing (JMeter, k6)",
+                "Capacity planning",
+                "Chaos engineering basics"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AIOps: anomaly detection and root-cause features in Datadog (Watchdog / Bits AI), Dynatrace Davis, PagerDuty AIOps. LLM-assisted log and incident analysis. Observing LLM apps: latency, error rates, token usage, OpenTelemetry GenAI conventions",
+              "lessons": [
+                "AIOps: anomaly detection and root-cause features in Datadog (Watchdog / Bits AI), Dynatrace Davis, PagerDuty AIOps",
+                "LLM-assisted log and incident analysis",
+                "Observing LLM apps: latency",
+                "Error rates",
+                "Token usage",
+                "OpenTelemetry GenAI conventions"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Define SLOs for a sample app, build dashboards and alerts, run a simulated outage and write the postmortem",
+              "lessons": [
+                "Define SLOs for a sample app, build dashboards and alerts, run a simulated outage and write the postmortem"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "systems-administrator-linux-windows",
+          "title": "Systems Administrator (Linux / Windows)",
+          "topics": [
+            {
+              "title": "Linux",
+              "description": "RHEL / Ubuntu admin, users and permissions, systemd, LVM, cron, patching, shell scripting",
+              "lessons": [
+                "RHEL / Ubuntu admin",
+                "Users and permissions",
+                "Systemd",
+                "LVM",
+                "Cron",
+                "Patching",
+                "Shell scripting"
+              ]
+            },
+            {
+              "title": "Windows",
+              "description": "Windows Server, Active Directory, Group Policy, DNS, DHCP, PowerShell",
+              "lessons": [
+                "Windows Server",
+                "Active Directory",
+                "Group Policy",
+                "DNS",
+                "DHCP",
+                "PowerShell"
+              ]
+            },
+            {
+              "title": "Virtualization",
+              "description": "VMware vSphere, Hyper-V",
+              "lessons": [
+                "VMware vSphere",
+                "Hyper-V"
+              ]
+            },
+            {
+              "title": "Backup and storage",
+              "description": "Veeam or similar, SAN / NAS basics",
+              "lessons": [
+                "Veeam or similar",
+                "SAN / NAS basics"
+              ]
+            },
+            {
+              "title": "Automation",
+              "description": "Ansible, PowerShell DSC",
+              "lessons": [
+                "Ansible",
+                "PowerShell DSC"
+              ]
+            },
+            {
+              "title": "Monitoring and ITSM",
+              "description": "Nagios / Zabbix, ServiceNow (tickets, change management)",
+              "lessons": [
+                "Nagios / Zabbix",
+                "ServiceNow (tickets, change management)"
+              ]
+            },
+            {
+              "title": "Cloud bridge",
+              "description": "Microsoft 365 / Intune basics, hybrid AD with Entra ID",
+              "lessons": [
+                "Microsoft 365 / Intune basics",
+                "Hybrid AD with Entra ID"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Microsoft 365 Copilot rollout and admin: licensing, permission cleanup so Copilot does not expose overshared files. AI-generated PowerShell / Bash scripts (reviewed and tested before running). ServiceNow Now Assist for ticket triage and summaries",
+              "lessons": [
+                "Microsoft 365 Copilot rollout and admin: licensing, permission cleanup so Copilot does not expose overshared files",
+                "AI-generated PowerShell / Bash scripts (reviewed and tested before running)",
+                "ServiceNow Now Assist for ticket triage and summaries"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "network-engineer",
+          "title": "Network Engineer",
+          "topics": [
+            {
+              "title": "Fundamentals",
+              "description": "OSI model, TCP/IP, subnetting, VLANs, STP",
+              "lessons": [
+                "OSI model",
+                "TCP/IP",
+                "Subnetting",
+                "VLANs",
+                "STP"
+              ]
+            },
+            {
+              "title": "Routing and switching",
+              "description": "OSPF, BGP, EIGRP, Cisco IOS, Juniper basics",
+              "lessons": [
+                "OSPF",
+                "BGP",
+                "EIGRP",
+                "Cisco IOS",
+                "Juniper basics"
+              ]
+            },
+            {
+              "title": "Security",
+              "description": "Firewalls (Palo Alto, Fortinet, Cisco ASA), VPN (IPsec, SSL)",
+              "lessons": [
+                "Firewalls (Palo Alto, Fortinet, Cisco ASA)",
+                "VPN (IPsec, SSL)"
+              ]
+            },
+            {
+              "title": "Modern networking",
+              "description": "SD-WAN, load balancers (F5), Zero Trust network access",
+              "lessons": [
+                "SD-WAN",
+                "Load balancers (F5)",
+                "Zero Trust network access"
+              ]
+            },
+            {
+              "title": "Cloud networking",
+              "description": "AWS VPC / Transit Gateway, Azure VNet / ExpressRoute",
+              "lessons": [
+                "AWS VPC / Transit Gateway",
+                "Azure VNet / ExpressRoute"
+              ]
+            },
+            {
+              "title": "Automation",
+              "description": "Python (Netmiko, NAPALM), Ansible for networks",
+              "lessons": [
+                "Python (Netmiko, NAPALM)",
+                "Ansible for networks"
+              ]
+            },
+            {
+              "title": "Tools",
+              "description": "Wireshark, SolarWinds, GNS3 / Cisco Packet Tracer labs",
+              "lessons": [
+                "Wireshark",
+                "SolarWinds",
+                "GNS3 / Cisco Packet Tracer labs"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AI-driven networking: Juniper Mist AI (Marvis), Cisco AI Assistant, ThousandEyes. AI for config generation and validation (always reviewed). Networking for AI clusters: high-bandwidth GPU networking, RoCE / InfiniBand awareness",
+              "lessons": [
+                "AI-driven networking: Juniper Mist AI (Marvis)",
+                "Cisco AI Assistant",
+                "ThousandEyes",
+                "AI for config generation and validation (always reviewed)",
+                "Networking for AI clusters: high-bandwidth GPU networking",
+                "RoCE / InfiniBand awareness"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "finops-engineer-cloud-cost-analyst",
+          "title": "FinOps Engineer / Cloud Cost Analyst",
+          "topics": [
+            {
+              "title": "Concepts",
+              "description": "FinOps (Cloud Financial Operations) Framework and its three phases: Inform (see where money goes), Optimize (cut waste), Operate (make it routine). Unit economics (cost per customer or per transaction). Showback (reporting each team's cloud cost) vs chargeback (actually billing it to them)",
+              "lessons": [
+                "FinOps (Cloud Financial Operations) Framework and its three phases: Inform (see where money goes), Optimize (cut waste), Operate (make it routine)",
+                "Unit economics (cost per customer or per transaction)",
+                "Showback (reporting each team's cloud cost) vs chargeback (actually billing it to them)"
+              ]
+            },
+            {
+              "title": "AWS billing",
+              "description": "Cost Explorer, Cost and Usage Report (CUR), AWS Budgets, Compute Optimizer, Savings Plans, Reserved Instances, Spot Instances",
+              "lessons": [
+                "Cost Explorer",
+                "Cost and Usage Report (CUR)",
+                "AWS Budgets",
+                "Compute Optimizer",
+                "Savings Plans",
+                "Reserved Instances",
+                "Spot Instances"
+              ]
+            },
+            {
+              "title": "Azure billing",
+              "description": "Cost Management + Billing, Azure Advisor, Reservations, Savings Plans, Azure Hybrid Benefit",
+              "lessons": [
+                "Cost Management + Billing",
+                "Azure Advisor",
+                "Reservations",
+                "Savings Plans",
+                "Azure Hybrid Benefit"
+              ]
+            },
+            {
+              "title": "GCP billing (optional)",
+              "description": "Billing export to BigQuery, committed use discounts",
+              "lessons": [
+                "Billing export to BigQuery",
+                "Committed use discounts"
+              ]
+            },
+            {
+              "title": "Standards",
+              "description": "FOCUS (FinOps Open Cost and Usage Specification: one common format for billing data across clouds)",
+              "lessons": [
+                "FOCUS (FinOps Open Cost and Usage Specification: one common format for billing data across clouds)"
+              ]
+            },
+            {
+              "title": "Optimization techniques",
+              "description": "Rightsizing, autoscaling, scheduling non-prod shutdowns, idle resource cleanup, storage tiering, commitment (reservation) management",
+              "lessons": [
+                "Rightsizing",
+                "Autoscaling",
+                "Scheduling non-prod shutdowns",
+                "Idle resource cleanup",
+                "Storage tiering",
+                "Commitment (reservation) management"
+              ]
+            },
+            {
+              "title": "Kubernetes cost",
+              "description": "Kubecost / OpenCost, namespace and pod cost allocation",
+              "lessons": [
+                "Kubecost / OpenCost",
+                "Namespace and pod cost allocation"
+              ]
+            },
+            {
+              "title": "Governance",
+              "description": "Tagging strategy and enforcement, budgets and anomaly alerts, Azure Policy / AWS Service Control Policies",
+              "lessons": [
+                "Tagging strategy and enforcement",
+                "Budgets and anomaly alerts",
+                "Azure Policy / AWS Service Control Policies"
+              ]
+            },
+            {
+              "title": "Shift-left cost",
+              "description": "Infracost (shows cost impact of Terraform changes inside the CI/CD pipeline)",
+              "lessons": [
+                "Infracost (shows cost impact of Terraform changes inside the CI/CD pipeline)"
+              ]
+            },
+            {
+              "title": "Tools",
+              "description": "Apptio Cloudability, VMware Tanzu CloudHealth, Flexera, Vantage, CloudZero",
+              "lessons": [
+                "Apptio Cloudability",
+                "VMware Tanzu CloudHealth",
+                "Flexera",
+                "Vantage",
+                "CloudZero"
+              ]
+            },
+            {
+              "title": "Data and reporting",
+              "description": "SQL, advanced Excel, Power BI or Amazon QuickSight, Python for billing data analysis",
+              "lessons": [
+                "SQL",
+                "Advanced Excel",
+                "Power BI or Amazon QuickSight",
+                "Python for billing data analysis"
+              ]
+            },
+            {
+              "title": "Soft skills",
+              "description": "Presenting savings to finance leaders, forecasting cloud spend, working with engineering teams on trade-offs",
+              "lessons": [
+                "Presenting savings to finance leaders",
+                "Forecasting cloud spend",
+                "Working with engineering teams on trade-offs"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "FinOps for AI: tracking LLM token spend and GPU costs, Bedrock / Azure OpenAI pricing (pay-as-you-go vs provisioned throughput), cost per AI request, caching and model selection to cut cost. AI cost assistants (Amazon Q in Cost Explorer, Copilot in Azure cost queries)",
+              "lessons": [
+                "FinOps for AI: tracking LLM token spend and GPU costs",
+                "Bedrock / Azure OpenAI pricing (pay-as-you-go vs provisioned throughput)",
+                "Cost per AI request",
+                "Caching and model selection to cut cost",
+                "AI cost assistants (Amazon Q in Cost Explorer, Copilot in Azure cost queries)"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Load a billing export into a dashboard, define a tagging policy, add Infracost to a Terraform pipeline, and deliver a savings recommendation report with dollar impact",
+              "lessons": [
+                "Load a billing export into a dashboard, define a tagging policy, add Infracost to a Terraform pipeline, and deliver a savings recommendation report with dollar impact"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "devsecops-engineer",
+          "title": "DevSecOps Engineer",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "DevOps Engineer core (Linux, Git, CI/CD, Docker, Kubernetes, Terraform) plus one cloud (AWS or Azure)",
+              "lessons": [
+                "DevOps Engineer core (Linux, Git, CI/CD, Docker, Kubernetes, Terraform) plus one cloud (AWS or Azure)"
+              ]
+            },
+            {
+              "title": "Pipeline security",
+              "description": "SAST (scans source code): SonarQube, Semgrep. SCA (scans open-source libraries): Snyk, Dependabot. DAST (tests the running app): OWASP ZAP. Secret scanning: Gitleaks, GitHub secret scanning",
+              "lessons": [
+                "SAST (scans source code): SonarQube",
+                "Semgrep",
+                "SCA (scans open-source libraries): Snyk",
+                "Dependabot",
+                "DAST (tests the running app): OWASP ZAP",
+                "Secret scanning: Gitleaks",
+                "GitHub secret scanning"
+              ]
+            },
+            {
+              "title": "Container security",
+              "description": "Trivy, Grype, minimal base images, image signing with Sigstore / Cosign",
+              "lessons": [
+                "Trivy",
+                "Grype",
+                "Minimal base images",
+                "Image signing with Sigstore / Cosign"
+              ]
+            },
+            {
+              "title": "Kubernetes security",
+              "description": "RBAC, network policies, Pod Security Standards, admission control with Kyverno or OPA Gatekeeper, runtime detection with Falco",
+              "lessons": [
+                "RBAC, network policies, Pod Security Standards, admission control with Kyverno or OPA Gatekeeper, runtime detection with Falco"
+              ]
+            },
+            {
+              "title": "Infrastructure as code security",
+              "description": "Checkov, tfsec / Trivy config, policy as code with OPA (Rego) or HashiCorp Sentinel",
+              "lessons": [
+                "Checkov, tfsec / Trivy config, policy as code with OPA (Rego) or HashiCorp Sentinel"
+              ]
+            },
+            {
+              "title": "Secrets management",
+              "description": "HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, External Secrets Operator",
+              "lessons": [
+                "HashiCorp Vault",
+                "AWS Secrets Manager",
+                "Azure Key Vault",
+                "External Secrets Operator"
+              ]
+            },
+            {
+              "title": "Cloud security posture",
+              "description": "AWS Security Hub / GuardDuty, Microsoft Defender for Cloud, Wiz or Prisma Cloud",
+              "lessons": [
+                "AWS Security Hub / GuardDuty",
+                "Microsoft Defender for Cloud",
+                "Wiz or Prisma Cloud"
+              ]
+            },
+            {
+              "title": "Supply chain security",
+              "description": "SBOM generation (Syft), SLSA framework (levels of build integrity), artifact provenance",
+              "lessons": [
+                "SBOM generation (Syft)",
+                "SLSA framework (levels of build integrity)",
+                "Artifact provenance"
+              ]
+            },
+            {
+              "title": "Compliance as code",
+              "description": "CIS Benchmarks, automated evidence collection for SOC 2 / PCI audits",
+              "lessons": [
+                "CIS Benchmarks, automated evidence collection for SOC 2 / PCI audits"
+              ]
+            },
+            {
+              "title": "Monitoring and response",
+              "description": "Sending pipeline and runtime alerts to a SIEM (Splunk, Sentinel)",
+              "lessons": [
+                "Sending pipeline and runtime alerts to a SIEM (Splunk, Sentinel)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Securing AI pipelines: AI-powered fixes (GitHub Copilot Autofix, Snyk DeepCode AI), scanning AI-generated code, model supply chain (model signing, scanning model files with ModelScan), keeping secrets out of prompts, OWASP Top 10 for LLM Applications",
+              "lessons": [
+                "Securing AI pipelines: AI-powered fixes (GitHub Copilot Autofix, Snyk DeepCode AI)",
+                "Scanning AI-generated code",
+                "Model supply chain (model signing, scanning model files with ModelScan)",
+                "Keeping secrets out of prompts",
+                "OWASP Top 10 for LLM Applications"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Secure CI/CD pipeline with SAST, SCA, secret and image scanning gates, signed images, and Kyverno policies that block non-compliant deployments to Kubernetes",
+              "lessons": [
+                "Secure CI/CD pipeline with SAST, SCA, secret and image scanning gates, signed images, and Kyverno policies that block non-compliant deployments to Kubernetes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "data",
+      "title": "Data",
+      "tracks": [
+        {
+          "slug": "data-engineer-azure",
+          "title": "Data Engineer (Azure)",
+          "topics": [
+            {
+              "title": "Languages",
+              "description": "Advanced SQL (window functions, CTEs, tuning), Python, PySpark",
+              "lessons": [
+                "Advanced SQL (window functions, CTEs, tuning)",
+                "Python",
+                "PySpark"
+              ]
+            },
+            {
+              "title": "Processing",
+              "description": "Apache Spark, Azure Databricks, Delta Lake",
+              "lessons": [
+                "Apache Spark",
+                "Azure Databricks",
+                "Delta Lake"
+              ]
+            },
+            {
+              "title": "Orchestration and ingestion",
+              "description": "Azure Data Factory, Fabric Data Pipelines",
+              "lessons": [
+                "Azure Data Factory",
+                "Fabric Data Pipelines"
+              ]
+            },
+            {
+              "title": "Storage and warehouse",
+              "description": "ADLS Gen2, Azure Synapse, Microsoft Fabric (Lakehouse, Warehouse, OneLake)",
+              "lessons": [
+                "ADLS Gen2",
+                "Azure Synapse",
+                "Microsoft Fabric (Lakehouse, Warehouse, OneLake)"
+              ]
+            },
+            {
+              "title": "Streaming",
+              "description": "Azure Event Hubs, Spark Structured Streaming, Kafka (optional)",
+              "lessons": [
+                "Azure Event Hubs",
+                "Spark Structured Streaming",
+                "Kafka (optional)"
+              ]
+            },
+            {
+              "title": "Modeling",
+              "description": "Star and snowflake schema, medallion architecture (bronze / silver / gold layers), slowly changing dimensions",
+              "lessons": [
+                "Star and snowflake schema",
+                "Medallion architecture (bronze / silver / gold layers)",
+                "Slowly changing dimensions"
+              ]
+            },
+            {
+              "title": "Governance",
+              "description": "Unity Catalog, Microsoft Purview",
+              "lessons": [
+                "Unity Catalog",
+                "Microsoft Purview"
+              ]
+            },
+            {
+              "title": "DevOps",
+              "description": "Git, Azure DevOps CI/CD for data pipelines, Terraform (optional)",
+              "lessons": [
+                "Git",
+                "Azure DevOps CI/CD for data pipelines",
+                "Terraform (optional)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Databricks Assistant and Copilot in Fabric for SQL / PySpark. Data prep for AI: document chunking and embedding pipelines, vector search (Databricks Vector Search, Azure AI Search). AI functions inside SQL (Databricks ai_query, Fabric AI functions)",
+              "lessons": [
+                "Databricks Assistant and Copilot in Fabric for SQL / PySpark",
+                "Data prep for AI: document chunking and embedding pipelines",
+                "Vector search (Databricks Vector Search, Azure AI Search)",
+                "AI functions inside SQL (Databricks ai_query, Fabric AI functions)"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Ingest raw sales files to ADLS, transform bronze to gold in Databricks, serve to Power BI",
+              "lessons": [
+                "Ingest raw sales files to ADLS",
+                "Transform bronze to gold in Databricks",
+                "Serve to Power BI"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "data-engineer-aws",
+          "title": "Data Engineer (AWS)",
+          "topics": [
+            {
+              "title": "Languages",
+              "description": "Advanced SQL, Python, PySpark, Scala (optional)",
+              "lessons": [
+                "Advanced SQL",
+                "Python",
+                "PySpark",
+                "Scala (optional)"
+              ]
+            },
+            {
+              "title": "Processing",
+              "description": "Spark on EMR or Databricks, AWS Glue",
+              "lessons": [
+                "Spark on EMR or Databricks",
+                "AWS Glue"
+              ]
+            },
+            {
+              "title": "Orchestration",
+              "description": "Apache Airflow (MWAA), AWS Step Functions",
+              "lessons": [
+                "Apache Airflow (MWAA)",
+                "AWS Step Functions"
+              ]
+            },
+            {
+              "title": "Storage and warehouse",
+              "description": "S3 data lake, Redshift, Snowflake (high demand), Athena",
+              "lessons": [
+                "S3 data lake",
+                "Redshift",
+                "Snowflake (high demand)",
+                "Athena"
+              ]
+            },
+            {
+              "title": "Transformation",
+              "description": "dbt (data build tool)",
+              "lessons": [
+                "Dbt (data build tool)"
+              ]
+            },
+            {
+              "title": "Streaming",
+              "description": "Kafka / Amazon MSK, Kinesis",
+              "lessons": [
+                "Kafka / Amazon MSK",
+                "Kinesis"
+              ]
+            },
+            {
+              "title": "Table formats",
+              "description": "Delta Lake, Apache Iceberg",
+              "lessons": [
+                "Delta Lake",
+                "Apache Iceberg"
+              ]
+            },
+            {
+              "title": "DevOps",
+              "description": "Git, GitHub Actions, Terraform, Docker",
+              "lessons": [
+                "Git",
+                "GitHub Actions",
+                "Terraform",
+                "Docker"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Amazon Q in Glue and Redshift for SQL generation, Snowflake Cortex AI functions. Building embedding pipelines into vector stores (OpenSearch, pgvector). Processing unstructured data (PDFs, emails) for RAG",
+              "lessons": [
+                "Amazon Q in Glue and Redshift for SQL generation, Snowflake Cortex AI functions",
+                "Building embedding pipelines into vector stores (OpenSearch, pgvector)",
+                "Processing unstructured data (PDFs, emails) for RAG"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Airflow pipeline loading S3 data into Snowflake, transformed with dbt, with data quality tests",
+              "lessons": [
+                "Airflow pipeline loading S3 data into Snowflake, transformed with dbt, with data quality tests"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "data-analyst-bi-developer",
+          "title": "Data Analyst / BI Developer",
+          "topics": [
+            {
+              "title": "Core",
+              "description": "Excel (advanced: pivots, Power Query, lookups), SQL",
+              "lessons": [
+                "Excel (advanced: pivots, Power Query, lookups)",
+                "SQL"
+              ]
+            },
+            {
+              "title": "BI tool (pick one primary)",
+              "description": "Power BI (DAX, Power Query M, data modeling, row-level security, Power BI Service) or Tableau (calculated fields, LOD expressions, Tableau Server)",
+              "lessons": [
+                "Power BI (DAX, Power Query M, data modeling, row-level security, Power BI Service) or Tableau (calculated fields, LOD expressions, Tableau Server)"
+              ]
+            },
+            {
+              "title": "Programming",
+              "description": "Python (pandas, matplotlib, seaborn)",
+              "lessons": [
+                "Python (pandas, matplotlib, seaborn)"
+              ]
+            },
+            {
+              "title": "Statistics",
+              "description": "Descriptive statistics, A/B testing basics, trend and cohort analysis",
+              "lessons": [
+                "Descriptive statistics",
+                "A/B testing basics",
+                "Trend and cohort analysis"
+              ]
+            },
+            {
+              "title": "Data sources",
+              "description": "SQL Server, Snowflake, Fabric, Salesforce / ERP extracts",
+              "lessons": [
+                "SQL Server",
+                "Snowflake",
+                "Fabric",
+                "Salesforce / ERP extracts"
+              ]
+            },
+            {
+              "title": "Soft skills",
+              "description": "Requirement gathering, data storytelling, presenting to business users",
+              "lessons": [
+                "Requirement gathering",
+                "Data storytelling",
+                "Presenting to business users"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Copilot in Power BI (report creation, DAX generation, narrative summaries) or Tableau Agent / Tableau Pulse. Preparing semantic models so AI answers correctly. Using ChatGPT / Claude for analysis with result validation",
+              "lessons": [
+                "Copilot in Power BI (report creation, DAX generation, narrative summaries) or Tableau Agent / Tableau Pulse",
+                "Preparing semantic models so AI answers correctly",
+                "Using ChatGPT / Claude for analysis with result validation"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Executive sales dashboard in Power BI with DAX measures and drill-downs",
+              "lessons": [
+                "Executive sales dashboard in Power BI with DAX measures and drill-downs"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "data-scientist",
+          "title": "Data Scientist",
+          "topics": [
+            {
+              "title": "Math and statistics",
+              "description": "Probability, hypothesis testing, regression, linear algebra basics",
+              "lessons": [
+                "Probability",
+                "Hypothesis testing",
+                "Regression",
+                "Linear algebra basics"
+              ]
+            },
+            {
+              "title": "Programming",
+              "description": "Python, NumPy, pandas, Jupyter, SQL",
+              "lessons": [
+                "Python",
+                "NumPy",
+                "Pandas",
+                "Jupyter",
+                "SQL"
+              ]
+            },
+            {
+              "title": "Machine learning",
+              "description": "scikit-learn, XGBoost / LightGBM, feature engineering, model evaluation",
+              "lessons": [
+                "Scikit-learn",
+                "XGBoost / LightGBM",
+                "Feature engineering",
+                "Model evaluation"
+              ]
+            },
+            {
+              "title": "Deep learning",
+              "description": "PyTorch or TensorFlow / Keras, NLP basics",
+              "lessons": [
+                "PyTorch or TensorFlow / Keras",
+                "NLP basics"
+              ]
+            },
+            {
+              "title": "Visualization",
+              "description": "matplotlib, seaborn, Plotly",
+              "lessons": [
+                "Matplotlib",
+                "Seaborn",
+                "Plotly"
+              ]
+            },
+            {
+              "title": "Platforms",
+              "description": "Databricks, AWS SageMaker or Azure ML",
+              "lessons": [
+                "Databricks",
+                "AWS SageMaker or Azure ML"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "LLMs for text classification and feature extraction, choosing between an LLM and a classical model, AutoML (SageMaker Autopilot, Azure AutoML), evaluating LLM outputs, AI coding assistants in Jupyter",
+              "lessons": [
+                "LLMs for text classification and feature extraction, choosing between an LLM and a classical model, AutoML (SageMaker Autopilot, Azure AutoML), evaluating LLM outputs, AI coding assistants in Jupyter"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Customer churn prediction model with explainability (SHAP) and a short business readout",
+              "lessons": [
+                "Customer churn prediction model with explainability (SHAP) and a short business readout"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "ml-engineer-mlops-engineer",
+          "title": "ML Engineer / MLOps Engineer",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "Python, ML fundamentals from Data Scientist track, software engineering practices",
+              "lessons": [
+                "Python",
+                "ML fundamentals from Data Scientist track",
+                "Software engineering practices"
+              ]
+            },
+            {
+              "title": "Model serving",
+              "description": "FastAPI, Docker, Kubernetes, model serving tools (BentoML, KServe, SageMaker endpoints)",
+              "lessons": [
+                "FastAPI",
+                "Docker",
+                "Kubernetes",
+                "Model serving tools (BentoML, KServe, SageMaker endpoints)"
+              ]
+            },
+            {
+              "title": "MLOps tooling",
+              "description": "MLflow, Kubeflow, Weights & Biases, feature stores",
+              "lessons": [
+                "MLflow",
+                "Kubeflow",
+                "Weights & Biases",
+                "Feature stores"
+              ]
+            },
+            {
+              "title": "Pipelines",
+              "description": "Airflow, CI/CD for models (GitHub Actions)",
+              "lessons": [
+                "Airflow",
+                "CI/CD for models (GitHub Actions)"
+              ]
+            },
+            {
+              "title": "Monitoring",
+              "description": "Data and model drift detection, Evidently AI",
+              "lessons": [
+                "Data and model drift detection",
+                "Evidently AI"
+              ]
+            },
+            {
+              "title": "Cloud",
+              "description": "SageMaker, Azure ML, or Vertex AI (GCP)",
+              "lessons": [
+                "SageMaker",
+                "Azure ML",
+                "Or Vertex AI (GCP)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "LLMOps: serving LLMs (vLLM, TGI), prompt and model version management, evaluation pipelines, MLflow for LLMs, guardrails, GPU capacity and cost management",
+              "lessons": [
+                "LLMOps: serving LLMs (vLLM, TGI)",
+                "Prompt and model version management",
+                "Evaluation pipelines",
+                "MLflow for LLMs",
+                "Guardrails",
+                "GPU capacity and cost management"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Train, register, deploy and monitor a model end to end with MLflow and Docker",
+              "lessons": [
+                "Train, register, deploy and monitor a model end to end with MLflow and Docker"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "genai-ai-engineer",
+          "title": "GenAI / AI Engineer",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "Python, REST APIs, basic ML concepts",
+              "lessons": [
+                "Python",
+                "REST APIs",
+                "Basic ML concepts"
+              ]
+            },
+            {
+              "title": "LLM platforms",
+              "description": "OpenAI, Anthropic Claude, Azure OpenAI, AWS Bedrock, Google Vertex AI / Gemini",
+              "lessons": [
+                "OpenAI",
+                "Anthropic Claude",
+                "Azure OpenAI",
+                "AWS Bedrock",
+                "Google Vertex AI / Gemini"
+              ]
+            },
+            {
+              "title": "Core techniques",
+              "description": "Prompt engineering, RAG (retrieval-augmented generation: letting the model answer from your own documents), embeddings, fine-tuning basics",
+              "lessons": [
+                "Prompt engineering",
+                "RAG (retrieval-augmented generation: letting the model answer from your own documents)",
+                "Embeddings",
+                "Fine-tuning basics"
+              ]
+            },
+            {
+              "title": "Frameworks",
+              "description": "LangChain, LangGraph, LlamaIndex, Semantic Kernel",
+              "lessons": [
+                "LangChain",
+                "LangGraph",
+                "LlamaIndex",
+                "Semantic Kernel"
+              ]
+            },
+            {
+              "title": "Vector databases",
+              "description": "Pinecone, pgvector, Azure AI Search, Chroma",
+              "lessons": [
+                "Pinecone",
+                "Pgvector",
+                "Azure AI Search",
+                "Chroma"
+              ]
+            },
+            {
+              "title": "Agents",
+              "description": "Tool calling, multi-step agents, MCP (Model Context Protocol: a standard way to connect AI to tools and data)",
+              "lessons": [
+                "Tool calling",
+                "Multi-step agents",
+                "MCP (Model Context Protocol: a standard way to connect AI to tools and data)"
+              ]
+            },
+            {
+              "title": "Quality and safety",
+              "description": "Evaluation (RAGAS, LLM-as-judge), guardrails, cost and latency tuning",
+              "lessons": [
+                "Evaluation (RAGAS, LLM-as-judge)",
+                "Guardrails",
+                "Cost and latency tuning"
+              ]
+            },
+            {
+              "title": "App layer",
+              "description": "FastAPI or Streamlit, React front end (optional)",
+              "lessons": [
+                "FastAPI or Streamlit",
+                "React front end (optional)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AI-assisted engineering with Claude Code, Cursor and Copilot to build and test agents faster. Tracking new model releases and comparing models on cost, speed and quality",
+              "lessons": [
+                "AI-assisted engineering with Claude Code, Cursor and Copilot to build and test agents faster",
+                "Tracking new model releases and comparing models on cost, speed and quality"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Internal document Q&A chatbot using RAG on company PDFs, with evaluation and a simple UI",
+              "lessons": [
+                "Internal document Q&A chatbot using RAG on company PDFs, with evaluation and a simple UI"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cyber-security",
+      "title": "Cyber Security",
+      "tracks": [
+        {
+          "slug": "soc-analyst-l1-l2",
+          "title": "SOC Analyst (L1 / L2)",
+          "topics": [
+            {
+              "title": "Fundamentals",
+              "description": "Networking (TCP/IP, DNS, ports), Windows and Linux logs, common attack types (phishing, malware, ransomware)",
+              "lessons": [
+                "Networking (TCP/IP, DNS, ports)",
+                "Windows and Linux logs",
+                "Common attack types (phishing, malware, ransomware)"
+              ]
+            },
+            {
+              "title": "SIEM",
+              "description": "Splunk (primary), Microsoft Sentinel, IBM QRadar (optional)",
+              "lessons": [
+                "Splunk (primary)",
+                "Microsoft Sentinel",
+                "IBM QRadar (optional)"
+              ]
+            },
+            {
+              "title": "EDR",
+              "description": "CrowdStrike Falcon, Microsoft Defender for Endpoint, SentinelOne",
+              "lessons": [
+                "CrowdStrike Falcon",
+                "Microsoft Defender for Endpoint",
+                "SentinelOne"
+              ]
+            },
+            {
+              "title": "Frameworks",
+              "description": "MITRE ATT&CK, Cyber Kill Chain, NIST incident response lifecycle",
+              "lessons": [
+                "MITRE ATT&CK",
+                "Cyber Kill Chain",
+                "NIST incident response lifecycle"
+              ]
+            },
+            {
+              "title": "Analysis",
+              "description": "Packet analysis (Wireshark), email header analysis, threat intelligence (VirusTotal, AbuseIPDB)",
+              "lessons": [
+                "Packet analysis (Wireshark)",
+                "Email header analysis",
+                "Threat intelligence (VirusTotal, AbuseIPDB)"
+              ]
+            },
+            {
+              "title": "Automation",
+              "description": "SOAR basics (Splunk SOAR, Sentinel playbooks), Python scripting",
+              "lessons": [
+                "SOAR basics (Splunk SOAR, Sentinel playbooks)",
+                "Python scripting"
+              ]
+            },
+            {
+              "title": "Ticketing",
+              "description": "ServiceNow incident workflow",
+              "lessons": [
+                "ServiceNow incident workflow"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Microsoft Security Copilot, CrowdStrike Charlotte AI, Splunk AI Assistant for alert triage, investigation and incident summaries. Spotting AI-generated phishing and deepfake fraud. Detecting unapproved use of AI tools (shadow AI)",
+              "lessons": [
+                "Microsoft Security Copilot",
+                "CrowdStrike Charlotte AI",
+                "Splunk AI Assistant for alert triage",
+                "Investigation and incident summaries",
+                "Spotting AI-generated phishing and deepfake fraud",
+                "Detecting unapproved use of AI tools (shadow AI)"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Build a home lab (Splunk + Windows VM), simulate attacks, write detections and an incident report",
+              "lessons": [
+                "Build a home lab (Splunk + Windows VM)",
+                "Simulate attacks",
+                "Write detections and an incident report"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "cloud-security-engineer",
+          "title": "Cloud Security Engineer",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "AWS or Azure Cloud Engineer core services",
+              "lessons": [
+                "AWS or Azure Cloud Engineer core services"
+              ]
+            },
+            {
+              "title": "Cloud-native security",
+              "description": "AWS: GuardDuty, Security Hub, IAM, KMS, WAF. Azure: Defender for Cloud, Sentinel, Entra ID, Key Vault, Azure Policy",
+              "lessons": [
+                "AWS: GuardDuty",
+                "Security Hub",
+                "IAM",
+                "KMS",
+                "WAF",
+                "Azure: Defender for Cloud",
+                "Sentinel",
+                "Entra ID",
+                "Key Vault",
+                "Azure Policy"
+              ]
+            },
+            {
+              "title": "CSPM / CNAPP tools",
+              "description": "Wiz, Prisma Cloud, Microsoft Defender for Cloud",
+              "lessons": [
+                "Wiz",
+                "Prisma Cloud",
+                "Microsoft Defender for Cloud"
+              ]
+            },
+            {
+              "title": "Containers",
+              "description": "Kubernetes security, image scanning, pod security",
+              "lessons": [
+                "Kubernetes security",
+                "Image scanning",
+                "Pod security"
+              ]
+            },
+            {
+              "title": "Infrastructure as code security",
+              "description": "Terraform with Checkov / tfsec",
+              "lessons": [
+                "Terraform with Checkov / tfsec"
+              ]
+            },
+            {
+              "title": "Frameworks",
+              "description": "CIS Benchmarks, Zero Trust, shared responsibility model",
+              "lessons": [
+                "CIS Benchmarks",
+                "Zero Trust",
+                "Shared responsibility model"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Securing AI workloads: AI security posture management (Wiz AI-SPM, Defender for Cloud AI), Bedrock Guardrails, Azure AI Content Safety, data access controls for RAG, private networking for model endpoints",
+              "lessons": [
+                "Securing AI workloads: AI security posture management (Wiz AI-SPM, Defender for Cloud AI)",
+                "Bedrock Guardrails",
+                "Azure AI Content Safety",
+                "Data access controls for RAG",
+                "Private networking for model endpoints"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Harden a sample cloud account against CIS Benchmarks and produce a findings and remediation report",
+              "lessons": [
+                "Harden a sample cloud account against CIS Benchmarks and produce a findings and remediation report"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "iam-engineer",
+          "title": "IAM Engineer",
+          "topics": [
+            {
+              "title": "Concepts",
+              "description": "Authentication vs authorization, SSO, MFA, least privilege, joiner / mover / leaver lifecycle",
+              "lessons": [
+                "Authentication vs authorization",
+                "SSO",
+                "MFA",
+                "Least privilege",
+                "Joiner / mover / leaver lifecycle"
+              ]
+            },
+            {
+              "title": "Protocols",
+              "description": "SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, LDAP, Kerberos",
+              "lessons": [
+                "SAML 2.0",
+                "OAuth 2.0",
+                "OpenID Connect",
+                "SCIM",
+                "LDAP",
+                "Kerberos"
+              ]
+            },
+            {
+              "title": "Access management",
+              "description": "Okta, Microsoft Entra ID, Ping Identity",
+              "lessons": [
+                "Okta",
+                "Microsoft Entra ID",
+                "Ping Identity"
+              ]
+            },
+            {
+              "title": "Identity governance",
+              "description": "SailPoint IdentityNow / IIQ, Saviynt",
+              "lessons": [
+                "SailPoint IdentityNow / IIQ",
+                "Saviynt"
+              ]
+            },
+            {
+              "title": "Privileged access",
+              "description": "CyberArk (high demand), BeyondTrust, Delinea",
+              "lessons": [
+                "CyberArk (high demand)",
+                "BeyondTrust",
+                "Delinea"
+              ]
+            },
+            {
+              "title": "Directory",
+              "description": "Active Directory, Group Policy",
+              "lessons": [
+                "Active Directory",
+                "Group Policy"
+              ]
+            },
+            {
+              "title": "Scripting",
+              "description": "PowerShell, Java basics (for SailPoint customization)",
+              "lessons": [
+                "PowerShell",
+                "Java basics (for SailPoint customization)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Identity for AI agents and other non-human identities (service principals, API keys, OAuth for agents). AI-driven access reviews (SailPoint Atlas AI, Saviynt). Preventing Copilot oversharing through least-privilege permissions",
+              "lessons": [
+                "Identity for AI agents and other non-human identities (service principals, API keys, OAuth for agents)",
+                "AI-driven access reviews (SailPoint Atlas AI, Saviynt)",
+                "Preventing Copilot oversharing through least-privilege permissions"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Set up SSO and MFA for a sample app using Okta or Entra ID with automated user provisioning",
+              "lessons": [
+                "Set up SSO and MFA for a sample app using Okta or Entra ID with automated user provisioning"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "grc-analyst",
+          "title": "GRC Analyst",
+          "topics": [
+            {
+              "title": "Frameworks",
+              "description": "NIST CSF 2.0, NIST 800-53, ISO 27001, SOC 2, CIS Controls",
+              "lessons": [
+                "NIST CSF 2.0",
+                "NIST 800-53",
+                "ISO 27001",
+                "SOC 2",
+                "CIS Controls"
+              ]
+            },
+            {
+              "title": "Regulations",
+              "description": "HIPAA, PCI DSS, GDPR, SOX IT controls, CMMC (for defense contractors)",
+              "lessons": [
+                "HIPAA",
+                "PCI DSS",
+                "GDPR",
+                "SOX IT controls",
+                "CMMC (for defense contractors)"
+              ]
+            },
+            {
+              "title": "Risk management",
+              "description": "Risk assessments, risk registers, vendor / third-party risk",
+              "lessons": [
+                "Risk assessments",
+                "Risk registers",
+                "Vendor / third-party risk"
+              ]
+            },
+            {
+              "title": "Audit",
+              "description": "Control testing, evidence collection, audit readiness",
+              "lessons": [
+                "Control testing",
+                "Evidence collection",
+                "Audit readiness"
+              ]
+            },
+            {
+              "title": "Tools",
+              "description": "ServiceNow GRC, Archer, OneTrust, Vanta / Drata",
+              "lessons": [
+                "ServiceNow GRC",
+                "Archer",
+                "OneTrust",
+                "Vanta / Drata"
+              ]
+            },
+            {
+              "title": "Documentation",
+              "description": "Writing security policies, procedures, business continuity and disaster recovery plans",
+              "lessons": [
+                "Writing security policies, procedures, business continuity and disaster recovery plans"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AI governance: NIST AI RMF, ISO/IEC 42001, EU AI Act. Writing AI acceptable-use policies, AI vendor risk assessments, using AI tools to draft policies and map audit evidence",
+              "lessons": [
+                "AI governance: NIST AI RMF",
+                "ISO/IEC 42001",
+                "EU AI Act",
+                "Writing AI acceptable-use policies, AI vendor risk assessments, using AI tools to draft policies and map audit evidence"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "SOC 2 readiness assessment for a mock SaaS company: gap analysis plus remediation plan",
+              "lessons": [
+                "SOC 2 readiness assessment for a mock SaaS company: gap analysis plus remediation plan"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "penetration-tester-vapt-analyst",
+          "title": "Penetration Tester / VAPT Analyst",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "Networking, Linux (Kali), Windows internals, scripting (Python, Bash)",
+              "lessons": [
+                "Networking",
+                "Linux (Kali)",
+                "Windows internals",
+                "Scripting (Python, Bash)"
+              ]
+            },
+            {
+              "title": "Web app testing",
+              "description": "OWASP Top 10, Burp Suite, OWASP ZAP",
+              "lessons": [
+                "OWASP Top 10",
+                "Burp Suite",
+                "OWASP ZAP"
+              ]
+            },
+            {
+              "title": "Network testing",
+              "description": "Nmap, Metasploit, Wireshark, Nessus / Qualys (vulnerability scanning)",
+              "lessons": [
+                "Nmap",
+                "Metasploit",
+                "Wireshark",
+                "Nessus / Qualys (vulnerability scanning)"
+              ]
+            },
+            {
+              "title": "Active Directory",
+              "description": "AD attack paths and defenses, BloodHound",
+              "lessons": [
+                "AD attack paths and defenses",
+                "BloodHound"
+              ]
+            },
+            {
+              "title": "Cloud and API",
+              "description": "API security testing, cloud misconfiguration testing",
+              "lessons": [
+                "API security testing",
+                "Cloud misconfiguration testing"
+              ]
+            },
+            {
+              "title": "Practice platforms",
+              "description": "TryHackMe, Hack The Box, PortSwigger Web Security Academy",
+              "lessons": [
+                "TryHackMe",
+                "Hack The Box",
+                "PortSwigger Web Security Academy"
+              ]
+            },
+            {
+              "title": "Reporting",
+              "description": "Rules of engagement, writing findings with risk ratings and remediation",
+              "lessons": [
+                "Rules of engagement, writing findings with risk ratings and remediation"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "AI red teaming: prompt injection, jailbreaks and data leakage testing on LLM apps, OWASP Top 10 for LLM Applications, MITRE ATLAS, tools such as Garak and PyRIT. AI assistants for recon and report writing",
+              "lessons": [
+                "AI red teaming: prompt injection, jailbreaks and data leakage testing on LLM apps, OWASP Top 10 for LLM Applications, MITRE ATLAS, tools such as Garak and PyRIT",
+                "AI assistants for recon and report writing"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Full assessment of a deliberately vulnerable lab (for example DVWA or a Hack The Box machine) with a professional report",
+              "lessons": [
+                "Full assessment of a deliberately vulnerable lab (for example DVWA or a Hack The Box machine) with a professional report"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "devsecops-application-security-engineer",
+          "title": "DevSecOps / Application Security Engineer",
+          "topics": [
+            {
+              "title": "Foundation",
+              "description": "DevOps Engineer core (Git, CI/CD, Docker, Kubernetes) plus one programming language",
+              "lessons": [
+                "DevOps Engineer core (Git, CI/CD, Docker, Kubernetes) plus one programming language"
+              ]
+            },
+            {
+              "title": "Secure coding",
+              "description": "OWASP Top 10, OWASP ASVS, threat modeling (STRIDE)",
+              "lessons": [
+                "OWASP Top 10",
+                "OWASP ASVS",
+                "Threat modeling (STRIDE)"
+              ]
+            },
+            {
+              "title": "Scanning tools",
+              "description": "SAST: SonarQube, Checkmarx, Semgrep. DAST: OWASP ZAP, Burp. SCA (open-source library risk): Snyk, Dependabot",
+              "lessons": [
+                "SAST: SonarQube",
+                "Checkmarx",
+                "Semgrep",
+                "DAST: OWASP ZAP",
+                "Burp",
+                "SCA (open-source library risk): Snyk",
+                "Dependabot"
+              ]
+            },
+            {
+              "title": "Container and IaC security",
+              "description": "Trivy, Aqua, Checkov",
+              "lessons": [
+                "Trivy",
+                "Aqua",
+                "Checkov"
+              ]
+            },
+            {
+              "title": "Secrets management",
+              "description": "HashiCorp Vault, AWS Secrets Manager, Azure Key Vault",
+              "lessons": [
+                "HashiCorp Vault",
+                "AWS Secrets Manager",
+                "Azure Key Vault"
+              ]
+            },
+            {
+              "title": "Supply chain",
+              "description": "SBOM (software bill of materials), image signing (Sigstore / Cosign)",
+              "lessons": [
+                "SBOM (software bill of materials)",
+                "Image signing (Sigstore / Cosign)"
+              ]
+            },
+            {
+              "title": "AI for this role",
+              "description": "Secure use of AI coding assistants and review of AI-generated code, OWASP Top 10 for LLM Applications in apps that call LLMs, threat modeling LLM features, AI-powered SAST and autofix",
+              "lessons": [
+                "Secure use of AI coding assistants and review of AI-generated code, OWASP Top 10 for LLM Applications in apps that call LLMs, threat modeling LLM features, AI-powered SAST and autofix"
+              ]
+            },
+            {
+              "title": "Capstone project",
+              "description": "Add SAST, SCA, container scanning and secret scanning gates to a CI/CD pipeline that block insecure builds",
+              "lessons": [
+                "Add SAST, SCA, container scanning and secret scanning gates to a CI/CD pipeline that block insecure builds"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
