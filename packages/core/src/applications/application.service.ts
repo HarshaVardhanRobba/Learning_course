@@ -1,16 +1,10 @@
 import 'server-only'
 import { and, eq, sql } from 'drizzle-orm'
 import { applicationReviews, applications, getDb, type Application, type ApplicationStatus } from '@workspace/db'
+import { isUniqueViolation } from '../lib/pg-errors'
 import { findOrCreateUserByClerkId } from '../users/user.repository'
 import { findApplicationByUserId, findApplications, type ApplicationWithReview } from './application.repository'
 import type { ApplicationDecision, ApplicationInput } from './application.schema'
-
-const UNIQUE_VIOLATION = '23505'
-
-function isUniqueViolation(error: unknown) {
-  const err = error as { code?: string; cause?: { code?: string } }
-  return err?.code === UNIQUE_VIOLATION || err?.cause?.code === UNIQUE_VIOLATION
-}
 
 export type SubmitResult = { ok: true; application: Application } | { ok: false; reason: 'already_submitted' }
 
