@@ -34,12 +34,12 @@ export function GetStartedButton({ className }: { className: string }) {
           {content}
         </button>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="rounded-[1.75rem] border-sand bg-cream p-7 sm:max-w-md dark:border-cocoa dark:bg-espresso">
+          <DialogContent className="rounded-[1.75rem] border-sand bg-cream p-6 sm:max-w-md sm:p-7 dark:border-cocoa dark:bg-espresso">
             <DialogHeader>
               <span className="mb-2 grid size-12 place-items-center rounded-full bg-gold/15 text-gold">
                 <Icon icon="solar:lock-keyhole-minimalistic-linear" width={22} />
               </span>
-              <DialogTitle className="font-display text-3xl font-semibold tracking-tight text-ink dark:text-cream">
+              <DialogTitle className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-ink dark:text-cream">
                 Sign in first
               </DialogTitle>
               <DialogDescription className="text-taupe dark:text-sand/70">

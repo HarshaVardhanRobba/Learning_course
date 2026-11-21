@@ -91,7 +91,7 @@ export function QuizRunner({ input }: { input: QuizInput }) {
   const shownIndex = shownQuestion ? data.questions.findIndex((q) => q.id === shownQuestion.id) : -1
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-taupe dark:text-sand/70">
         <Link href={LEARNER_ROUTES.dashboard} className="hover:text-ink dark:hover:text-cream">
           Dashboard
@@ -108,7 +108,7 @@ export function QuizRunner({ input }: { input: QuizInput }) {
 
       <header className="mt-6 border-b border-sand pb-6 dark:border-cocoa">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Topic quiz</p>
-        <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{data.quiz.title}</h1>
+        <h1 className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{data.quiz.title}</h1>
         {data.quiz.instructions && <p className="mt-3 max-w-2xl leading-relaxed text-taupe dark:text-sand/70">{data.quiz.instructions}</p>}
         <p className="mt-2 text-sm text-taupe dark:text-sand/70">
           {data.questions.length} questions · 100% required to pass · unlimited retries
@@ -141,7 +141,7 @@ export function QuizRunner({ input }: { input: QuizInput }) {
           You’re viewing enrollment attempt #{data.attempt.attemptNumber}, which is no longer active. Its quiz history is shown below.
         </p>
       ) : !data.ready ? (
-        <section className={`${card} mt-8 px-6 py-10 text-center`}>
+        <section className={`${card} mt-8 px-5 py-10 text-center sm:px-6`}>
           <Icon icon="solar:book-2-linear" width={40} className="mx-auto text-gold" aria-hidden="true" />
           <p className="mt-4 font-display text-2xl font-semibold text-ink dark:text-cream">Finish the lessons first</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-taupe dark:text-sand/70">
@@ -169,7 +169,7 @@ export function QuizRunner({ input }: { input: QuizInput }) {
           onNext={() => setFeedback(null)}
         />
       ) : (
-        <section className={`${card} mt-8 px-6 py-10 text-center`}>
+        <section className={`${card} mt-8 px-5 py-10 text-center sm:px-6`}>
           <Icon icon="solar:clipboard-list-linear" width={40} className="mx-auto text-gold" aria-hidden="true" />
           <p className="mt-4 font-display text-2xl font-semibold text-ink dark:text-cream">
             {data.history.length ? 'Ready for another try?' : 'Ready when you are'}
@@ -226,8 +226,8 @@ function QuestionCard({
   }
 
   return (
-    <section aria-labelledby="question-prompt" className={`${card} mt-8 p-6 sm:p-8`}>
-      <div className="flex items-center justify-between gap-4 text-sm text-taupe dark:text-sand/70">
+    <section aria-labelledby="question-prompt" className={`${card} mt-8 p-5 sm:p-8`}>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-taupe dark:text-sand/70">
         <span>
           Question <span className="font-semibold text-ink dark:text-cream">{index + 1}</span> of {total}
         </span>
@@ -238,7 +238,7 @@ function QuestionCard({
       </div>
 
       <form onSubmit={submit} className="mt-6">
-        <h2 id="question-prompt" className="text-xl font-semibold leading-snug text-ink dark:text-cream">
+        <h2 id="question-prompt" className="break-words text-lg font-semibold leading-snug sm:text-xl text-ink dark:text-cream">
           {question.prompt}
         </h2>
 
@@ -262,8 +262,8 @@ function QuestionCard({
                           : 'border-sand hover:bg-sand/40 dark:border-cocoa dark:hover:bg-cocoa/60'
                   }`}
                 >
-                  <input type="radio" name="option" value={option.id} checked={chosen} onChange={() => setOptionId(option.id)} className="size-4 accent-[var(--color-gold)]" />
-                  <span className="text-ink dark:text-cream">{option.label}</span>
+                  <input type="radio" name="option" value={option.id} checked={chosen} onChange={() => setOptionId(option.id)} className="size-4 shrink-0 accent-[var(--color-gold)]" />
+                  <span className="min-w-0 break-words text-ink dark:text-cream">{option.label}</span>
                   {isCorrectOption && <Icon icon="lucide:check" width={18} strokeWidth={3} className="ml-auto text-emerald-600" aria-label="Correct answer" />}
                   {isWrongChoice && <Icon icon="lucide:x" width={18} strokeWidth={3} className="ml-auto text-rose-600" aria-label="Your answer" />}
                 </label>
@@ -340,7 +340,7 @@ function ResultCard({
   onRetry: () => void
 }) {
   return (
-    <section aria-live="polite" className={`${card} mt-8 px-6 py-10 text-center`}>
+    <section aria-live="polite" className={`${card} mt-8 px-5 py-10 text-center sm:px-6`}>
       <span
         className={`mx-auto grid size-24 place-items-center rounded-full ${
           result.passed ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300'

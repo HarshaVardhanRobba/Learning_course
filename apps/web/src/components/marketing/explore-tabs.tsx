@@ -72,13 +72,13 @@ export function ExploreTabs({ data }: { data: ExploreData }) {
   }
 
   return (
-    <section className="py-16">
+    <section className="py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex justify-center">
           <div
             role="tablist"
             aria-label="Learning sections"
-            className="flex flex-wrap items-center gap-1 rounded-full border border-sand bg-white/60 p-1 text-sm dark:border-cocoa dark:bg-cocoa/40"
+            className="grid w-full max-w-md grid-cols-4 gap-1 rounded-full border border-sand bg-white/60 p-1 text-[13px] sm:flex sm:w-auto sm:max-w-none sm:text-sm dark:border-cocoa dark:bg-cocoa/40"
           >
             {TABS.map((tab, i) => {
               const selected = tab.id === active
@@ -96,7 +96,7 @@ export function ExploreTabs({ data }: { data: ExploreData }) {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => select(tab.id)}
                   onKeyDown={(e) => onKeyDown(e, i)}
-                  className={`rounded-full px-5 py-2 transition-[background-color,color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/30 ${
+                  className={`rounded-full px-2 py-2 transition sm:px-5-[background-color,color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/30 ${
                     selected
                       ? 'bg-espresso text-cream dark:bg-cream dark:text-espresso'
                       : 'text-taupe hover:text-ink dark:text-sand/70 dark:hover:text-cream'
@@ -110,7 +110,7 @@ export function ExploreTabs({ data }: { data: ExploreData }) {
         </div>
 
         {/* Only the active panel is mounted, so its reveal animation plays each time it is opened. */}
-        <div role="tabpanel" id={`explore-panel-${active}`} aria-labelledby={`explore-tab-${active}`} className="mt-14">
+        <div role="tabpanel" id={`explore-panel-${active}`} aria-labelledby={`explore-tab-${active}`} className="mt-10 sm:mt-14">
           {active === 'overview' && <OverviewPanel data={data} onExplore={() => select('streams')} />}
           {active === 'streams' && <StreamsPanel data={data} />}
           {active === 'roadmap' && <RoadmapPanel data={data} />}
@@ -128,7 +128,7 @@ function PanelHeading({ tag, title, accent, body }: { tag: string; title: string
         <span className="size-1.5 rounded-full bg-gold" />
         {tag}
       </span>
-      <h2 className="mt-5 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl dark:text-cream">
+      <h2 className="mt-5 font-display text-4xl font-medium tracking-tight text-ink sm:text-6xl dark:text-cream">
         {title} <span className={goldText}>{accent}</span>
       </h2>
       <p className="mx-auto mt-4 max-w-xl leading-relaxed text-taupe dark:text-sand/70">{body}</p>
@@ -175,7 +175,7 @@ function OverviewPanel({ data, onExplore }: { data: ExploreData; onExplore: () =
         body="Most courses teach a tool. This path builds the whole person a team wants to hire: solid fundamentals, deep role skills, AI fluency and the habits of someone who ships with others."
       />
 
-      <RevealSection className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <RevealSection className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">
         {journey.map((step, i) => (
           <article key={step.title} data-reveal className={`${card} relative p-6`}>
             <span className="font-display text-lg italic text-taupe">/0{i + 1}</span>
@@ -196,7 +196,7 @@ function OverviewPanel({ data, onExplore }: { data: ExploreData; onExplore: () =
         ))}
       </RevealSection>
 
-      <div className="mt-16 grid gap-10 lg:grid-cols-2">
+      <div className="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-2">
         <div>
           <h3 className="font-display text-3xl font-semibold text-ink dark:text-cream">What the foundation covers</h3>
           <p className="mt-2 text-taupe dark:text-sand/70">Nine topics every learner completes before choosing a stream.</p>
@@ -247,11 +247,11 @@ function StreamsPanel({ data }: { data: ExploreData }) {
         accent="one for you"
         body="After the foundation, pick a stream and a role inside it. Each role is its own track with phases, quizzes, assessments and a capstone."
       />
-      <RevealSection className="mt-14 grid gap-5 md:grid-cols-2">
+      <RevealSection className="mt-10 grid gap-5 sm:mt-14 md:grid-cols-2">
         {data.streams.map((stream) => {
           const meta = STREAM_META[stream.slug] ?? { icon: 'solar:routing-2-linear', blurb: '' }
           return (
-            <article key={stream.slug} data-reveal className={`${card} flex flex-col p-7`}>
+            <article key={stream.slug} data-reveal className={`${card} flex flex-col p-6 sm:p-7`}>
               <div className="flex items-start justify-between gap-4">
                 <span className="grid size-14 place-items-center rounded-2xl bg-espresso text-gold-soft dark:bg-cream dark:text-espresso">
                   <Icon icon={meta.icon} width={28} aria-hidden="true" />
@@ -292,7 +292,7 @@ function RoadmapPanel({ data }: { data: ExploreData }) {
         accent="interactive roadmap"
         body="Every learner gets a personal map for their role. Here’s a short excerpt of two: tap a step to see what you learn there. Steps unlock as you pass the ones before them."
       />
-      <div className="mt-14 grid gap-8 lg:grid-cols-2">
+      <div className="mt-10 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
         {data.roadmaps.map((roadmap) => (
           <RoadmapColumn key={roadmap.trackTitle} roadmap={roadmap} />
         ))}
@@ -333,11 +333,12 @@ function RoadmapColumn({ roadmap }: { roadmap: ExploreData['roadmaps'][number] }
                   </span>
                   <span className="min-w-0 flex-1 pt-1">
                     <span className="flex items-center justify-between gap-3">
-                      <span className={`font-semibold ${locked ? 'text-ink/60 dark:text-cream/50' : 'text-ink dark:text-cream'}`}>
+                      <span className={`min-w-0 font-semibold ${locked ? 'text-ink/60 dark:text-cream/50' : 'text-ink dark:text-cream'}`}>
                         {i + 1}. {step.title}
                       </span>
-                      <span className="flex items-center gap-2 text-xs text-taupe dark:text-sand/60">
-                        {style.label}
+                      <span className="flex shrink-0 items-center gap-2 text-xs text-taupe dark:text-sand/60">
+                        <span className="hidden sm:inline">{style.label}</span>
+                        <span className="sr-only sm:hidden">{style.label}</span>
                         <Icon
                           icon="lucide:chevron-down"
                           width={16}
@@ -398,9 +399,9 @@ function ProgressPanel() {
         accent="actually earn"
         body="Nothing is marked complete just for opening it. Progress comes from passing topic quizzes and phase assessments, checked on our side."
       />
-      <RevealSection className="mt-14 grid gap-5 lg:grid-cols-3">
+      <RevealSection className="mt-10 grid gap-5 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <article key={item.title} data-reveal className={`${card} flex flex-col p-7`}>
+          <article key={item.title} data-reveal className={`${card} flex flex-col p-6 sm:p-7`}>
             <span className="grid size-12 place-items-center rounded-2xl bg-gold/15 text-gold">
               <Icon icon={item.icon} width={24} aria-hidden="true" />
             </span>

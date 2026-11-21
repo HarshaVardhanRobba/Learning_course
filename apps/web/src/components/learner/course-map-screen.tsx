@@ -18,7 +18,7 @@ type ShownView = Exclude<CourseMapView, { kind: 'not_found' }>
 export function CourseMapScreen({ view, justCompleted }: { view: ShownView; justCompleted: boolean }) {
   const { course } = view
   return (
-    <main className="mx-auto w-full max-w-4xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-4xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <Link href={LEARNER_ROUTES.dashboard} className={backLink}>
         <Icon icon="solar:arrow-left-linear" width={16} />
         Back to dashboard
@@ -29,11 +29,11 @@ export function CourseMapScreen({ view, justCompleted }: { view: ShownView; just
           {course.kind === 'foundation' ? 'Learning map' : `${course.stream?.title ?? 'Track'} stream`}
         </p>
         <div className="mt-1 flex flex-wrap items-end justify-between gap-4">
-          <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">
+          <h1 className="min-w-0 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">
             {view.kind === 'map' ? view.attempt.versionTitle : course.title}
           </h1>
           {view.kind === 'map' && (
-            <p className="font-display text-4xl font-semibold tabular-nums text-ink dark:text-cream">{view.map.percent}%</p>
+            <p className="font-display text-3xl font-semibold tabular-nums text-ink sm:text-4xl dark:text-cream">{view.map.percent}%</p>
           )}
         </div>
         {course.summary && <p className="mt-3 max-w-2xl leading-relaxed text-taupe dark:text-sand/70">{course.summary}</p>}
@@ -59,7 +59,7 @@ export function CourseMapScreen({ view, justCompleted }: { view: ShownView; just
 
 function LockedCourse({ reason }: { reason: string }) {
   return (
-    <section className={`${card} mt-8 px-6 py-12 text-center`}>
+    <section className={`${card} mt-8 px-5 py-10 text-center sm:px-6 sm:py-12`}>
       <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
         <Icon icon="solar:lock-keyhole-minimalistic-linear" width={34} />
       </span>
@@ -90,7 +90,7 @@ function StartForm({ course, label, replace = false }: { course: CourseHeader; l
 
 function NotStarted({ course }: { course: CourseHeader }) {
   return (
-    <section className={`${card} mt-8 px-6 py-12 text-center`}>
+    <section className={`${card} mt-8 px-5 py-10 text-center sm:px-6 sm:py-12`}>
       <span className="mx-auto grid size-20 place-items-center rounded-full bg-gold/15 text-gold">
         <Icon icon="solar:map-point-wave-linear" width={36} />
       </span>
@@ -196,7 +196,7 @@ function AttemptBar({ view }: { view: Extract<ShownView, { kind: 'map' }> }) {
               <Icon icon="solar:restart-linear" width={16} />
               Start new attempt…
             </summary>
-            <div className="mt-3 max-w-xs space-y-3 rounded-2xl border border-sand p-4 text-sm dark:border-cocoa">
+            <div className="mt-3 max-w-[min(20rem,calc(100vw-2rem))] space-y-3 rounded-2xl border border-sand p-4 text-sm dark:border-cocoa">
               <p className="text-taupe dark:text-sand/70">
                 Attempt #{Math.max(...attempts.map((a) => a.attemptNumber)) + 1} starts from the beginning on the latest version.
                 Your current attempt and its progress are kept.
@@ -239,18 +239,18 @@ function PhaseSection({
   const headingId = `phase-${phase.id}`
   return (
     <section aria-labelledby={headingId}>
-      <div className={`${card} flex flex-wrap items-center justify-between gap-3 px-6 py-5 ${phase.state === 'locked' ? 'opacity-75' : ''}`}>
-        <div className="flex items-center gap-4">
+      <div className={`${card} flex flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:py-5 ${phase.state === 'locked' ? 'opacity-75' : ''}`}>
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
           <span
-            className={`grid size-12 place-items-center rounded-2xl font-display text-2xl font-semibold ${
+            className={`grid size-11 shrink-0 place-items-center sm:size-12 rounded-2xl font-display text-2xl font-semibold ${
               phase.state === 'locked' ? 'bg-sand text-taupe dark:bg-cocoa dark:text-sand/60' : 'bg-espresso text-gold-soft dark:bg-cream dark:text-espresso'
             }`}
           >
             {phase.state === 'locked' ? <Icon icon="solar:lock-keyhole-minimalistic-bold" width={20} aria-hidden="true" /> : phase.position}
           </span>
-          <div>
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-taupe dark:text-sand/60">Phase {phase.position}</p>
-            <h2 id={headingId} className="font-display text-2xl font-semibold text-ink dark:text-cream">
+            <h2 id={headingId} className="break-words font-display text-xl font-semibold text-ink sm:text-2xl dark:text-cream">
               {phase.title}
             </h2>
           </div>
@@ -271,7 +271,7 @@ function PhaseSection({
       {!isLast && (
         <div aria-hidden="true" className="flex flex-col items-center pb-6">
           <span className="h-10 w-1.5 rounded-full bg-[repeating-linear-gradient(to_bottom,var(--color-gold)_0_6px,transparent_6px_14px)] opacity-70" />
-          <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-sand px-3 py-1 text-xs text-taupe dark:border-cocoa dark:text-sand/70">
+          <span className="mt-2 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sand px-3 py-1 text-center text-xs text-taupe dark:border-cocoa dark:text-sand/70">
             <Icon icon={phase.state === 'completed' ? 'solar:lock-unlocked-linear' : 'solar:lock-keyhole-minimalistic-linear'} width={13} />
             {phase.state === 'completed' ? 'Next phase unlocked' : phase.assessmentId ? 'Pass the phase assessment to continue' : 'Finish this phase to continue'}
           </span>

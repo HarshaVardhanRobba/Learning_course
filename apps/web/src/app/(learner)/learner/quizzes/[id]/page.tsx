@@ -28,12 +28,12 @@ export default async function QuizPage({ params, searchParams }: PageProps<'/lea
 
   if (view.kind === 'locked') {
     return (
-      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
-        <section className={`${card} mt-6 px-6 py-12 text-center`}>
+      <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
+        <section className={`${card} mt-6 px-5 py-10 text-center sm:px-6 sm:py-12`}>
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
             <Icon icon="solar:lock-keyhole-minimalistic-linear" width={34} />
           </span>
-          <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">{view.title} is locked</h1>
+          <h1 className="mt-6 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">{view.title} is locked</h1>
           <p className="mx-auto mt-3 max-w-md text-taupe dark:text-sand/70">{view.reason}</p>
           <Link href={courseRoutes(view.course).map()} className={`${darkPill} mt-7 px-6 py-3`}>
             <Icon icon="solar:map-linear" width={16} />

@@ -59,7 +59,7 @@ export default function StreamsPage() {
   return (
     <main>
       <section className="px-4 pt-2 lg:px-6">
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-espresso px-8 py-16 sm:px-12 lg:px-16 lg:py-20">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-espresso px-6 py-12 sm:px-12 sm:py-16 lg:px-16 lg:py-20">
           <div
             aria-hidden="true"
             className="absolute -right-24 -top-24 size-[28rem] rounded-full bg-[radial-gradient(closest-side,rgba(227,194,143,0.22),transparent)]"
@@ -76,7 +76,7 @@ export default function StreamsPage() {
           </nav>
 
           <div className="relative mt-8 max-w-2xl">
-            <h1 className="font-display text-[clamp(2.75rem,6vw,4.75rem)] font-medium leading-[1] tracking-tight text-cream">
+            <h1 className="font-display text-[clamp(2.4rem,8vw,4.75rem)] font-medium leading-[1] tracking-tight text-cream">
               <RevealWords as="span" className="block" text="Discover our" />
               <RevealWords as="span" className="block" wordClassName={goldText} text="learning streams" delay={0.08} />
             </h1>
@@ -86,9 +86,9 @@ export default function StreamsPage() {
             </p>
           </div>
 
-          <RevealSection className="relative mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
+          <RevealSection className="relative mt-10 grid grid-cols-2 gap-px sm:mt-14 overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
             {CATALOG_FEATURES.map((feature) => (
-              <div key={feature.label} data-reveal className="flex items-center gap-3 bg-espresso/90 px-5 py-4 backdrop-blur-md">
+              <div key={feature.label} data-reveal className="flex items-center gap-2.5 bg-espresso/90 px-3.5 py-3.5 sm:gap-3 sm:px-5 sm:py-4 backdrop-blur-md">
                 <Icon icon={feature.icon} width={22} className="shrink-0 text-gold-soft" />
                 <span className="text-sm text-sand/85">{feature.label}</span>
               </div>

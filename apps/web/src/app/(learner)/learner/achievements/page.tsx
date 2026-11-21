@@ -13,7 +13,7 @@ export default async function AchievementsPage() {
   const achievements = await caller.learner.achievements()
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <Link
         href={LEARNER_ROUTES.dashboard}
         className="inline-flex items-center gap-1.5 text-sm text-taupe transition-colors duration-150 hover:text-ink dark:text-sand/70 dark:hover:text-cream"
@@ -25,12 +25,12 @@ export default async function AchievementsPage() {
       <header className="mt-6 flex flex-wrap items-end justify-between gap-6 border-b border-sand pb-6 dark:border-cocoa">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Achievements</p>
-          <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">My Achievements</h1>
+          <h1 className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">My Achievements</h1>
           <p className="mt-2 max-w-xl text-taupe dark:text-sand/70">
             Badges you’ve earned on the foundation and your tracks. Each one is tied to the attempt that earned it.
           </p>
         </div>
-        <dl className="flex gap-8 text-sm">
+        <dl className="flex gap-6 text-sm sm:gap-8">
           <Stat label="Badges earned" value={`${achievements.stats.distinctEarned}/${achievements.stats.available}`} />
           <Stat label="Total awards" value={String(achievements.stats.awards)} />
         </dl>

@@ -104,7 +104,7 @@ function NodeLabel({ point, children }: { point: Point; children: React.ReactNod
   const onLeft = point.x >= 50
   return (
     <div
-      className={`absolute top-1/2 w-[min(11rem,38vw)] -translate-y-1/2 ${onLeft ? 'right-full mr-4 text-right' : 'left-full ml-4 text-left'}`}
+      className={`absolute top-1/2 w-[min(11rem,calc(50vw-4.5rem))] -translate-y-1/2 break-words ${onLeft ? 'right-full mr-3 text-right sm:mr-4' : 'left-full ml-3 text-left sm:ml-4'}`}
     >
       {children}
     </div>
@@ -124,7 +124,7 @@ function TopicNode({
   readOnly: boolean
   href: string
 }) {
-  const size = topic.isCurrent ? 'size-[4.75rem]' : 'size-16'
+  const size = topic.isCurrent ? 'size-16 sm:size-[4.75rem]' : 'size-14 sm:size-16'
   const lessons = topic.lessons.length
   const ringPercent = lessons ? Math.round((topic.lessonsDone / lessons) * 100) : 0
 
@@ -142,7 +142,7 @@ function TopicNode({
 
   const label = (
     <NodeLabel point={point}>
-      <p className={`text-sm font-semibold leading-snug ${topic.state === 'locked' ? 'text-taupe dark:text-sand/50' : 'text-ink dark:text-cream'}`}>
+      <p className={`text-[13px] font-semibold leading-snug sm:text-sm ${topic.state === 'locked' ? 'text-taupe dark:text-sand/50' : 'text-ink dark:text-cream'}`}>
         {topic.title}
       </p>
       <p className="mt-0.5 text-xs text-taupe dark:text-sand/60">
@@ -206,7 +206,7 @@ function AssessmentNode({ phase, point, href }: { phase: MapPhase; point: Point;
     phase.state === 'locked'
       ? (phase.lockedReason ?? 'This phase is locked.')
       : `Pass every topic quiz in “${phase.title}” first (${phase.completedTopics} of ${phase.topics.length} passed).`
-  const diamond = `grid size-[4.5rem] rotate-45 place-items-center rounded-2xl transition-transform duration-150 ease-out ${
+  const diamond = `grid size-14 rotate-45 sm:size-[4.5rem] place-items-center rounded-2xl transition-transform duration-150 ease-out ${
     passed
       ? 'bg-emerald-600 text-white shadow-[inset_0_-6px_0_rgba(0,0,0,0.2)] hover:scale-105'
       : available

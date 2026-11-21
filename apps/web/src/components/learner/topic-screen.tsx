@@ -14,7 +14,7 @@ type ShownTopic = Exclude<TopicView, { kind: 'not_found' }>
 /** A topic page: its lessons and the quiz step. Locked topics only ever show the reason. */
 export function TopicScreen({ view, courseTitle, mapHref }: { view: ShownTopic; courseTitle: string; mapHref: string }) {
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-taupe dark:text-sand/70">
         <Link href={LEARNER_ROUTES.dashboard} className={crumbLink}>
           Dashboard
@@ -30,11 +30,11 @@ export function TopicScreen({ view, courseTitle, mapHref }: { view: ShownTopic; 
       </nav>
 
       {view.kind === 'locked' ? (
-        <section className={`${card} mt-6 px-6 py-12 text-center`}>
+        <section className={`${card} mt-6 px-5 py-10 text-center sm:px-6 sm:py-12`}>
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
             <Icon icon="solar:lock-keyhole-minimalistic-linear" width={34} />
           </span>
-          <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">{view.topicTitle} is locked</h1>
+          <h1 className="mt-6 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">{view.topicTitle} is locked</h1>
           <p className="mx-auto mt-3 max-w-md text-taupe dark:text-sand/70">{view.reason}</p>
           <Link href={mapHref} className={`${darkPill} mt-7 px-6 py-3`}>
             <Icon icon="solar:map-linear" width={16} />
@@ -60,7 +60,7 @@ function TopicBody({ view, mapHref }: { view: Extract<ShownTopic, { kind: 'topic
           Phase {phase.position} · {phase.title}
         </p>
         <div className="mt-1 flex flex-wrap items-start justify-between gap-4">
-          <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{topic.title}</h1>
+          <h1 className="break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{topic.title}</h1>
           <StatePill state={topic.state} />
         </div>
         {!editable && (
@@ -77,7 +77,7 @@ function TopicBody({ view, mapHref }: { view: Extract<ShownTopic, { kind: 'topic
       </header>
 
       <section aria-labelledby="lessons-heading" className="mt-8">
-        <div className="flex items-baseline justify-between gap-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <h2 id="lessons-heading" className="font-display text-3xl font-semibold text-ink dark:text-cream">
             Lessons to cover
           </h2>
@@ -162,7 +162,7 @@ function LessonRow({
   editable: boolean
 }) {
   return (
-    <li className={`${card} flex items-start gap-4 p-4 sm:p-5`}>
+    <li className={`${card} flex flex-wrap items-start gap-x-4 gap-y-3 p-4 sm:flex-nowrap sm:p-5`}>
       <span
         className={`grid size-9 shrink-0 place-items-center rounded-full text-sm font-semibold ${
           lesson.done ? 'bg-gold text-espresso' : 'border-2 border-sand text-taupe dark:border-cocoa dark:text-sand/70'
@@ -175,7 +175,7 @@ function LessonRow({
         {lesson.content && <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-taupe dark:text-sand/70">{lesson.content}</p>}
       </div>
       {!lesson.done && editable && (
-        <form action={completeLessonAction}>
+        <form action={completeLessonAction} className="basis-full pl-[52px] sm:basis-auto sm:pl-0">
           <input type="hidden" name="courseId" value={courseId} />
           <input type="hidden" name="topicId" value={topicId} />
           <input type="hidden" name="lessonId" value={lesson.id} />

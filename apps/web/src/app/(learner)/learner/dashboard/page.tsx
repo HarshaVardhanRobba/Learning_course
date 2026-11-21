@@ -32,7 +32,7 @@ export default async function LearnerDashboardPage() {
   const dashboard = await caller.learner.dashboard()
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8">
+    <main className="mx-auto w-full max-w-6xl px-4 pb-20 pt-6 sm:px-6 sm:pt-8">
       <section
         aria-labelledby="welcome-heading"
         className="flex flex-wrap items-end justify-between gap-4 border-b border-sand pb-6 dark:border-cocoa"
@@ -41,7 +41,7 @@ export default async function LearnerDashboardPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Learner dashboard</p>
           <h1
             id="welcome-heading"
-            className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream"
+            className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream"
           >
             Welcome back, {application.firstName}.
           </h1>
@@ -76,7 +76,7 @@ function FoundationSection({ course }: { course: DashboardCourse | null }) {
 
   const attempt = course.currentAttempt
   return (
-    <section aria-labelledby="foundation-heading" className={`${card} mt-8 space-y-5 p-6 sm:p-8`}>
+    <section aria-labelledby="foundation-heading" className={`${card} mt-8 space-y-5 p-5 sm:p-8`}>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Common Foundation</p>
@@ -139,7 +139,7 @@ function StreamsSection({ streams, foundationComplete }: { streams: DashboardStr
       </div>
 
       {streams.length === 0 ? (
-        <p className="mt-5 rounded-[1.75rem] border border-dashed border-sand px-6 py-12 text-center text-taupe dark:border-cocoa dark:text-sand/70">
+        <p className="mt-5 rounded-[1.75rem] border border-dashed border-sand px-5 py-10 text-center sm:px-6 sm:py-12 text-taupe dark:border-cocoa dark:text-sand/70">
           No streams are published yet.
         </p>
       ) : (
@@ -157,7 +157,7 @@ function StreamGroup({ stream }: { stream: DashboardStream }) {
   const headingId = `stream-${stream.slug}`
   return (
     <section aria-labelledby={headingId}>
-      <div className="flex items-baseline justify-between gap-3 border-b border-sand pb-3 dark:border-cocoa">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b border-sand pb-3 dark:border-cocoa">
         <h3 id={headingId} className="font-display text-2xl font-semibold text-ink dark:text-cream">
           {stream.title}
         </h3>
@@ -178,7 +178,7 @@ function StreamGroup({ stream }: { stream: DashboardStream }) {
 function TrackCard({ course }: { course: DashboardCourse }) {
   const attempt = course.currentAttempt
   return (
-    <li className={`${card} flex flex-col gap-4 p-6 ${course.locked ? 'opacity-80' : ''}`}>
+    <li className={`${card} flex flex-col gap-4 p-5 sm:p-6 ${course.locked ? 'opacity-80' : ''}`}>
       <div className="flex items-start justify-between gap-3">
         <h4 className="text-lg font-semibold leading-snug text-ink dark:text-cream">{course.title}</h4>
         <StatusPill status={course.status} locked={course.locked} />
@@ -208,7 +208,7 @@ function TrackCard({ course }: { course: DashboardCourse }) {
 
 function AchievementsSection({ badges }: { badges: EarnedBadge[] }) {
   return (
-    <section aria-labelledby="achievements-heading" className={`${card} p-6 sm:p-8`}>
+    <section aria-labelledby="achievements-heading" className={`${card} p-5 sm:p-8`}>
       <div className="flex items-center justify-between gap-4">
         <h2 id="achievements-heading" className={sectionHeading}>
           Achievements
@@ -249,7 +249,7 @@ const HISTORY_ICON: Record<HistoryEvent['kind'], { icon: string; verb: string }>
 
 function HistorySection({ events }: { events: HistoryEvent[] }) {
   return (
-    <section aria-labelledby="history-heading" className={`${card} p-6 sm:p-8`}>
+    <section aria-labelledby="history-heading" className={`${card} p-5 sm:p-8`}>
       <div className="flex items-center justify-between gap-4">
         <h2 id="history-heading" className={sectionHeading}>
           Learning history

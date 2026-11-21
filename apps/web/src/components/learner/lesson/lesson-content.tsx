@@ -7,7 +7,7 @@ import sanitizeHtml from 'sanitize-html'
  * Applied with descendant selectors because both formats produce plain HTML elements.
  */
 const prose = [
-  'max-w-none text-[15px] leading-7 text-ink dark:text-cream/90',
+  'max-w-none text-[15px] leading-7 text-ink [overflow-wrap:anywhere] dark:text-cream/90',
   '[&>*:first-child]:mt-0',
   '[&_h1]:mt-8 [&_h1]:font-display [&_h1]:text-3xl [&_h1]:font-semibold',
   '[&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-semibold',
@@ -19,9 +19,9 @@ const prose = [
   '[&_code]:rounded [&_code]:bg-sand/60 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] dark:[&_code]:bg-cocoa',
   '[&_pre]:mt-4 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-espresso [&_pre]:p-4 [&_pre]:text-cream',
   '[&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-cream',
-  '[&_table]:mt-4 [&_table]:w-full [&_table]:border-collapse [&_th]:border [&_th]:border-sand [&_th]:px-3 [&_th]:py-2 [&_th]:text-left',
+  '[&_table]:mt-4 [&_table]:block [&_table]:w-full [&_table]:max-w-full [&_table]:overflow-x-auto [&_table]:border-collapse [&_td]:[overflow-wrap:normal] [&_th]:[overflow-wrap:normal] [&_th]:border [&_th]:border-sand [&_th]:px-3 [&_th]:py-2 [&_th]:text-left',
   '[&_td]:border [&_td]:border-sand [&_td]:px-3 [&_td]:py-2 dark:[&_td]:border-cocoa dark:[&_th]:border-cocoa',
-  '[&_img]:mt-4 [&_img]:rounded-xl [&_hr]:my-8 [&_hr]:border-sand dark:[&_hr]:border-cocoa',
+  '[&_img]:mt-4 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-xl [&_hr]:my-8 [&_hr]:border-sand dark:[&_hr]:border-cocoa',
 ].join(' ')
 
 /** Rich text comes from an editor as HTML; only formatting tags survive, never scripts, styles or handlers. */

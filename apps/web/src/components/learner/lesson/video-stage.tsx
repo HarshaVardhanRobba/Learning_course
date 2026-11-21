@@ -57,11 +57,11 @@ function StagePlaceholder({ title, video }: { title: string; video: Exclude<Vide
         : { icon: 'solar:videocamera-record-linear', heading: 'Video unavailable', body: video.message, tone: 'text-sand/70' }
 
   return (
-    <div role={video ? 'status' : undefined} className="grid size-full place-items-center px-16 text-center">
+    <div role={video ? 'status' : undefined} className="grid size-full place-items-center px-10 py-4 text-center sm:px-16">
       <div>
-        <Icon icon={content.icon} width={48} className={`mx-auto ${content.tone}`} aria-hidden="true" />
-        <p className="mt-4 font-display text-2xl font-semibold text-cream sm:text-3xl">{content.heading}</p>
-        <p className="mx-auto mt-2 max-w-md text-sm text-sand/70">{content.body}</p>
+        <Icon icon={content.icon} width={48} className={`mx-auto size-9 sm:size-12 ${content.tone}`} aria-hidden="true" />
+        <p className="mt-3 line-clamp-2 font-display text-xl font-semibold text-cream sm:mt-4 sm:text-3xl">{content.heading}</p>
+        <p className="mx-auto mt-2 line-clamp-2 max-w-md text-xs text-sand/70 sm:text-sm">{content.body}</p>
       </div>
     </div>
   )

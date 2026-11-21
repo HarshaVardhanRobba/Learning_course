@@ -43,11 +43,11 @@ export default async function AdminDashboardPage({ searchParams }: PageProps<'/a
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-sand pb-6 dark:border-cocoa">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Admin</p>
-          <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">
+          <h1 className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">
             Learner applications
           </h1>
         </div>
-        <dl className="flex gap-6 text-sm">
+        <dl className="flex flex-wrap gap-6 text-sm">
           <Stat label="Pending" value={counts.pending} />
           <Stat label="Approved" value={counts.approved} />
           <Stat label="Rejected" value={counts.rejected} />
@@ -107,7 +107,7 @@ function ApplicationRow({ application: a }: { application: ApplicationWithReview
           <p className="text-lg font-semibold text-ink dark:text-cream">
             {a.firstName} {a.lastName}
           </p>
-          <dl className="mt-2 grid gap-x-8 gap-y-1.5 text-sm text-taupe sm:grid-cols-[auto_auto_auto] dark:text-sand/70">
+          <dl className="mt-2 grid gap-x-8 gap-y-1.5 text-sm text-taupe lg:grid-cols-[auto_auto_auto] dark:text-sand/70">
             <div className="flex items-center gap-1.5">
               <dt className="sr-only">Email</dt>
               <Icon icon="solar:letter-linear" width={15} aria-hidden="true" />

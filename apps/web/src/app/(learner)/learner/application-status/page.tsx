@@ -28,11 +28,11 @@ export default async function ApplicationStatusPage({ searchParams }: PageProps<
       {application ? (
         <ApplicationStatusView application={application} />
       ) : (
-        <section className="rounded-[1.75rem] border border-sand bg-white/70 px-6 py-12 text-center dark:border-cocoa dark:bg-cocoa/40">
+        <section className="rounded-[1.75rem] border border-sand bg-white/70 px-5 py-10 text-center sm:px-6 sm:py-12 dark:border-cocoa dark:bg-cocoa/40">
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
             <Icon icon="solar:document-add-linear" width={34} />
           </span>
-          <h2 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">
+          <h2 className="mt-6 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">
             No application yet
           </h2>
           <p className="mx-auto mt-3 max-w-md text-taupe dark:text-sand/70">

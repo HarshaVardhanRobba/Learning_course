@@ -33,7 +33,7 @@ export default async function HistoryPage({ searchParams }: PageProps<'/learner/
   const history = await caller.learner.history.list(input)
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <Link
         href={LEARNER_ROUTES.dashboard}
         className="inline-flex items-center gap-1.5 text-sm text-taupe transition-colors duration-150 hover:text-ink dark:text-sand/70 dark:hover:text-cream"
@@ -44,7 +44,7 @@ export default async function HistoryPage({ searchParams }: PageProps<'/learner/
 
       <header className="mt-6 border-b border-sand pb-6 dark:border-cocoa">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">History</p>
-        <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">Learning history</h1>
+        <h1 className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">Learning history</h1>
         <p className="mt-2 max-w-xl text-taupe dark:text-sand/70">
           Every enrollment attempt, current and past. Each keeps its own progress and scores on the course version it started with.
         </p>

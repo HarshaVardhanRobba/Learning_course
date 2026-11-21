@@ -25,7 +25,7 @@ export default async function AttemptHistoryPage({ params }: PageProps<'/learner
   const mapHref = courseRoutes(summary.course).map(summary.status === 'in_progress' ? undefined : summary.attemptNumber)
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-5xl px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-taupe dark:text-sand/70">
         <Link href={LEARNER_ROUTES.history} className="hover:text-ink dark:hover:text-cream">
           Learning history
@@ -42,7 +42,7 @@ export default async function AttemptHistoryPage({ params }: PageProps<'/learner
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
               {summary.course.kind === 'foundation' ? 'Foundation' : 'Track'} · attempt #{summary.attemptNumber} · v{summary.version}
             </p>
-            <h1 className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{courseName(summary.course)}</h1>
+            <h1 className="mt-1 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">{courseName(summary.course)}</h1>
           </div>
           <AttemptStatusPill status={summary.status} />
         </div>
@@ -123,7 +123,7 @@ function QuizHistory({ attempts }: { attempts: AttemptDetail['quizAttempts'] }) 
         <p className="mt-3 text-sm text-taupe dark:text-sand/70">No topic quizzes taken in this attempt.</p>
       ) : (
         <div className={`${card} mt-4 overflow-x-auto`}>
-          <table className="w-full min-w-[560px] text-left text-sm">
+          <table className="w-full min-w-[520px] text-left text-sm">
             <thead className="text-taupe dark:text-sand/60">
               <tr className="border-b border-sand dark:border-cocoa">
                 <th scope="col" className="px-5 py-3 font-medium">Topic</th>
@@ -163,7 +163,7 @@ function AssessmentHistory({ attempts }: { attempts: AttemptDetail['assessmentAt
         <p className="mt-3 text-sm text-taupe dark:text-sand/70">No phase assessments taken in this attempt.</p>
       ) : (
         <div className={`${card} mt-4 overflow-x-auto`}>
-          <table className="w-full min-w-[560px] text-left text-sm">
+          <table className="w-full min-w-[520px] text-left text-sm">
             <thead className="text-taupe dark:text-sand/60">
               <tr className="border-b border-sand dark:border-cocoa">
                 <th scope="col" className="px-5 py-3 font-medium">Phase</th>

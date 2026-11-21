@@ -68,14 +68,14 @@ export default function Page() {
             </div>
           )}
 
-          <div className="relative grid min-h-[640px] items-center gap-14 px-8 py-16 sm:px-12 lg:grid-cols-[1.05fr_1fr] lg:px-16">
+          <div className="relative grid items-center gap-10 px-6 py-12 sm:min-h-[640px] sm:gap-14 sm:px-12 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:px-16">
             <div>
               <span className={`${eyebrow} border-white/15 bg-white/5 text-sand/80`}>
                 <span className="size-1.5 rounded-full bg-gold" />
                 Elevate your learning
               </span>
 
-              <h1 className="mt-6 font-display text-[clamp(3rem,7vw,5.5rem)] font-medium leading-[0.98] tracking-tight text-cream">
+              <h1 className="mt-6 font-display text-[clamp(2.5rem,9vw,5.5rem)] font-medium leading-[0.98] tracking-tight text-cream">
                 <RevealWords as="span" className="block" text="Learning That" />
                 <RevealWords as="span" className="block" wordClassName={goldText} text="Transforms" delay={0.1} />
                 <RevealWords as="span" className="block" text="Careers" delay={0.2} />
@@ -105,7 +105,7 @@ export default function Page() {
                 </a>
               </div>
 
-              <dl className="mt-12 grid max-w-md grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md">
+              <dl className="mt-10 grid max-w-md grid-cols-3 sm:mt-12 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md">
                 {FACTS.map((fact) => (
                   <div key={fact.label} className="flex flex-col items-center px-3 py-4 text-center sm:px-6">
                     <Icon icon={fact.icon} width={20} className="text-gold-soft" />
@@ -125,7 +125,7 @@ export default function Page() {
         </div>
       </section>
 
-      <RevealSection className="mx-auto mt-24 grid max-w-7xl grid-cols-1 gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
+      <RevealSection className="mx-auto mt-16 grid max-w-7xl grid-cols-1 gap-8 px-6 sm:mt-24 sm:gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
         {FEATURES.map((feature) => (
           <div key={feature.title} data-reveal className="border-t border-sand pt-6 dark:border-cocoa">
             <Icon icon={feature.icon} width={26} className="text-gold" />
@@ -135,13 +135,13 @@ export default function Page() {
         ))}
       </RevealSection>
 
-      <section id="how-it-works" className="mx-auto max-w-7xl scroll-mt-28 px-6 py-28 lg:px-10">
+      <section id="how-it-works" className="mx-auto max-w-7xl scroll-mt-28 px-6 py-20 sm:py-28 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <span className={`${eyebrow} border-sand text-taupe dark:border-cocoa dark:text-sand/70`}>
             <span className="size-1.5 rounded-full bg-gold" />
             The method
           </span>
-          <h2 className="mt-5 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl dark:text-cream">
+          <h2 className="mt-5 font-display text-4xl font-medium tracking-tight text-ink sm:text-6xl dark:text-cream">
             How a path <span className={goldText}>works</span>
           </h2>
           <p className="mt-4 text-taupe dark:text-sand/70">
@@ -150,12 +150,12 @@ export default function Page() {
           </p>
         </div>
 
-        <RevealSection className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <RevealSection className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 md:grid-cols-3">
           {STEPS.map((step) => (
             <div
               key={step.index}
               data-reveal
-              className="rounded-[1.75rem] border border-sand bg-white/60 p-8 dark:border-cocoa dark:bg-cocoa/40"
+              className="rounded-[1.75rem] border border-sand bg-white/60 p-6 sm:p-8 dark:border-cocoa dark:bg-cocoa/40"
             >
               <span className="font-display text-3xl italic text-gold">{step.index}</span>
               <h3 className="mt-4 font-display text-2xl font-semibold text-ink dark:text-cream">{step.title}</h3>
@@ -169,13 +169,13 @@ export default function Page() {
         <RevealSection>
           <div
             data-reveal
-            className="relative flex flex-col items-center gap-6 overflow-hidden rounded-[2rem] bg-espresso px-8 py-20 text-center"
+            className="relative flex flex-col items-center gap-6 overflow-hidden rounded-[2rem] bg-espresso px-6 py-14 text-center sm:px-8 sm:py-20"
           >
             <div
               aria-hidden="true"
               className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-gold-soft/60 to-transparent"
             />
-            <h2 className="max-w-2xl font-display text-5xl font-medium tracking-tight text-cream sm:text-6xl">
+            <h2 className="max-w-2xl font-display text-4xl font-medium tracking-tight text-cream sm:text-6xl">
               Your next skill is <span className={goldText}>one path</span> away.
             </h2>
             <p className="max-w-md text-sand/70">
@@ -187,7 +187,7 @@ export default function Page() {
       </section>
 
       <footer id="contact" className="border-t border-sand py-12 dark:border-cocoa">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 text-sm text-taupe md:flex-row lg:px-10 dark:text-sand/70">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 text-center text-sm text-taupe md:flex-row md:text-left lg:px-10 dark:text-sand/70">
           <span className="font-display text-2xl font-semibold text-ink dark:text-cream">Arcway</span>
           <p>© {new Date().getFullYear()} Arcway. Built for people who ship.</p>
           <Link href="/streams" className={darkPill}>

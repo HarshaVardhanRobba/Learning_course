@@ -15,9 +15,9 @@ export default async function ApplyPage() {
   const defaults = await caller.application.profileDefaults()
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-20 pt-8">
+    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-6 sm:px-6 sm:pt-8">
       <div className="border-b border-sand pb-6 dark:border-cocoa">
-        <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">Apply to Join</h1>
+        <h1 className="break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl dark:text-cream">Apply to Join</h1>
         <p className="mt-3 max-w-xl leading-relaxed text-taupe dark:text-sand/70">
           Every learner is approved by an administrator before learning access opens. Tell us who you are and
           we’ll review your application.

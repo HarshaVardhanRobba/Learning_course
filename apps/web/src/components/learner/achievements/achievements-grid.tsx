@@ -48,7 +48,7 @@ export function AchievementsGrid({ achievements }: { achievements: Achievements 
           Earned
         </h2>
         {achievements.awards.length === 0 ? (
-          <div className={`${card} mt-5 px-6 py-12 text-center`}>
+          <div className={`${card} mt-5 px-5 py-10 text-center sm:px-6 sm:py-12`}>
             <Icon icon="solar:medal-ribbons-star-linear" width={44} className="mx-auto text-gold" aria-hidden="true" />
             <p className="mt-4 font-display text-2xl font-semibold text-ink dark:text-cream">No badges yet</p>
             <p className="mx-auto mt-2 max-w-md text-sm text-taupe dark:text-sand/70">
@@ -69,7 +69,7 @@ export function AchievementsGrid({ achievements }: { achievements: Achievements 
                   className={`${card} group flex h-full w-full flex-col items-center p-6 text-center transition-[border-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:border-gold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/30`}
                 >
                   <BadgeIcon icon={award.badge.icon} earned />
-                  <span className="mt-4 font-display text-2xl font-semibold text-ink dark:text-cream">{award.badge.title}</span>
+                  <span className="mt-4 break-words font-display text-2xl font-semibold text-ink dark:text-cream">{award.badge.title}</span>
                   <span className="mt-1 text-sm leading-relaxed text-taupe dark:text-sand/70">{award.badge.description}</span>
                   <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-sand/60 px-3 py-1 text-xs font-medium text-ink dark:bg-cocoa dark:text-cream">
                     <Icon icon={award.course.kind === 'foundation' ? 'solar:map-linear' : 'solar:routing-2-linear'} width={13} aria-hidden="true" />
@@ -91,7 +91,7 @@ export function AchievementsGrid({ achievements }: { achievements: Achievements 
           <h2 id="locked-heading" className="font-display text-3xl font-semibold text-ink dark:text-cream">
             Still to earn
           </h2>
-          <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
             {achievements.locked.map((badge) => (
               <li key={badge.id}>
                 <button
@@ -110,7 +110,7 @@ export function AchievementsGrid({ achievements }: { achievements: Achievements 
       )}
 
       <Dialog open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="rounded-[1.75rem] border-sand bg-cream p-7 sm:max-w-md dark:border-cocoa dark:bg-espresso">
+        <DialogContent className="rounded-[1.75rem] border-sand bg-cream p-6 sm:max-w-md sm:p-7 dark:border-cocoa dark:bg-espresso">
           {selected?.kind === 'award' && <AwardDetail award={selected.award} />}
           {selected?.kind === 'locked' && <LockedDetail badge={selected.badge} />}
         </DialogContent>
@@ -143,7 +143,7 @@ function AwardDetail({ award }: { award: Award }) {
     <>
       <DialogHeader className="items-center text-center">
         <BadgeIcon icon={award.badge.icon} earned />
-        <DialogTitle className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink dark:text-cream">{award.badge.title}</DialogTitle>
+        <DialogTitle className="mt-3 break-words font-display text-2xl font-semibold tracking-tight sm:text-3xl text-ink dark:text-cream">{award.badge.title}</DialogTitle>
         <DialogDescription className="text-taupe dark:text-sand/70">{award.badge.description}</DialogDescription>
       </DialogHeader>
       <dl className="mt-2 space-y-3 rounded-2xl bg-sand/40 p-4 text-sm dark:bg-cocoa/60">
@@ -171,7 +171,7 @@ function LockedDetail({ badge }: { badge: LockedBadge }) {
     <>
       <DialogHeader className="items-center text-center">
         <BadgeIcon icon={badge.icon} earned={false} />
-        <DialogTitle className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink dark:text-cream">{badge.title}</DialogTitle>
+        <DialogTitle className="mt-3 break-words font-display text-2xl font-semibold tracking-tight sm:text-3xl text-ink dark:text-cream">{badge.title}</DialogTitle>
         <DialogDescription className="text-taupe dark:text-sand/70">{badge.description}</DialogDescription>
       </DialogHeader>
       <div className="mt-2 rounded-2xl bg-sand/40 p-4 text-sm dark:bg-cocoa/60">

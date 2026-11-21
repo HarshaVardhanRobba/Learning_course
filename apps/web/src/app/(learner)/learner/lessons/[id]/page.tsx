@@ -75,8 +75,8 @@ function TopBar({ view, mapHref }: { view: Shown; mapHref: string }) {
   const r = 15
   const circumference = 2 * Math.PI * r
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 bg-ink px-6 py-3.5 text-cream dark:bg-black/60">
-      <div className="flex min-w-0 items-center gap-4">
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-ink px-4 py-3 sm:px-6 sm:py-3.5 text-cream dark:bg-black/60">
+      <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
         <Link
           href={mapHref}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cream/25 px-3.5 py-1.5 text-sm transition-colors duration-150 hover:bg-cream/10"
@@ -85,7 +85,7 @@ function TopBar({ view, mapHref }: { view: Shown; mapHref: string }) {
           Map
         </Link>
         <span aria-hidden="true" className="h-6 w-px bg-cream/20" />
-        <p className="truncate text-base">{view.course.title}</p>
+        <p className="min-w-0 truncate text-sm sm:text-base">{view.course.title}</p>
       </div>
       <div className="flex items-center gap-3 text-sm">
         <svg viewBox="0 0 36 36" className="size-9 -rotate-90" aria-hidden="true">
@@ -121,7 +121,7 @@ function Overview({ view, lessonHref, mapHref }: { view: Shown; lessonHref: (id:
   const previous = view.previous && !view.previous.locked ? view.previous : null
 
   return (
-    <div className="px-6 pb-20 pt-8 sm:px-10">
+    <div className="px-4 pb-16 pt-6 sm:px-10 sm:pb-20 sm:pt-8">
       <div className="mx-auto max-w-3xl">
         <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-taupe dark:text-sand/70">
           <Link href={mapHref} className="hover:text-ink dark:hover:text-cream">
@@ -138,7 +138,7 @@ function Overview({ view, lessonHref, mapHref }: { view: Shown; lessonHref: (id:
         </nav>
 
         <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight text-ink dark:text-cream">{lesson.title}</h1>
+          <h1 className="min-w-0 break-words font-display text-3xl font-semibold leading-tight sm:text-4xl tracking-tight text-ink dark:text-cream">{lesson.title}</h1>
           {lesson.done && (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300">
               <Icon icon="lucide:check" width={13} strokeWidth={3} aria-hidden="true" />
@@ -306,7 +306,7 @@ function TopicQuiz({ view }: { view: Shown }) {
 
 function Resources({ view }: { view: Shown }) {
   return (
-    <div className="mx-auto max-w-3xl px-6 pb-20 pt-8 sm:px-10">
+    <div className="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-10 sm:pb-20 sm:pt-8">
       {view.resources.length === 0 ? (
         <p className="text-sm text-taupe dark:text-sand/70">No external resources for this lesson yet.</p>
       ) : (
@@ -337,7 +337,7 @@ function Resources({ view }: { view: Shown }) {
 
 function InfoRow({ label, id, children }: { label: string; id?: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="grid scroll-mt-28 gap-3 border-b border-sand py-7 sm:grid-cols-[220px_minmax(0,1fr)] dark:border-cocoa">
+    <section id={id} className="grid scroll-mt-28 gap-3 border-b border-sand py-6 sm:py-7 md:grid-cols-[200px_minmax(0,1fr)] lg:grid-cols-[220px_minmax(0,1fr)] dark:border-cocoa">
       <h2 className="text-base text-ink dark:text-cream">{label}</h2>
       <div className="min-w-0">{children}</div>
     </section>
@@ -348,7 +348,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2 text-ink dark:text-cream/90">
       <dt>{label}:</dt>
-      <dd className="font-medium">{value}</dd>
+      <dd className="min-w-0 break-words font-medium">{value}</dd>
     </div>
   )
 }
@@ -356,12 +356,12 @@ function Stat({ label, value }: { label: string; value: string }) {
 function LockedLesson({ view }: { view: Extract<LessonView, { kind: 'locked' }> }) {
   const mapHref = courseRoutes(view.course).map()
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
-      <section className={`${card} mt-6 px-6 py-12 text-center`}>
+    <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-8 sm:px-6">
+      <section className={`${card} mt-6 px-5 py-10 text-center sm:px-6 sm:py-12`}>
         <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
           <Icon icon="solar:lock-keyhole-minimalistic-linear" width={34} />
         </span>
-        <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">{view.lessonTitle} is locked</h1>
+        <h1 className="mt-6 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">{view.lessonTitle} is locked</h1>
         <p className="mx-auto mt-3 max-w-md text-taupe dark:text-sand/70">{view.reason}</p>
         <Link href={mapHref} className={`${darkPill} mt-7 px-6 py-3`}>
           <Icon icon="solar:map-linear" width={16} />

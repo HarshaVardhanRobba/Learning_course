@@ -15,10 +15,10 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeZ
 
 export function StatusShell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-20 pt-8">
-      <div className="flex items-center justify-between gap-4 border-b border-sand pb-6 dark:border-cocoa">
-        <div className="flex items-center gap-4">
-          <span className="grid size-12 place-items-center rounded-2xl bg-espresso text-gold-soft dark:bg-cocoa">
+    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-6 sm:px-6 sm:pt-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-sand pb-6 dark:border-cocoa">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <span className="grid size-11 shrink-0 place-items-center sm:size-12 rounded-2xl bg-espresso text-gold-soft dark:bg-cocoa">
             <Icon icon="solar:document-text-linear" width={22} />
           </span>
           <h1 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">
@@ -78,7 +78,7 @@ export function ApplicationStatusView({ application }: { application: StatusView
         <span className={`mx-auto grid size-20 place-items-center rounded-full ${hero.iconClass}`}>
           <Icon icon={hero.icon} width={36} />
         </span>
-        <h2 id="status-heading" className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">
+        <h2 id="status-heading" className="mt-6 break-words font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl dark:text-cream">
           {hero.title}
         </h2>
         <p className="mx-auto mt-3 max-w-md leading-relaxed text-taupe dark:text-sand/70">{hero.message}</p>

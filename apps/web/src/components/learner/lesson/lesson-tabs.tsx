@@ -18,7 +18,7 @@ export function LessonTabs({ tabs }: { tabs: { id: string; label: string; conten
 
   return (
     <div>
-      <div role="tablist" aria-label="Lesson sections" className="flex gap-8 overflow-x-auto border-b border-sand px-6 sm:px-10 dark:border-cocoa">
+      <div role="tablist" aria-label="Lesson sections" className="flex gap-6 overflow-x-auto border-b border-sand px-4 sm:gap-8 sm:px-10 dark:border-cocoa">
         {tabs.map((tab, i) => {
           const selected = tab.id === active
           return (
