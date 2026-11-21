@@ -95,14 +95,28 @@ export function CourseActions({ course }: { course: DashboardCourse }) {
   return (
     <div className="flex flex-wrap items-start gap-3">
       {live ? (
-        <Link href={LEARNER_ROUTES.learn(live.enrollmentId)} className={darkPill}>
+        <Link
+          href={course.kind === 'foundation' ? LEARNER_ROUTES.foundation : LEARNER_ROUTES.track(course.slug)}
+          className={darkPill}
+        >
           {live.isComplete ? 'Review course' : 'Continue learning'}
           <Icon icon="solar:arrow-right-linear" width={16} />
         </Link>
       ) : (
-        course.canStart && (
-          <StartForm courseId={course.courseId} label={course.attempts.length ? 'Start a new attempt' : 'Start learning'} />
-        )
+        <>
+          {course.canStart && (
+            <StartForm courseId={course.courseId} label={course.attempts.length ? 'Start a new attempt' : 'Start learning'} />
+          )}
+          {course.attempts.length > 0 && (
+            <Link
+              href={course.kind === 'foundation' ? LEARNER_ROUTES.foundation : LEARNER_ROUTES.track(course.slug)}
+              className={secondaryButton}
+            >
+              <Icon icon="solar:map-linear" width={16} />
+              View map
+            </Link>
+          )}
+        </>
       )}
 
       {course.canRestart && (

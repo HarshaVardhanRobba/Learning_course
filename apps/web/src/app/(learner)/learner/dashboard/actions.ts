@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 import { startAttempt, startAttemptSchema } from '@workspace/core'
 import { requireApprovedLearner } from '@/lib/learner'
-import { LEARNER_ROUTES } from '@/lib/routes'
 
 export async function startAttemptAction(formData: FormData): Promise<void> {
   // Server actions are reachable by direct POST, so the approval gate runs here too.
@@ -17,5 +16,6 @@ export async function startAttemptAction(formData: FormData): Promise<void> {
 
   // The user id comes from the session; the form only names the course.
   await startAttempt({ userId: user.id, ...parsed.data })
-  revalidatePath(LEARNER_ROUTES.dashboard)
+  // Every learner page reads attempts, so refresh them all.
+  revalidatePath('/learner', 'layout')
 }
