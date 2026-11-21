@@ -20,7 +20,12 @@ import type { CourseKind } from './schema'
 
 config({ path: '../../apps/web/.env.local' })
 
-type SheetTopic = { title: string; description: string; lessons: string[] }
+type SheetQuizQuestion =
+  | { kind: 'mcq'; prompt: string; options: string[]; correct: number; explanation?: string }
+  | { kind: 'fill_blank'; prompt: string; answers: string[]; explanation?: string }
+type SheetQuiz = { title?: string; instructions?: string; questions: SheetQuizQuestion[] }
+/** `quiz` is optional: topics without one get a generated starter quiz (see starterQuiz). */
+type SheetTopic = { title: string; description: string; lessons: string[]; quiz?: SheetQuiz }
 type SheetCourse = { slug: string; title: string; topics: SheetTopic[] }
 type SheetData = { foundation: SheetCourse; streams: { slug: string; title: string; tracks: SheetCourse[] }[] }
 
@@ -91,16 +96,46 @@ function loadSpecs() {
   return { streams, courses }
 }
 
-const BADGES = [
-  { slug: 'first-topic', title: 'First step', description: 'Completed your first topic.', icon: 'solar:star-linear' },
-  { slug: 'first-phase', title: 'Phase cleared', description: 'Completed a full phase.', icon: 'solar:flag-linear' },
+const BADGES: {
+  slug: string
+  title: string
+  description: string
+  howToEarn: string
+  icon: string
+  visibility: 'visible' | 'hidden'
+}[] = [
+  {
+    slug: 'first-topic',
+    title: 'First step',
+    description: 'Passed your first topic quiz in a course.',
+    howToEarn: 'Pass any topic quiz with 100%.',
+    icon: 'solar:star-linear',
+    visibility: 'visible',
+  },
+  {
+    slug: 'first-phase',
+    title: 'Phase cleared',
+    description: 'Completed a full phase by passing its assessment.',
+    howToEarn: 'Pass every topic quiz in a phase, then its phase assessment with 100%.',
+    icon: 'solar:flag-linear',
+    visibility: 'visible',
+  },
   {
     slug: 'foundation-complete',
     title: 'Foundation complete',
-    description: 'Finished the Common Foundation.',
+    description: 'Finished the Common Foundation and unlocked every stream.',
+    howToEarn: 'Complete every phase of the Common Foundation.',
     icon: 'solar:medal-ribbon-star-linear',
+    visibility: 'visible',
   },
-  { slug: 'track-complete', title: 'Track finisher', description: 'Completed a track in a stream.', icon: 'solar:cup-star-linear' },
+  {
+    slug: 'track-complete',
+    title: 'Path finisher',
+    description: 'Completed a track in one of the streams.',
+    howToEarn: 'Complete every phase of any track.',
+    icon: 'solar:cup-star-linear',
+    visibility: 'visible',
+  },
 ]
 
 type Db = ReturnType<typeof drizzle<typeof schema>>
@@ -182,6 +217,190 @@ async function insertContent(tx: Tx, versionId: string, phases: PhaseSpec[]) {
     )
     if (lessonValues.length) await tx.insert(schema.lessons).values(lessonValues)
   }
+}
+
+/** Small deterministic hash so generated option order is stable across runs. */
+function hash(text: string): number {
+  let h = 0
+  for (const ch of text) h = (h * 31 + ch.codePointAt(0)!) >>> 0
+  return h
+}
+
+function rotate<T>(items: T[], by: number): T[] {
+  const n = by % items.length
+  return [...items.slice(n), ...items.slice(0, n)]
+}
+
+/**
+ * Placeholder quiz built from the course's own content until real questions are written in the JSON:
+ * two multiple-choice questions and one fill-in-the-blank. Replace by adding `quiz` to a topic.
+ */
+function starterQuiz(topic: SheetTopic, courseTopics: SheetTopic[]): SheetQuiz {
+  const others = courseTopics.filter((t) => t !== topic)
+  const index = courseTopics.indexOf(topic)
+  const nextOthers = rotate(others, Math.max(index, 0)).slice(0, 3)
+
+  const lessonA = topic.lessons[0] ?? topic.title
+  const lessonB = topic.lessons[1] ?? lessonA
+  const distractorLessons = nextOthers.map((t) => t.lessons[0] ?? t.title)
+
+  const mcq = (prompt: string, correct: string, wrong: string[], explanation: string): SheetQuizQuestion => {
+    const options = rotate([correct, ...wrong], hash(prompt) % (wrong.length + 1))
+    return { kind: 'mcq', prompt, options, correct: options.indexOf(correct), explanation }
+  }
+
+  const words = topic.title.split(' ')
+  const fill: SheetQuizQuestion =
+    words.length > 1
+      ? {
+          kind: 'fill_blank',
+          prompt: `Complete the topic name: “${words.slice(0, -1).join(' ')} ____”`,
+          answers: [words.at(-1)!],
+          explanation: `The topic is “${topic.title}”.`,
+        }
+      : {
+          kind: 'fill_blank',
+          prompt: `The topic that covers “${lessonA}” is called ____.`,
+          answers: [topic.title],
+          explanation: `“${lessonA}” is part of “${topic.title}”.`,
+        }
+
+  return {
+    title: `${topic.title} quiz`,
+    instructions: 'Answer each question. You need every answer right (100%) to pass. You can retry as many times as you like.',
+    questions: [
+      mcq(`Which of these is covered in “${topic.title}”?`, lessonA, distractorLessons, `“${lessonA}” is one of this topic’s lessons.`),
+      mcq(`“${lessonB}” belongs to which topic?`, topic.title, nextOthers.map((t) => t.title), `“${lessonB}” is covered in “${topic.title}”.`),
+      fill,
+    ],
+  }
+}
+
+/**
+ * Adds a quiz to every topic of the latest published version that has none yet. Additive only: an existing
+ * quiz is never replaced, because learners' quiz attempts reference its questions.
+ */
+async function syncQuizzes(tx: Tx, spec: CourseSpec): Promise<number> {
+  const [course] = await tx.select({ id: schema.courses.id }).from(schema.courses).where(eq(schema.courses.slug, spec.slug))
+  if (!course) return 0
+  const [version] = await tx
+    .select({ id: schema.courseVersions.id })
+    .from(schema.courseVersions)
+    .where(and(eq(schema.courseVersions.courseId, course.id), eq(schema.courseVersions.status, 'published')))
+    .orderBy(desc(schema.courseVersions.version))
+    .limit(1)
+  if (!version) return 0
+
+  const dbTopics = await tx
+    .select({ id: schema.topics.id, title: schema.topics.title, quizId: schema.topicQuizzes.id })
+    .from(schema.topics)
+    .innerJoin(schema.phases, eq(schema.phases.id, schema.topics.phaseId))
+    .leftJoin(schema.topicQuizzes, eq(schema.topicQuizzes.topicId, schema.topics.id))
+    .where(eq(schema.phases.courseVersionId, version.id))
+    .orderBy(asc(schema.phases.position), asc(schema.topics.position))
+
+  const specTopics = spec.phases.flatMap((p) => p.topics)
+  let added = 0
+  for (const [i, row] of dbTopics.entries()) {
+    const topic = specTopics[i]
+    if (row.quizId || !topic || topic.title !== row.title) continue
+    const quiz = topic.quiz ?? starterQuiz(topic, specTopics)
+
+    const [quizRow] = await tx
+      .insert(schema.topicQuizzes)
+      .values({ topicId: row.id, title: quiz.title ?? `${topic.title} quiz`, instructions: quiz.instructions ?? '' })
+      .returning()
+    for (const [qi, q] of quiz.questions.entries()) {
+      const [questionRow] = await tx
+        .insert(schema.quizQuestions)
+        .values({
+          quizId: quizRow!.id,
+          position: qi + 1,
+          kind: q.kind,
+          prompt: q.prompt,
+          acceptedAnswers: q.kind === 'fill_blank' ? q.answers : [],
+          explanation: q.explanation ?? '',
+        })
+        .returning()
+      if (q.kind === 'mcq') {
+        if (q.correct < 0 || q.correct >= q.options.length) throw new Error(`Quiz for “${topic.title}”: correct option out of range.`)
+        await tx
+          .insert(schema.quizOptions)
+          .values(q.options.map((label, oi) => ({ questionId: questionRow!.id, position: oi + 1, label, isCorrect: oi === q.correct })))
+      }
+    }
+    added += 1
+  }
+  return added
+}
+
+/**
+ * Placeholder phase assessment from the phase's own topics: one question per topic (alternating
+ * multiple choice and fill-in-the-blank, reusing the starter quiz questions), at most 10.
+ */
+function starterAssessment(phase: PhaseSpec, courseTopics: SheetTopic[]): SheetQuiz {
+  const questions = phase.topics.slice(0, 10).map((topic, i) => {
+    const quiz = starterQuiz(topic, courseTopics)
+    return quiz.questions[i % 2 === 0 ? 1 : 2]!
+  })
+  return {
+    title: `${phase.title} assessment`,
+    instructions:
+      'This covers every topic in the phase. Answer all questions, review your answers, then submit. 100% is required to pass and complete the phase; retries are unlimited.',
+    questions,
+  }
+}
+
+/** Adds an assessment to every phase of the latest published version that has none. Additive only. */
+async function syncAssessments(tx: Tx, spec: CourseSpec): Promise<number> {
+  const [course] = await tx.select({ id: schema.courses.id }).from(schema.courses).where(eq(schema.courses.slug, spec.slug))
+  if (!course) return 0
+  const [version] = await tx
+    .select({ id: schema.courseVersions.id })
+    .from(schema.courseVersions)
+    .where(and(eq(schema.courseVersions.courseId, course.id), eq(schema.courseVersions.status, 'published')))
+    .orderBy(desc(schema.courseVersions.version))
+    .limit(1)
+  if (!version) return 0
+
+  const dbPhases = await tx
+    .select({ id: schema.phases.id, title: schema.phases.title, assessmentId: schema.phaseAssessments.id })
+    .from(schema.phases)
+    .leftJoin(schema.phaseAssessments, eq(schema.phaseAssessments.phaseId, schema.phases.id))
+    .where(eq(schema.phases.courseVersionId, version.id))
+    .orderBy(asc(schema.phases.position))
+
+  const courseTopics = spec.phases.flatMap((p) => p.topics)
+  let added = 0
+  for (const [i, row] of dbPhases.entries()) {
+    const phase = spec.phases[i]
+    if (row.assessmentId || !phase || phase.title !== row.title) continue
+    const assessment = starterAssessment(phase, courseTopics)
+    const [assessmentRow] = await tx
+      .insert(schema.phaseAssessments)
+      .values({ phaseId: row.id, title: assessment.title!, instructions: assessment.instructions ?? '' })
+      .returning()
+    for (const [qi, q] of assessment.questions.entries()) {
+      const [questionRow] = await tx
+        .insert(schema.assessmentQuestions)
+        .values({
+          assessmentId: assessmentRow!.id,
+          position: qi + 1,
+          kind: q.kind,
+          prompt: q.prompt,
+          acceptedAnswers: q.kind === 'fill_blank' ? q.answers : [],
+          explanation: q.explanation ?? '',
+        })
+        .returning()
+      if (q.kind === 'mcq') {
+        await tx
+          .insert(schema.assessmentOptions)
+          .values(q.options.map((label, oi) => ({ questionId: questionRow!.id, position: oi + 1, label, isCorrect: oi === q.correct })))
+      }
+    }
+    added += 1
+  }
+  return added
 }
 
 async function upsertCourse(tx: Tx, spec: CourseSpec, streamIds: Map<string, string>) {
@@ -281,6 +500,10 @@ async function main() {
       await pruneCourses(tx, specs.courses.map((c) => c.slug))
       for (const spec of specs.courses) {
         console.log(`${spec.slug}: ${await upsertCourse(tx, spec, streamIds)}`)
+        const added = await syncQuizzes(tx, spec)
+        if (added) console.log(`${spec.slug}: added ${added} quizzes`)
+        const addedAssessments = await syncAssessments(tx, spec)
+        if (addedAssessments) console.log(`${spec.slug}: added ${addedAssessments} phase assessments`)
       }
 
       const unusedStreams = await tx
@@ -296,7 +519,10 @@ async function main() {
         await tx
           .insert(schema.badges)
           .values(b)
-          .onConflictDoUpdate({ target: schema.badges.slug, set: { title: b.title, description: b.description, icon: b.icon } })
+          .onConflictDoUpdate({
+            target: schema.badges.slug,
+            set: { title: b.title, description: b.description, howToEarn: b.howToEarn, icon: b.icon, visibility: b.visibility },
+          })
       }
       const staleBadges = await tx
         .select({ id: schema.badges.id })
