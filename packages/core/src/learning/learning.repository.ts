@@ -85,43 +85,8 @@ export async function findEnrollmentsByUserId(
   return rows.map((r) => ({ ...r.enrollment, versionTitle: r.versionTitle, version: r.version }))
 }
 
-export type TopicOutline = { topicId: string; topicTitle: string; phaseId: string; phaseTitle: string; versionId: string }
-
-/** Topics of the given versions in learning order (phase position, then topic position). */
-export async function findTopicOutlines(versionIds: string[], executor: Executor = getDb()): Promise<TopicOutline[]> {
-  if (!versionIds.length) return []
-  return executor
-    .select({
-      topicId: topics.id,
-      topicTitle: topics.title,
-      phaseId: phases.id,
-      phaseTitle: phases.title,
-      versionId: phases.courseVersionId,
-    })
-    .from(topics)
-    .innerJoin(phases, eq(phases.id, topics.phaseId))
-    .where(inArray(phases.courseVersionId, versionIds))
-    .orderBy(asc(phases.position), asc(topics.position))
-}
-
-/**
- * Completed topic ids per attempt. The join on topics -> phases -> the attempt's own version means a
- * completion row pointing at another version's topic is never counted.
- */
-export async function findCompletedTopicIdsByUserId(
-  userId: string,
-  executor: Executor = getDb(),
-): Promise<{ enrollmentId: string; topicId: string }[]> {
-  return executor
-    .select({ enrollmentId: topicCompletions.enrollmentId, topicId: topicCompletions.topicId })
-    .from(topicCompletions)
-    .innerJoin(enrollments, eq(enrollments.id, topicCompletions.enrollmentId))
-    .innerJoin(topics, eq(topics.id, topicCompletions.topicId))
-    .innerJoin(phases, and(eq(phases.id, topics.phaseId), eq(phases.courseVersionId, enrollments.courseVersionId)))
-    .where(eq(enrollments.userId, userId))
-}
-
-export type EarnedBadge = Pick<Badge, 'id' | 'slug' | 'title' | 'description' | 'icon'> & { earnedAt: Date }
+/** One award. `id` is the award id (a badge can be earned again on a later attempt); `badgeId` is the badge. */
+export type EarnedBadge = Pick<Badge, 'id' | 'slug' | 'title' | 'description' | 'icon'> & { badgeId: string; earnedAt: Date }
 
 export async function findRecentBadgesByUserId(
   userId: string,
@@ -130,7 +95,8 @@ export async function findRecentBadgesByUserId(
 ): Promise<EarnedBadge[]> {
   return executor
     .select({
-      id: badges.id,
+      id: userBadges.id,
+      badgeId: badges.id,
       slug: badges.slug,
       title: badges.title,
       description: badges.description,

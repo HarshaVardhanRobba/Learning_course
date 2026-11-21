@@ -53,8 +53,48 @@ export {
   completeLessonById,
   getLessonView,
   getResourceUrl,
+  setLessonCompletion,
   type LessonNavTarget,
   type LessonResourceView,
   type LessonView,
 } from './learning/lesson.service'
 export type { VideoPlayback } from './media/media.service'
+export {
+  getQuizView,
+  startQuizAttempt,
+  submitQuizAnswer,
+  type AnswerFeedback,
+  type CorrectAnswer,
+  type PublicQuestion,
+  type QuizHistoryEntry,
+  type QuizResult,
+  type QuizView,
+  type StartQuizResult,
+  type SubmitAnswerResult,
+} from './learning/quiz.service'
+export {
+  quizAnswerSchema,
+  submitQuizAnswerSchema,
+  type QuizAnswerInput,
+  type SubmitQuizAnswerInput,
+} from './learning/quiz.schema'
+export { normalizeAnswer } from './learning/quiz-answer'
+export {
+  getAssessmentView,
+  submitAssessment,
+  type AssessmentHistoryEntry,
+  type AssessmentResult,
+  type AssessmentView,
+  type SubmitAssessmentResult,
+} from './learning/assessment.service'
+export { submitAssessmentSchema, type SubmitAssessmentInput } from './learning/assessment.schema'
+export { getAchievements, type Achievements, type BadgeAward, type BadgeInfo } from './learning/achievements.service'
+export {
+  HISTORY_PAGE_SIZE,
+  getAttemptDetail,
+  listHistory,
+  type AttemptDetail,
+  type HistoryPage,
+  type HistoryRow,
+} from './learning/history.service'
+export { historyFilterSchema, historyListSchema, type HistoryFilter } from './learning/history.schema'

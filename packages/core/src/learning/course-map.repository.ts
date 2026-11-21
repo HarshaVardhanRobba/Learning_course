@@ -1,5 +1,5 @@
 import 'server-only'
-import { and, asc, desc, eq, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm'
 import {
   courses,
   courseVersions,
@@ -8,6 +8,8 @@ import {
   lessonCompletions,
   lessonResources,
   lessons,
+  phaseAssessments,
+  phaseCompletions,
   phases,
   topicCompletions,
   topics,
@@ -102,7 +104,7 @@ export async function findCourseRef(where: { id?: string; slug?: string; kind?: 
 
 /** Phases, topics and lessons of exactly one course version: the one the attempt is assigned to. */
 export async function findVersionContent(courseVersionId: string, executor: Executor = getDb()): Promise<VersionContent> {
-  const [phaseRows, topicRows, lessonRows] = await Promise.all([
+  const [phaseRows, topicRows, lessonRows, assessmentRows] = await Promise.all([
     executor
       .select({ id: phases.id, position: phases.position, title: phases.title })
       .from(phases)
@@ -134,13 +136,18 @@ export async function findVersionContent(courseVersionId: string, executor: Exec
       .innerJoin(topics, eq(topics.id, lessons.topicId))
       .innerJoin(phases, eq(phases.id, topics.phaseId))
       .where(eq(phases.courseVersionId, courseVersionId)),
+    executor
+      .select({ id: phaseAssessments.id, phaseId: phaseAssessments.phaseId })
+      .from(phaseAssessments)
+      .innerJoin(phases, eq(phases.id, phaseAssessments.phaseId))
+      .where(eq(phases.courseVersionId, courseVersionId)),
   ])
-  return { phases: phaseRows, topics: topicRows, lessons: lessonRows }
+  return { phases: phaseRows, topics: topicRows, lessons: lessonRows, assessments: assessmentRows }
 }
 
 /** Progress rows for one attempt. Rows are only ever written for content of the attempt's own version. */
 export async function findAttemptActivity(enrollmentId: string, executor: Executor = getDb()): Promise<AttemptActivity> {
-  const [lessonRows, topicRows] = await Promise.all([
+  const [lessonRows, topicRows, phaseRows] = await Promise.all([
     executor
       .select({ lessonId: lessonCompletions.lessonId, completedAt: lessonCompletions.completedAt })
       .from(lessonCompletions)
@@ -149,8 +156,12 @@ export async function findAttemptActivity(enrollmentId: string, executor: Execut
       .select({ topicId: topicCompletions.topicId, completedAt: topicCompletions.completedAt })
       .from(topicCompletions)
       .where(eq(topicCompletions.enrollmentId, enrollmentId)),
+    executor
+      .select({ phaseId: phaseCompletions.phaseId, completedAt: phaseCompletions.completedAt })
+      .from(phaseCompletions)
+      .where(eq(phaseCompletions.enrollmentId, enrollmentId)),
   ])
-  return { lessonCompletions: lessonRows, topicCompletions: topicRows }
+  return { lessonCompletions: lessonRows, topicCompletions: topicRows, phaseCompletions: phaseRows }
 }
 
 export type LessonLocation = { lessonId: string; topicId: string; courseVersionId: string; courseId: string }
@@ -189,4 +200,80 @@ export async function findResourceById(resourceId: string, executor: Executor = 
     .where(eq(lessonResources.id, resourceId))
     .limit(1)
   return row ?? null
+}
+
+/** Content of several versions in four queries, grouped by version id (dashboard progress). */
+export async function findVersionContents(versionIds: string[], executor: Executor = getDb()): Promise<Map<string, VersionContent>> {
+  const result = new Map<string, VersionContent>(versionIds.map((id) => [id, { phases: [], topics: [], lessons: [], assessments: [] }]))
+  if (!versionIds.length) return result
+  const [phaseRows, topicRows, lessonRows, assessmentRows] = await Promise.all([
+    executor
+      .select({ id: phases.id, position: phases.position, title: phases.title, versionId: phases.courseVersionId })
+      .from(phases)
+      .where(inArray(phases.courseVersionId, versionIds)),
+    executor
+      .select({
+        id: topics.id,
+        phaseId: topics.phaseId,
+        position: topics.position,
+        title: topics.title,
+        description: topics.description,
+        versionId: phases.courseVersionId,
+      })
+      .from(topics)
+      .innerJoin(phases, eq(phases.id, topics.phaseId))
+      .where(inArray(phases.courseVersionId, versionIds)),
+    executor
+      .select({
+        id: lessons.id,
+        topicId: lessons.topicId,
+        position: lessons.position,
+        title: lessons.title,
+        content: sql<string>`''`,
+        contentFormat: lessons.contentFormat,
+        videoUid: lessons.videoUid,
+        durationSeconds: lessons.durationSeconds,
+        versionId: phases.courseVersionId,
+      })
+      .from(lessons)
+      .innerJoin(topics, eq(topics.id, lessons.topicId))
+      .innerJoin(phases, eq(phases.id, topics.phaseId))
+      .where(inArray(phases.courseVersionId, versionIds)),
+    executor
+      .select({ id: phaseAssessments.id, phaseId: phaseAssessments.phaseId, versionId: phases.courseVersionId })
+      .from(phaseAssessments)
+      .innerJoin(phases, eq(phases.id, phaseAssessments.phaseId))
+      .where(inArray(phases.courseVersionId, versionIds)),
+  ])
+  for (const { versionId, ...row } of phaseRows) result.get(versionId)?.phases.push(row)
+  for (const { versionId, ...row } of topicRows) result.get(versionId)?.topics.push(row)
+  for (const { versionId, ...row } of lessonRows) result.get(versionId)?.lessons.push(row)
+  for (const { versionId, ...row } of assessmentRows) result.get(versionId)?.assessments.push(row)
+  return result
+}
+
+/** Progress rows of several attempts in three queries, grouped by enrollment id. */
+export async function findAttemptActivities(enrollmentIds: string[], executor: Executor = getDb()): Promise<Map<string, AttemptActivity>> {
+  const result = new Map<string, AttemptActivity>(
+    enrollmentIds.map((id) => [id, { lessonCompletions: [], topicCompletions: [], phaseCompletions: [] }]),
+  )
+  if (!enrollmentIds.length) return result
+  const [lessonRows, topicRows, phaseRows] = await Promise.all([
+    executor
+      .select({ enrollmentId: lessonCompletions.enrollmentId, lessonId: lessonCompletions.lessonId, completedAt: lessonCompletions.completedAt })
+      .from(lessonCompletions)
+      .where(inArray(lessonCompletions.enrollmentId, enrollmentIds)),
+    executor
+      .select({ enrollmentId: topicCompletions.enrollmentId, topicId: topicCompletions.topicId, completedAt: topicCompletions.completedAt })
+      .from(topicCompletions)
+      .where(inArray(topicCompletions.enrollmentId, enrollmentIds)),
+    executor
+      .select({ enrollmentId: phaseCompletions.enrollmentId, phaseId: phaseCompletions.phaseId, completedAt: phaseCompletions.completedAt })
+      .from(phaseCompletions)
+      .where(inArray(phaseCompletions.enrollmentId, enrollmentIds)),
+  ])
+  for (const { enrollmentId, ...row } of lessonRows) result.get(enrollmentId)?.lessonCompletions.push(row)
+  for (const { enrollmentId, ...row } of topicRows) result.get(enrollmentId)?.topicCompletions.push(row)
+  for (const { enrollmentId, ...row } of phaseRows) result.get(enrollmentId)?.phaseCompletions.push(row)
+  return result
 }

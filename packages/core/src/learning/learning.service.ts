@@ -3,17 +3,17 @@ import { and, eq, max } from 'drizzle-orm'
 import { enrollments, getDb, type CourseKind, type Executor } from '@workspace/db'
 import { findApplicationByUserId } from '../applications/application.repository'
 import { isUniqueViolation } from '../lib/pg-errors'
+import { buildCourseMap } from './course-map'
+import { findAttemptActivities, findVersionContents } from './course-map.repository'
 import {
-  findCompletedTopicIdsByUserId,
   findEnrollmentsByUserId,
   findPublishedCourseById,
   findPublishedCourses,
   findRecentBadgesByUserId,
-  findTopicOutlines,
   type EarnedBadge,
   type PublishedCourse,
 } from './learning.repository'
-import { computeAttemptProgress, groupCompletions, type AttemptProgress } from './progress'
+import { summarizeAttempt, type AttemptProgress } from './progress'
 
 export type LearningStatus = 'not_started' | 'in_progress' | 'completed'
 
@@ -63,13 +63,13 @@ export type LearnerDashboard = {
 }
 
 async function loadAttempts(userId: string, executor: Executor) {
-  const [enrollmentRows, completionRows] = await Promise.all([
-    findEnrollmentsByUserId(userId, executor),
-    findCompletedTopicIdsByUserId(userId, executor),
+  // Same progression rules as the learning maps (topics, quizzes, phase assessments), batched per request.
+  const enrollmentRows = await findEnrollmentsByUserId(userId, executor)
+  const [contents, activities] = await Promise.all([
+    findVersionContents([...new Set(enrollmentRows.map((e) => e.courseVersionId))], executor),
+    findAttemptActivities(enrollmentRows.map((e) => e.id), executor),
   ])
-  const outlines = await findTopicOutlines([...new Set(enrollmentRows.map((e) => e.courseVersionId))], executor)
-  const completions = groupCompletions(completionRows)
-  return enrollmentRows.map((e) => computeAttemptProgress(e, outlines, completions.get(e.id) ?? new Set()))
+  return enrollmentRows.map((e) => summarizeAttempt(e, buildCourseMap(contents.get(e.courseVersionId)!, activities.get(e.id)!)))
 }
 
 /**

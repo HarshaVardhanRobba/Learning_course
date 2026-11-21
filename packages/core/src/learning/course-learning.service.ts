@@ -5,6 +5,7 @@ import {
   enrollments,
   getDb,
   lessonCompletions,
+  phaseCompletions,
   topicCompletions,
   userBadges,
   type CourseKind,
@@ -22,6 +23,7 @@ import {
   type AttemptWithCourse,
   type CourseRef,
 } from './course-map.repository'
+import { findQuizIdByTopic } from './quiz.repository'
 import { findPublishedCourses, type PublishedCourse } from './learning.repository'
 import { hasCompletedFoundation } from './learning.service'
 
@@ -201,18 +203,20 @@ export async function getTrackTopic(userId: string, slug: string, topicId: strin
 
 export type ProgressResult =
   | { ok: true; course: Pick<CourseRef, 'slug' | 'kind'>; courseCompleted: boolean }
-  | { ok: false; reason: 'not_approved' | 'not_found' | 'locked' | 'no_active_attempt' | 'lessons_incomplete' }
+  | { ok: false; reason: 'not_approved' | 'not_found' | 'locked' | 'no_active_attempt' | 'lessons_incomplete' | 'quiz_required' | 'topic_completed' }
 
 /**
  * Writes only ever go to the learner's live attempt on the course. The attempt row is locked and the map
  * is re-derived inside the transaction, so unlock rules come from the database, never from the request.
  */
-async function withLiveAttempt(
+export type ProgressFailure = Extract<ProgressResult, { ok: false }>
+
+export async function withLiveAttempt<T>(
   userId: string,
   courseId: string,
   topicId: string,
-  run: (ctx: { tx: Tx; course: CourseRef; attempt: AttemptWithCourse; topic: MapTopic }) => Promise<ProgressResult>,
-): Promise<ProgressResult> {
+  run: (ctx: { tx: Tx; course: CourseRef; attempt: AttemptWithCourse; topic: MapTopic }) => Promise<T>,
+): Promise<T | ProgressFailure> {
   return getDb().transaction(async (tx) => {
     const application = await findApplicationByUserId(userId, tx)
     if (application?.status !== 'approved') return { ok: false, reason: 'not_approved' } as const
@@ -230,7 +234,7 @@ async function withLiveAttempt(
     if (found.topic.state === 'locked') return { ok: false, reason: 'locked' } as const
 
     return run({ tx, course, attempt, topic: found.topic })
-  })
+  }) as Promise<T | ProgressFailure>
 }
 
 export async function completeLesson(params: {
@@ -239,7 +243,7 @@ export async function completeLesson(params: {
   topicId: string
   lessonId: string
 }): Promise<ProgressResult> {
-  return withLiveAttempt(params.userId, params.courseId, params.topicId, async ({ tx, course, attempt, topic }) => {
+  return withLiveAttempt<ProgressResult>(params.userId, params.courseId, params.topicId, async ({ tx, course, attempt, topic }) => {
     if (!topic.lessons.some((l) => l.id === params.lessonId)) return { ok: false, reason: 'not_found' }
     await tx.insert(lessonCompletions).values({ enrollmentId: attempt.id, lessonId: params.lessonId }).onConflictDoNothing()
     return { ok: true, course, courseCompleted: false }
@@ -247,29 +251,57 @@ export async function completeLesson(params: {
 }
 
 /**
- * Records the topic as passed. Until topic quizzes exist, the gate is "every lesson covered"; replace
- * that check with a passed quiz when quizzes are added. Finishing the last topic completes the attempt.
+ * Manual completion, only for topics that have no quiz: every lesson must be covered. Topics with a
+ * quiz progress only through a 100% quiz pass (see quiz.service).
  */
 export async function completeTopic(params: { userId: string; courseId: string; topicId: string }): Promise<ProgressResult> {
-  return withLiveAttempt(params.userId, params.courseId, params.topicId, async ({ tx, course, attempt, topic }) => {
+  return withLiveAttempt<ProgressResult>(params.userId, params.courseId, params.topicId, async ({ tx, course, attempt, topic }) => {
     if (topic.state === 'completed') return { ok: true, course, courseCompleted: false }
+    if (await findQuizIdByTopic(topic.id, tx)) return { ok: false, reason: 'quiz_required' }
     if (topic.lessonsDone < topic.lessons.length) return { ok: false, reason: 'lessons_incomplete' }
-
-    await tx.insert(topicCompletions).values({ enrollmentId: attempt.id, topicId: topic.id }).onConflictDoNothing()
-
-    const after = await loadMap(attempt, tx)
-    const earned = ['first-topic']
-    if (after.phases.some((p) => p.state === 'completed')) earned.push('first-phase')
-    if (after.isComplete) {
-      await tx
-        .update(enrollments)
-        .set({ status: 'completed', endedAt: new Date() })
-        .where(and(eq(enrollments.id, attempt.id), eq(enrollments.status, 'in_progress')))
-      earned.push(course.kind === 'foundation' ? 'foundation-complete' : 'track-complete')
-    }
-    await awardBadges(tx, attempt.userId, attempt.id, earned)
-    return { ok: true, course, courseCompleted: after.isComplete }
+    return markTopicPassed(tx, course, attempt, topic.id)
   })
+}
+
+/** Records a passed topic quiz, then settles phase/course completion and badges. Call inside the live-attempt transaction. */
+export async function markTopicPassed(
+  tx: Tx,
+  course: CourseRef,
+  attempt: AttemptWithCourse,
+  topicId: string,
+): Promise<ProgressResult> {
+  await tx.insert(topicCompletions).values({ enrollmentId: attempt.id, topicId }).onConflictDoNothing()
+  return settleProgress(tx, course, attempt, ['first-topic'])
+}
+
+/** Records a passed phase assessment (which completes the phase and unlocks the next one). */
+export async function markPhasePassed(
+  tx: Tx,
+  course: CourseRef,
+  attempt: AttemptWithCourse,
+  phaseId: string,
+): Promise<ProgressResult> {
+  await tx.insert(phaseCompletions).values({ enrollmentId: attempt.id, phaseId }).onConflictDoNothing()
+  return settleProgress(tx, course, attempt, [])
+}
+
+/**
+ * Re-derives the map after a pass, in the same transaction: awards phase badges, and completes the
+ * enrollment attempt (with its course badge) once every phase is completed.
+ */
+async function settleProgress(tx: Tx, course: CourseRef, attempt: AttemptWithCourse, earned: string[]): Promise<ProgressResult> {
+  const after = await loadMap(attempt, tx)
+  const slugs = [...earned]
+  if (after.phases.some((p) => p.state === 'completed')) slugs.push('first-phase')
+  if (after.isComplete) {
+    await tx
+      .update(enrollments)
+      .set({ status: 'completed', endedAt: new Date() })
+      .where(and(eq(enrollments.id, attempt.id), eq(enrollments.status, 'in_progress')))
+    slugs.push(course.kind === 'foundation' ? 'foundation-complete' : 'track-complete')
+  }
+  if (slugs.length) await awardBadges(tx, attempt.userId, attempt.id, slugs)
+  return { ok: true, course, courseCompleted: after.isComplete }
 }
 
 /** Badges are earned once per learner; re-earning is a no-op. */

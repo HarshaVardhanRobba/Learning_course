@@ -1,5 +1,6 @@
 import 'server-only'
-import { getDb, type CourseKind } from '@workspace/db'
+import { and, eq } from 'drizzle-orm'
+import { getDb, lessonCompletions, type CourseKind } from '@workspace/db'
 import { getSignedR2Url, getVideoPlayback, type VideoPlayback } from '../media/media.service'
 import { findTopic, flattenLessons, type CourseMap, type MapLesson, type MapPhase, type MapTopic } from './course-map'
 import {
@@ -16,9 +17,11 @@ import {
   completeLesson,
   loadMap,
   toAttemptInfo,
+  withLiveAttempt,
   type AttemptInfo,
   type ProgressResult,
 } from './course-learning.service'
+import { findQuizIdsByTopics } from './quiz.repository'
 
 export type LessonNavTarget = { id: string; title: string; locked: boolean } | null
 
@@ -43,8 +46,10 @@ export type LessonView =
       next: LessonNavTarget
       video: VideoPlayback | null
       resources: LessonResourceView[]
-      /** Topic quiz access: every lesson covered and the quiz not yet passed. */
-      quiz: { state: 'locked' | 'available' | 'passed' }
+      /** Topic quiz access: available once every lesson is covered. `quizId` is null for topics without a quiz. */
+      quiz: { state: 'locked' | 'available' | 'passed'; quizId: string | null }
+      /** Quiz id per topic of this version, for the sidebar's quiz rows. */
+      quizIds: Record<string, string>
     }
 
 type Resolved =
@@ -115,10 +120,12 @@ export async function getLessonView(userId: string, lessonId: string, attemptNum
   const topic = found.topic
   const allCovered = topic.lessons.length > 0 && topic.lessonsDone === topic.lessons.length
 
-  const [video, resources] = await Promise.all([
+  const [video, resources, quizIds] = await Promise.all([
     lesson.videoUid ? getVideoPlayback(lesson.videoUid) : Promise.resolve(null),
     findLessonResources(lesson.id),
+    findQuizIdsByTopics(map.phases.flatMap((p) => p.topics.map((t) => t.id))),
   ])
+  const quizId = quizIds.get(topic.id) ?? null
 
   return {
     kind: 'lesson',
@@ -141,8 +148,27 @@ export async function getLessonView(userId: string, lessonId: string, attemptNum
     next: nav(index + 1),
     video,
     resources: resources.map(({ id, title, kind }) => ({ id, title, kind })),
-    quiz: { state: topic.state === 'completed' ? 'passed' : allCovered ? 'available' : 'locked' },
+    quiz: { state: topic.state === 'completed' ? 'passed' : allCovered ? 'available' : 'locked', quizId },
+    quizIds: Object.fromEntries(quizIds),
   }
+}
+
+/**
+ * Sidebar checkbox: marks a lesson completed or not on the learner's live attempt. Unchecking is refused
+ * once the topic is completed, so a passed topic never ends up with uncovered lessons.
+ */
+export async function setLessonCompletion(userId: string, lessonId: string, done: boolean): Promise<ProgressResult> {
+  if (done) return completeLessonById(userId, lessonId)
+  const location = await findLessonLocation(lessonId)
+  if (!location) return { ok: false, reason: 'not_found' }
+  return withLiveAttempt<ProgressResult>(userId, location.courseId, location.topicId, async ({ tx, course, attempt, topic }) => {
+    if (!topic.lessons.some((l) => l.id === lessonId)) return { ok: false, reason: 'not_found' }
+    if (topic.state === 'completed') return { ok: false, reason: 'topic_completed' }
+    await tx
+      .delete(lessonCompletions)
+      .where(and(eq(lessonCompletions.enrollmentId, attempt.id), eq(lessonCompletions.lessonId, lessonId)))
+    return { ok: true, course, courseCompleted: false }
+  })
 }
 
 /** Marks one lesson covered on the learner's live attempt. Locked or foreign lessons are refused. */
