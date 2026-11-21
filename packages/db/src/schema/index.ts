@@ -1,3 +1,6 @@
 export * from './users'
 export * from './applications'
 export * from './application-reviews'
+export * from './courses'
+export * from './enrollments'
+export * from './badges'

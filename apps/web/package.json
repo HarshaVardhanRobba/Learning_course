@@ -9,7 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:generate": "npm run db:generate -w @workspace/db",
+    "db:migrate": "npm run db:migrate -w @workspace/db && npm run db:status -w @workspace/db",
+    "db:status": "npm run db:status -w @workspace/db",
+    "db:seed": "npm run db:seed -w @workspace/db"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.10.6",

@@ -6,7 +6,9 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:seed": "tsx src/seed.ts",
+    "db:status": "tsx src/status.ts"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -22,6 +24,7 @@
     "@workspace/typescript-config": "*",
     "dotenv": "^16.0.3",
     "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
