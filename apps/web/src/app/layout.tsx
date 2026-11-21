@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider"
 import { PublicHeader } from "@/components/layout/public-header"
 import { cn } from "@workspace/ui/lib/utils";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
 
@@ -33,14 +34,16 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, fontDisplay.variable, "font-sans", geist.variable)}
     >
       <body className="bg-cream text-ink dark:bg-[#100c0a] dark:text-cream">
-        <ClerkProvider appearance={{ theme: shadcn }}>
-          <ThemeProvider>
-            <SmoothScrollProvider>
-              <PublicHeader />
-              {children}
-            </SmoothScrollProvider>
-          </ThemeProvider>
-        </ClerkProvider>
+        <TRPCReactProvider>
+          <ClerkProvider appearance={{ theme: shadcn }}>
+            <ThemeProvider>
+              <SmoothScrollProvider>
+                <PublicHeader />
+                {children}
+              </SmoothScrollProvider>
+            </ThemeProvider>
+          </ClerkProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   )
