@@ -12,7 +12,7 @@ import { darkPill } from '@/lib/styles'
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Career paths', href: '/career-paths' },
+  { label: 'Streams', href: '/streams' },
   { label: 'How it works', href: '/#how-it-works' },
   { label: 'About', href: '/#about' },
   { label: 'Contact', href: '/#contact' },

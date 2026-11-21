@@ -88,10 +88,10 @@ export default function Page() {
 
               <div className="mt-9 flex flex-wrap items-center gap-5">
                 <Link
-                  href="/career-paths"
+                  href="/streams"
                   className="inline-flex items-center gap-2 rounded-full bg-cream px-6 py-3.5 text-sm font-medium text-espresso transition-[background-color,transform] duration-150 ease-out hover:bg-white active:scale-[0.97]"
                 >
-                  Explore career paths
+                  Explore streams
                   <Icon icon="solar:arrow-right-linear" width={16} />
                 </Link>
                 <a
@@ -190,8 +190,8 @@ export default function Page() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 text-sm text-taupe md:flex-row lg:px-10 dark:text-sand/70">
           <span className="font-display text-2xl font-semibold text-ink dark:text-cream">Arcway</span>
           <p>© {new Date().getFullYear()} Arcway. Built for people who ship.</p>
-          <Link href="/career-paths" className={darkPill}>
-            Browse career paths
+          <Link href="/streams" className={darkPill}>
+            Browse streams
           </Link>
         </div>
       </footer>

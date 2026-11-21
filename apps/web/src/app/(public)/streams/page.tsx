@@ -20,7 +20,7 @@ const CATEGORIES = [
   'Design',
 ]
 
-const SUB_NAV = ['Overview', 'Career paths', 'My roadmap', 'Progress']
+const SUB_NAV = ['Overview', 'Streams', 'My roadmap', 'Progress']
 
 type StepStatus = 'completed' | 'available' | 'locked'
 
@@ -89,7 +89,7 @@ const STATUS_ICON: Record<StepStatus, string> = {
   locked: 'solar:lock-keyhole-minimalistic-linear',
 }
 
-export default function CareerPathsPage() {
+export default function StreamsPage() {
   return (
     <main>
       <section className="px-4 pt-2 lg:px-6">
@@ -105,7 +105,7 @@ export default function CareerPathsPage() {
             </Link>
             <Icon icon="solar:alt-arrow-right-linear" width={12} />
             <span aria-current="page" className="text-sand/90">
-              Career paths
+              Streams
             </span>
           </nav>
 
@@ -136,7 +136,7 @@ export default function CareerPathsPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <h2 className="font-display text-3xl font-semibold text-ink dark:text-cream">Explore paths by field</h2>
+        <h2 className="font-display text-3xl font-semibold text-ink dark:text-cream">Explore by stream</h2>
         <div className="mt-5 flex flex-wrap gap-2.5">
           {CATEGORIES.map((category) => (
             <button
@@ -173,13 +173,13 @@ export default function CareerPathsPage() {
           <div className="mt-12 text-center">
             <span className={`${eyebrow} border-sand text-taupe dark:border-cocoa dark:text-sand/70`}>
               <span className="size-1.5 rounded-full bg-gold" />
-              Full-stack path
+              Full Stack stream
             </span>
             <h2 className="mt-5 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl dark:text-cream">
               Your learning <span className={goldText}>journey</span>
             </h2>
             <p className="mx-auto mt-4 max-w-md text-taupe dark:text-sand/70">
-              Master the full-stack path step by step — each module unlocks once the one
+              Master the Full Stack stream step by step — each module unlocks once the one
               before it is done.
             </p>
           </div>

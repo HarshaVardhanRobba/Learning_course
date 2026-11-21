@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import { Icon } from '@iconify/react'
-import { getLearnerDashboard, type DashboardCourse, type EarnedBadge, type HistoryEvent } from '@workspace/core'
+import {
+  getLearnerDashboard,
+  type DashboardCourse,
+  type DashboardStream,
+  type EarnedBadge,
+  type HistoryEvent,
+} from '@workspace/core'
 import { ProfileButton } from '@/components/learner/profile-button'
 import {
   AttemptSummary,
@@ -41,15 +47,15 @@ export default async function LearnerDashboardPage() {
           </h1>
           <p className="mt-2 max-w-xl text-taupe dark:text-sand/70">
             {dashboard.foundationComplete
-              ? 'Foundation done. Pick a career path and keep building.'
-              : 'Finish the Common Foundation to unlock every career path.'}
+              ? 'Foundation done. Pick a track in any stream and keep building.'
+              : 'Finish the Common Foundation to unlock every stream.'}
           </p>
         </div>
         <ProfileButton className="inline-flex items-center gap-2 rounded-full border border-sand px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-150 hover:bg-sand/50 dark:border-cocoa dark:text-cream dark:hover:bg-cocoa" />
       </section>
 
       <FoundationSection course={dashboard.foundation} />
-      <CareerPathsSection courses={dashboard.careerPaths} foundationComplete={dashboard.foundationComplete} />
+      <StreamsSection streams={dashboard.streams} foundationComplete={dashboard.foundationComplete} />
 
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
         <AchievementsSection badges={dashboard.recentBadges} />
@@ -100,6 +106,12 @@ function FoundationSection({ course }: { course: DashboardCourse | null }) {
               Attempt #{attempt.attemptNumber} · v{attempt.version}
             </p>
           )}
+          {attempt.status === 'in_progress' && attempt.version < course.version && (
+            <p className="text-sm text-amber-800 dark:text-amber-300">
+              An updated version (v{course.version}) is available. Start over to switch; this attempt stays in your
+              history.
+            </p>
+          )}
         </div>
       ) : (
         <p className="text-sm text-taupe dark:text-sand/70">You haven’t started yet. It’s the first step for everyone.</p>
@@ -111,12 +123,12 @@ function FoundationSection({ course }: { course: DashboardCourse | null }) {
   )
 }
 
-function CareerPathsSection({ courses, foundationComplete }: { courses: DashboardCourse[]; foundationComplete: boolean }) {
+function StreamsSection({ streams, foundationComplete }: { streams: DashboardStream[]; foundationComplete: boolean }) {
   return (
-    <section aria-labelledby="paths-heading" className="mt-12">
+    <section aria-labelledby="streams-heading" className="mt-12">
       <div className="flex flex-wrap items-end justify-between gap-2">
-        <h2 id="paths-heading" className={sectionHeading}>
-          Career paths
+        <h2 id="streams-heading" className={sectionHeading}>
+          Streams
         </h2>
         {!foundationComplete && (
           <p className="flex items-center gap-1.5 text-sm text-taupe dark:text-sand/70">
@@ -126,27 +138,49 @@ function CareerPathsSection({ courses, foundationComplete }: { courses: Dashboar
         )}
       </div>
 
-      {courses.length === 0 ? (
+      {streams.length === 0 ? (
         <p className="mt-5 rounded-[1.75rem] border border-dashed border-sand px-6 py-12 text-center text-taupe dark:border-cocoa dark:text-sand/70">
-          No career paths are published yet.
+          No streams are published yet.
         </p>
       ) : (
-        <ul className="mt-5 grid gap-5 md:grid-cols-2">
-          {courses.map((course) => (
-            <CareerPathCard key={course.courseId} course={course} />
+        <div className="mt-6 space-y-10">
+          {streams.map((stream) => (
+            <StreamGroup key={stream.id} stream={stream} />
           ))}
-        </ul>
+        </div>
       )}
     </section>
   )
 }
 
-function CareerPathCard({ course }: { course: DashboardCourse }) {
+function StreamGroup({ stream }: { stream: DashboardStream }) {
+  const headingId = `stream-${stream.slug}`
+  return (
+    <section aria-labelledby={headingId}>
+      <div className="flex items-baseline justify-between gap-3 border-b border-sand pb-3 dark:border-cocoa">
+        <h3 id={headingId} className="font-display text-2xl font-semibold text-ink dark:text-cream">
+          {stream.title}
+        </h3>
+        <p className="text-sm tabular-nums text-taupe dark:text-sand/70">
+          {stream.tracks.length} {stream.tracks.length === 1 ? 'track' : 'tracks'}
+        </p>
+      </div>
+      {stream.summary && <p className="mt-2 text-sm text-taupe dark:text-sand/70">{stream.summary}</p>}
+      <ul className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {stream.tracks.map((track) => (
+          <TrackCard key={track.courseId} course={track} />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+function TrackCard({ course }: { course: DashboardCourse }) {
   const attempt = course.currentAttempt
   return (
     <li className={`${card} flex flex-col gap-4 p-6 ${course.locked ? 'opacity-80' : ''}`}>
       <div className="flex items-start justify-between gap-3">
-        <h3 className="font-display text-2xl font-semibold text-ink dark:text-cream">{course.title}</h3>
+        <h4 className="text-lg font-semibold leading-snug text-ink dark:text-cream">{course.title}</h4>
         <StatusPill status={course.status} locked={course.locked} />
       </div>
       {course.summary && <p className="text-sm leading-relaxed text-taupe dark:text-sand/70">{course.summary}</p>}
