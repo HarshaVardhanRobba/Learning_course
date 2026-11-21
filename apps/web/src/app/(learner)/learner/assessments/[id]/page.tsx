@@ -1,0 +1,51 @@
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { Icon } from '@iconify/react'
+import { attemptNumberSchema, lessonIdSchema } from '@workspace/core'
+import { AssessmentRunner } from '@/components/learner/assessment/assessment-runner'
+import { card } from '@/components/learner/course-progress'
+import { requireApprovedLearner } from '@/lib/learner'
+import { courseRoutes } from '@/lib/routes'
+import { darkPill } from '@/lib/styles'
+import { getQueryClient, HydrateClient, trpc } from '@/trpc/server'
+
+export const metadata = { title: 'Phase assessment' }
+
+export default async function AssessmentPage({ params, searchParams }: PageProps<'/learner/assessments/[id]'>) {
+  // Clerk session -> app user -> approved application in Neon. learner.assessment re-checks the attempt,
+  // course version and phase eligibility on every call, and again inside the submit transaction.
+  await requireApprovedLearner()
+  const id = lessonIdSchema.safeParse((await params).id)
+  if (!id.success) notFound()
+  const raw = (await searchParams).attempt
+  const attempt = raw === undefined ? undefined : attemptNumberSchema.safeParse(raw)
+  if (attempt && !attempt.success) notFound()
+
+  const input = { assessmentId: id.data, attempt: attempt?.data }
+  const view = await getQueryClient().fetchQuery(trpc.learner.assessment.get.queryOptions(input))
+  if (view.kind === 'not_found') notFound()
+
+  if (view.kind === 'locked') {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-8">
+        <section className={`${card} mt-6 px-6 py-12 text-center`}>
+          <span className="mx-auto grid size-20 place-items-center rounded-full bg-sand/60 text-taupe dark:bg-cocoa dark:text-sand/70">
+            <Icon icon="solar:lock-keyhole-minimalistic-linear" width={34} />
+          </span>
+          <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink dark:text-cream">{view.title} is locked</h1>
+          <p className="mx-auto mt-3 max-w-md text-taupe dark:text-sand/70">{view.reason}</p>
+          <Link href={courseRoutes(view.course).map()} className={`${darkPill} mt-7 px-6 py-3`}>
+            <Icon icon="solar:map-linear" width={16} />
+            Back to the map
+          </Link>
+        </section>
+      </main>
+    )
+  }
+
+  return (
+    <HydrateClient>
+      <AssessmentRunner input={input} />
+    </HydrateClient>
+  )
+}

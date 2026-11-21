@@ -147,6 +147,7 @@ function MapBody({ view, justCompleted }: { view: Extract<ShownView, { kind: 'ma
             isLast={i === map.phases.length - 1}
             readOnly={!view.editable}
             topicHref={(topicId) => routes.topic(topicId, attemptParam)}
+            assessmentHref={(assessmentId) => LEARNER_ROUTES.assessment(assessmentId, attemptParam)}
           />
         ))}
       </div>
@@ -227,11 +228,13 @@ function PhaseSection({
   isLast,
   readOnly,
   topicHref,
+  assessmentHref,
 }: {
   phase: MapPhase
   isLast: boolean
   readOnly: boolean
   topicHref: (topicId: string) => string
+  assessmentHref: (assessmentId: string) => string
 }) {
   const headingId = `phase-${phase.id}`
   return (
@@ -262,7 +265,7 @@ function PhaseSection({
       </div>
 
       <div className="py-6">
-        <PhaseMap phase={phase} readOnly={readOnly} topicHref={topicHref} />
+        <PhaseMap phase={phase} readOnly={readOnly} topicHref={topicHref} assessmentHref={assessmentHref} />
       </div>
 
       {!isLast && (
@@ -270,7 +273,7 @@ function PhaseSection({
           <span className="h-10 w-1.5 rounded-full bg-[repeating-linear-gradient(to_bottom,var(--color-gold)_0_6px,transparent_6px_14px)] opacity-70" />
           <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-sand px-3 py-1 text-xs text-taupe dark:border-cocoa dark:text-sand/70">
             <Icon icon={phase.state === 'completed' ? 'solar:lock-unlocked-linear' : 'solar:lock-keyhole-minimalistic-linear'} width={13} />
-            {phase.state === 'completed' ? 'Next phase unlocked' : 'Finish this phase to continue'}
+            {phase.state === 'completed' ? 'Next phase unlocked' : phase.assessmentId ? 'Pass the phase assessment to continue' : 'Finish this phase to continue'}
           </span>
         </div>
       )}

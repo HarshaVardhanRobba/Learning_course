@@ -69,3 +69,11 @@ export async function startCourseAttemptAction(formData: FormData): Promise<void
   const slug = trackSlugSchema.safeParse(formData.get('slug'))
   redirect(formData.get('kind') === 'track' && slug.success ? LEARNER_ROUTES.track(slug.data) : LEARNER_ROUTES.foundation)
 }
+
+/** Sidebar checkbox: `done` is "1" to mark the lesson completed, "0" to clear it. */
+export async function setLessonCompletionAction(formData: FormData): Promise<void> {
+  await run(() =>
+    caller.learner.setLessonCompletion({ lessonId: field(formData, 'lessonId'), done: formData.get('done') === '1' }),
+  )
+  refreshLearnerPages()
+}

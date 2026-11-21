@@ -56,7 +56,16 @@ export default async function LessonPage({ params, searchParams }: PageProps<'/l
           ]}
         />
       </div>
-      <CourseSidebar map={view.map} currentLessonId={view.lesson.id} currentTopicId={view.topic.id} hrefFor={lessonHref} />
+      <CourseSidebar
+        map={view.map}
+        currentLessonId={view.lesson.id}
+        currentTopicId={view.topic.id}
+        editable={view.editable}
+        quizIds={view.quizIds}
+        lessonHref={lessonHref}
+        quizHref={(quizId) => LEARNER_ROUTES.quiz(quizId, view.attemptParam)}
+        assessmentHref={(assessmentId) => LEARNER_ROUTES.assessment(assessmentId, view.attemptParam)}
+      />
     </div>
   )
 }
@@ -228,7 +237,7 @@ function PrimaryAction({
 
   if (view.quiz.state === 'available') {
     return (
-      <a href="#topic-quiz" className={darkPill}>
+      <a href={view.quiz.quizId ? LEARNER_ROUTES.quiz(view.quiz.quizId) : '#topic-quiz'} className={darkPill}>
         Continue to topic quiz
         <Icon icon="solar:arrow-down-linear" width={16} aria-hidden="true" />
       </a>
@@ -244,8 +253,19 @@ function PrimaryAction({
 }
 
 function TopicQuiz({ view }: { view: Shown }) {
+  const quizHref = view.quiz.quizId ? LEARNER_ROUTES.quiz(view.quiz.quizId, view.attemptParam) : null
   if (view.quiz.state === 'passed') {
-    return <p className="text-emerald-800 dark:text-emerald-300">Passed. This topic is complete.</p>
+    return (
+      <div>
+        <p className="text-emerald-800 dark:text-emerald-300">Passed. This topic is complete.</p>
+        {quizHref && (
+          <Link href={quizHref} className={`${secondaryButton} mt-4`}>
+            <Icon icon="solar:history-linear" width={16} aria-hidden="true" />
+            View quiz history
+          </Link>
+        )}
+      </div>
+    )
   }
   if (view.quiz.state === 'locked') {
     return (
@@ -254,10 +274,21 @@ function TopicQuiz({ view }: { view: Shown }) {
       </p>
     )
   }
+  if (quizHref) {
+    return (
+      <div>
+        <p className="text-taupe dark:text-sand/70">Every lesson is covered. Pass the quiz with 100% to complete this topic; retries are unlimited.</p>
+        <Link href={quizHref} className={`${darkPill} mt-4`}>
+          <Icon icon="solar:clipboard-check-linear" width={16} aria-hidden="true" />
+          Take the topic quiz
+        </Link>
+      </div>
+    )
+  }
   return (
     <div>
       <p className="text-taupe dark:text-sand/70">
-        Every lesson is covered. Quizzes are coming soon; until then, completing here passes the topic and moves you along the map.
+        Every lesson is covered. This topic has no quiz yet, so completing it here moves you along the map.
       </p>
       {view.editable && (
         <form action={completeTopicAction} className="mt-4">
@@ -265,7 +296,7 @@ function TopicQuiz({ view }: { view: Shown }) {
           <input type="hidden" name="topicId" value={view.topic.id} />
           <button type="submit" className={darkPill}>
             <Icon icon="solar:clipboard-check-linear" width={16} aria-hidden="true" />
-            Complete topic quiz
+            Complete topic
           </button>
         </form>
       )}

@@ -51,13 +51,15 @@ export function PhaseMap({
   phase,
   readOnly,
   topicHref,
+  assessmentHref,
 }: {
   phase: MapPhase
   readOnly: boolean
   /** URL of a topic page; topic ids come from the server-built map. */
   topicHref: (topicId: string) => string
+  assessmentHref: (assessmentId: string) => string
 }) {
-  const stops = phase.topics.length + 1 // topics, then the phase assessment
+  const stops = phase.topics.length + (phase.assessmentId ? 1 : 0) // topics, then the phase assessment
   const height = stops * ROW
   const points = Array.from({ length: stops }, (_, i) => pointAt(i))
 
@@ -93,7 +95,7 @@ export function PhaseMap({
         ))}
       </ol>
 
-      <AssessmentNode phase={phase} point={points.at(-1)!} />
+      {phase.assessmentId && <AssessmentNode phase={phase} point={points.at(-1)!} href={assessmentHref(phase.assessmentId)} />}
     </div>
   )
 }
@@ -196,25 +198,45 @@ function TopicNode({
   )
 }
 
-function AssessmentNode({ phase, point }: { phase: MapPhase; point: Point }) {
+/** The phase gate: opens once every topic quiz in the phase is passed; passing it completes the phase. */
+function AssessmentNode({ phase, point, href }: { phase: MapPhase; point: Point; href: string }) {
+  const passed = phase.assessmentPassed
   const available = phase.assessmentAvailable
+  const reason =
+    phase.state === 'locked'
+      ? (phase.lockedReason ?? 'This phase is locked.')
+      : `Pass every topic quiz in “${phase.title}” first (${phase.completedTopics} of ${phase.topics.length} passed).`
+  const diamond = `grid size-[4.5rem] rotate-45 place-items-center rounded-2xl transition-transform duration-150 ease-out ${
+    passed
+      ? 'bg-emerald-600 text-white shadow-[inset_0_-6px_0_rgba(0,0,0,0.2)] hover:scale-105'
+      : available
+        ? 'bg-gold-soft text-espresso shadow-[inset_0_-6px_0_rgba(0,0,0,0.18)] hover:scale-105'
+        : 'bg-sand text-taupe/80 dark:bg-cocoa dark:text-sand/50'
+  } focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/40`
+  const icon = (
+    <Icon
+      icon={passed ? 'lucide:check' : available ? 'solar:cup-star-bold' : 'solar:lock-keyhole-minimalistic-bold'}
+      width={28}
+      strokeWidth={passed ? 3 : undefined}
+      className="-rotate-45"
+      aria-hidden="true"
+    />
+  )
   return (
     <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${point.x}%`, top: point.y }}>
-      <div
-        role="img"
-        aria-label={`Phase assessment: ${available ? 'available' : 'locked'}`}
-        className={`grid size-[4.5rem] rotate-45 place-items-center rounded-2xl ${
-          available
-            ? 'bg-gold-soft text-espresso shadow-[inset_0_-6px_0_rgba(0,0,0,0.18)]'
-            : 'bg-sand text-taupe/80 dark:bg-cocoa dark:text-sand/50'
-        }`}
-      >
-        <Icon icon={available ? 'solar:cup-star-bold' : 'solar:cup-star-linear'} width={28} className="-rotate-45" aria-hidden="true" />
-      </div>
+      {available || passed ? (
+        <Link href={href} aria-label={`Phase assessment: ${passed ? 'passed' : 'available'}`} className={diamond}>
+          {icon}
+        </Link>
+      ) : (
+        <LockedNode title="Phase assessment" reason={reason} className={`${diamond} cursor-help`}>
+          {icon}
+        </LockedNode>
+      )}
       <NodeLabel point={point}>
         <p className="text-sm font-semibold text-ink dark:text-cream">Phase assessment</p>
         <p className="mt-0.5 text-xs text-taupe dark:text-sand/60">
-          {available ? 'Available: every topic quiz passed' : 'Pass every topic quiz in this phase to unlock'}
+          {passed ? 'Passed: phase complete' : available ? 'Ready: every topic quiz passed' : 'Pass every topic quiz in this phase to unlock'}
         </p>
       </NodeLabel>
     </div>

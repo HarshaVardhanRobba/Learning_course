@@ -10,10 +10,13 @@ export const LEARNER_ROUTES = {
   trackTopic: (slug: string, topicId: string, attempt?: number) =>
     withAttempt(`/learner/tracks/${slug}/topics/${topicId}`, attempt),
   lesson: (lessonId: string, attempt?: number) => withAttempt(`/learner/lessons/${lessonId}`, attempt),
+  assessment: (assessmentId: string, attempt?: number) => withAttempt(`/learner/assessments/${assessmentId}`, attempt),
+  quiz: (quizId: string, attempt?: number) => withAttempt(`/learner/quizzes/${quizId}`, attempt),
   /** Protected resource endpoint: checks access, then redirects to a short-lived URL. */
   resource: (resourceId: string) => `/learner/resources/${resourceId}`,
   achievements: '/learner/achievements',
   history: '/learner/history',
+  historyAttempt: (enrollmentId: string) => `/learner/history/${enrollmentId}`,
 } as const
 
 /** Map and topic URLs for a course, so shared screens work for the foundation and every track. */
